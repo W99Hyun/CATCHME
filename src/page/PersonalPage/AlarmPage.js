@@ -1,4 +1,7 @@
+import { all } from "axios";
 import React, { useState } from "react";
+import Modal from "react-modal";
+import "./AlarmPage.css";
 
 const styles = {
   notificationsContainer: {
@@ -25,6 +28,7 @@ const styles = {
   notificationList: {
     padding: "10px",
     backgroundColor: "rgb(255, 255, 255)",
+    border: "1px solid grey",
     borderRadius: "30px",
     overflowY: "auto",
     minHeight: "63vh",
@@ -167,7 +171,7 @@ function Alarm() {
   //     read: 1,
   //   },
   // ];
-
+  const [allDeleteModal, setAllDeleteModal] = useState(false); //m
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -218,6 +222,34 @@ function Alarm() {
 
   return (
     <div>
+      <Modal
+        isOpen={allDeleteModal}
+        onRequestClose={() => setAllDeleteModal(false)}
+        className="alarmpage-modal-detail"
+      >
+        <div className="alarmpage-modal-container">
+          <div>
+            <p className="alarmpage-modal-text">모든 알람을 삭제할까요?</p>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                setNotifications([]);
+                setAllDeleteModal(false);
+              }}
+              className="alarmpage-modal-buttons"
+            >
+              삭제
+            </button>
+            <button
+              onClick={() => setAllDeleteModal(false)}
+              className="alarmpage-modal-buttons"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </Modal>
       <div style={styles.alarmHeader}>
         <span style={styles.alarmText}>알림</span>
       </div>
@@ -226,7 +258,12 @@ function Alarm() {
           <span style={styles.notificationTextNumber}>
             {`읽지 않은 알람 ${notRead}개`}
           </span>
-          <span style={styles.notificationTextDelete}>전체 삭제</span>
+          <span
+            style={styles.notificationTextDelete}
+            onClick={() => setAllDeleteModal(true)}
+          >
+            전체 삭제
+          </span>
         </div>
         <div style={styles.notificationList}>
           {!isZero ? (
