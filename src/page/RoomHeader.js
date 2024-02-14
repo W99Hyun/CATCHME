@@ -26,7 +26,7 @@ const RoomHeader = ({ isUserLoggedIn }) => {
         alt="Back Arrow"
         onClick={handlePageBack}
       />
-      <Logo src="/image/logo.png" alt="Catchme Logo" />
+      <Logo src="/image/Logo.png" alt="Catchme Logo" />
       <Alarm
         src="/image/navigationbar/alarmIcon.png"
         alt="alarm Dots"

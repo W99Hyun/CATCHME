@@ -1,3 +1,5 @@
+// 도메인 https://catchme-smoky.vercel.app/
+
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import InfoBox from "../boxComponent/InfoBox";
