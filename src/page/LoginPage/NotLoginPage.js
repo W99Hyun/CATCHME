@@ -29,7 +29,7 @@ function NotLogin({ onLogin }) {
   const fetchKakaoLoginLink = async () => {
     try {
       // 백엔드에서 카카오톡 로그인 링크를 가져오는 API 호출
-      const response = await fetch("http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLoginLogic/");
+      const response = await fetch("http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLoginLogic/");
       if (!response.ok) {
         throw new Error("Failed to fetch Kakao login link");
       }
