@@ -64,8 +64,8 @@ const MeetingRoomMain = () => {
       setIsLoading(true);
       try {
         const [top5Response, allRoomsResponse] = await Promise.all([
-          axios.get('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/'),
-          axios.get('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/')
+          axios.get('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/'),
+          axios.get('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/')
         ]);
   
         // selectedPeople과 meetingNum이 일치하는 방만 필터링

@@ -170,7 +170,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/', {
+      await fetch('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/', {
         method: "POST",
         mode: 'cors',
         headers: {

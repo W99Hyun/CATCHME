@@ -21,6 +21,8 @@
   }
   
   .headtext {
+    display: flex;
+    justify-content: center;
     grid-area: headtext;
     text-align: center;
   color: white;

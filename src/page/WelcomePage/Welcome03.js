@@ -4,13 +4,13 @@ import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessage';
+import ProgressBar from './ProgressBar';
 
 
 const BackgroundImage = styled.div `
-    background-image: url(${process.env.PUBLIC_URL}/image/welcome/background3.png); /* public 폴더에 있는 이미지 경로 */
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #EDADC8;
+    background-color: #B591D1;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -21,16 +21,20 @@ const BackgroundImage = styled.div `
 
   function Welcome03() {
     const [message, setMessage] = useState('');
-const fullMessage1 = "몇살이야?";
+const fullMessage1 = "너는 몇살이야?";
+const fullMessage2 = "성별도 알려줘!"
 const typingSpeed = 75;
+const currentStep = 2;
+  const totalSteps = 14;
 
 useEffect(() => {
-    if (message.length < fullMessage1.length) {
-      setTimeout(() => {
-        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
-      }, typingSpeed);
-    }
-  }, [message, fullMessage1]);
+  if (message.length < fullMessage1.length + fullMessage2.length) {
+    setTimeout(() => {
+      setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
+                 fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
+    }, typingSpeed);
+  }
+}, [message, fullMessage1, fullMessage2]);
 
   const navigate = useNavigate();
 
@@ -61,9 +65,10 @@ useEffect(() => {
   return (
     <div className="home">
       <BackgroundImage />
-      <div className="header"></div>
+      <div className="header">
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+      </div>
       <div className="header1">
-        <p>1. 나이를 입력해주세요!</p>
       </div>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
       <div className='value-container'>

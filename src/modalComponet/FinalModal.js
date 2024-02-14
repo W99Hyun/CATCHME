@@ -76,7 +76,7 @@ const FinalModal = ({ isOpen, onClose, onConfirm, me, you}) => {
     };
 
     const handleKakaoPayClick = () => {
-      window.location.href = 'http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/kakaopay/kakaoPaylogic/';
+      window.location.href = 'http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/kakaopay/kakaoPaylogic/';
     };
 
   return (

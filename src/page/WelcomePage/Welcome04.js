@@ -5,13 +5,13 @@ import './Welcome.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessage';
 import {useGender} from './GenderContext';
-
+import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
-background-image: url(${process.env.PUBLIC_URL}/image/welcome/background3.png); /* public 폴더에 있는 이미지 경로 */
+
 background-size: contain;
 background-repeat: no-repeat;
-background-color: #EDADC8;
+background-color: #B591D1;
 background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
 width: 100vw;
 height: 100vh;
@@ -21,6 +21,8 @@ z-index: -1;
 ` 
 
   function Welcome04() {
+    const currentStep = 3;
+  const totalSteps = 14;
     const { setGender } = useGender();
     const handleGenderSelect = (gender) => {
       setGender(gender); // '남자!' 또는 '여자!'
@@ -77,9 +79,10 @@ useEffect(() => {
   return (
     <div className="home">
       <BackgroundImage />
-      <div className="header"></div>
+      <div className="header">
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+      </div>
       <div className="header1">
-        <p>2. 성별을 입력해주세요!</p>
       </div>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
       <div className="typing-container">

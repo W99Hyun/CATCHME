@@ -81,7 +81,7 @@ const RoomBody = ({roomId}) => {
           //profileImage: kakaoUserData.properties.profile_image,
         });
       // 레디 상태가 아닐 때 버튼을 누르면 웹소켓 연결
-      dataSocket.current = new WebSocket(`ws://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8000/ws/room/${roomId.roomId}/`);
+      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/ws/room/${roomId.roomId}/`);
 
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
@@ -112,7 +112,7 @@ const RoomBody = ({roomId}) => {
     const fetchData = async () => {
       try {
         const roomResponse = await fetch(
-          `http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
+          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
           {
             method: "GET",
             mode: "cors",
@@ -123,7 +123,7 @@ const RoomBody = ({roomId}) => {
           }
         );
         const MaleusersResponse = await fetch(
-          `http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
+          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
           {
             method: "GET",
             mode: "cors",
@@ -133,7 +133,7 @@ const RoomBody = ({roomId}) => {
           }
         );
         const FemaleusersResponse = await fetch(
-          `http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
+          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
           {
             method: "GET",
             mode: "cors",
@@ -189,7 +189,7 @@ const RoomBody = ({roomId}) => {
           if (!isMutualSelected) {
             try {
               const response = await fetch(
-                "http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
+                "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
                 {
                   method: "GET",
                   mode: "cors",
@@ -207,7 +207,7 @@ const RoomBody = ({roomId}) => {
           } else if (isMutualSelected) {
             try {
               const response = await fetch(
-                "http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
+                "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
                 {
                   method: "GET",
                   mode: "cors",

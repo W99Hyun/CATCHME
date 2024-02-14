@@ -10,7 +10,7 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
   }, [currentStep, totalSteps]);
 
   return (
-    <div className="progress-bar-container" style={{ width: '100%' }}>
+    <div className="progress-bar-container" style={{ width: '70%' }}>
       <div className="progress-bar" style={{ width: `${progressWidth}%` }}></div>
     </div>
   );
