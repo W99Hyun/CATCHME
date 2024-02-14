@@ -75,8 +75,8 @@ function Welcome06() {
     
     if (schoolInput) {
       setAutoCompleteOptions(schools.filter(school => school.toLowerCase().includes(schoolInput.toLowerCase())));
-    } else {
-      setAutoCompleteOptions([]);
+    } else 
+     { setAutoCompleteOptions([]);
     }
   }, [schoolInput]);
 
@@ -158,6 +158,7 @@ function Welcome06() {
     </div>
     
   );
-}
+   }
+
 
 export default Welcome06 ;
