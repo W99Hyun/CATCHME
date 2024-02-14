@@ -58,27 +58,9 @@ const RoomBody = ({roomId}) => {
       }
       setIsReady(false);
     } else {
-
-      /* try {
-        // 카카오에서 사용자 정보 가져오기
-        const kakaoResponse = await fetch("https://kapi.kakao.com/v2/user/me", {
-          headers: {
-            Authorization: `Bearer ${kakaoAccessToken}`, // Kakao Access Token이 필요
-          },
-        });
-
-        if (!kakaoResponse.ok) {
-          throw new Error("Failed to fetch Kakao user information");
-        }
-
-        const kakaoUserData = await kakaoResponse.json();
-        */
-
         // 사용자 정보 상태에 저장
         setUser({
           kid: 1001
-          //nickname: kakaoUserData.properties.nickname,
-          //profileImage: kakaoUserData.properties.profile_image,
         });
       // 레디 상태가 아닐 때 버튼을 누르면 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/ws/room/${roomId.roomId}/`);
@@ -95,9 +77,7 @@ const RoomBody = ({roomId}) => {
       };
 
       setIsReady(true);
-    } /* catch (error) {
-      console.error("Error handling ready button click:", error);
-    } */
+    }
   };
 
   useEffect(() => {
@@ -122,30 +102,8 @@ const RoomBody = ({roomId}) => {
             }
           }
         );
-        const MaleusersResponse = await fetch(
-          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              'Accept': 'application/json'
-            }
-          }
-        );
-        const FemaleusersResponse = await fetch(
-          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              'Accept': 'application/json'
-            }
-          }
-        );
 
         const roomdata = await roomResponse.json();
-        const maledata = await MaleusersResponse.json();
-        const femaledata = await FemaleusersResponse.json();
         setRoomName(roomdata.rname);
         setLocation(roomdata.location);
         setTime(roomdata.created_at);
