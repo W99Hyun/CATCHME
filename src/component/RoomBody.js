@@ -58,6 +58,7 @@ const RoomBody = ({roomId}) => {
     } else {
 
       /* try {
+        변경
         // 카카오에서 사용자 정보 가져오기
         const kakaoResponse = await fetch("https://kapi.kakao.com/v2/user/me", {
           headers: {
