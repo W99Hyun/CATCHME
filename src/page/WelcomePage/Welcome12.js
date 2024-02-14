@@ -4,7 +4,7 @@ import './Welcome02.css'; // 스타일시트를 App.css로 가정
 import './Welcome12.css'; // CSS 파일을 임포트하세요
 import styled from "styled-components"
 import { useGender } from './GenderContext';
-
+import ProgressBar from './ProgressBar';
 
 const interests = [
   '운동', '산책', '공부', '쇼핑', '카페', '영화', '등산',
@@ -12,10 +12,9 @@ const interests = [
 ];
 
 const BackgroundImage = styled.div `
-   background-image: url(${process.env.PUBLIC_URL}/image/welcome/background4.png); /* public 폴더에 있는 이미지 경로 */
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #EDADC8;
+    background-color: #B591D1;
     background-position: center top; /* 이미지가 수평 및 수직 중앙에 위치 */
     width: 100vw;
     height: 100vh;
@@ -24,6 +23,8 @@ const BackgroundImage = styled.div `
 ` 
 
 const Welcome12 = () => {
+  const currentStep = 11;
+  const totalSteps = 14;
     const { gender } = useGender();
   
     const [selected, setSelected] = useState([]);
@@ -80,7 +81,7 @@ const Welcome12 = () => {
     <div className="home2">
         <BackgroundImage />
       <div className="headtext">
-        <p>10. 관심사를 선택해주세요!</p>
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       {interests.map((interest, index) => (
   <button

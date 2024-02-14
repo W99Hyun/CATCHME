@@ -4,13 +4,12 @@ import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessage';
-
+import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
-background-image: url(${process.env.PUBLIC_URL}/image/welcome/background3.png); /* public 폴더에 있는 이미지 경로 */
 background-size: contain;
 background-repeat: no-repeat;
-background-color: #EDADC8;
+background-color: #B591D1;
 background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
 width: 100vw;
 height: 100vh;
@@ -19,6 +18,8 @@ z-index: -1;
 ` 
 
   function Welcome09() {
+    const currentStep = 8;
+  const totalSteps = 14;
     const [message, setMessage] = useState('');
 const fullMessage1 = "키를 알려줘!";
 const typingSpeed = 75;
@@ -59,9 +60,10 @@ useEffect(() => {
   return (
     <div className="home">
       <BackgroundImage />
-      <div className="header"></div>
+      <div className="header">
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+      </div>
       <div className="header1">
-        <p>7. 키를 입력해주세요!</p>
       </div>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
       <div className='value-container'>

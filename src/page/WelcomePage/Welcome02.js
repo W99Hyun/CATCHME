@@ -7,10 +7,9 @@ import SplitMessage from './SplitMessage';
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
-    background-image: url(${process.env.PUBLIC_URL}/image/welcome/background3.png); /* public 폴더에 있는 이미지 경로 */
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #EDADC8;
+    background-color: #B591D1;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -26,7 +25,7 @@ function Welcome02() {
   const buttonMessage = "알겠어!";
   const typingSpeed = 75;
   const currentStep = 1;
-  const totalSteps = 15;
+  const totalSteps = 14;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,9 +61,10 @@ function Welcome02() {
   return (
     <div className="home">
       <BackgroundImage />
-      <div className="header"></div>
-      <div className="header1">
+      <div className="header">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+      </div>
+      <div className="header1">
       </div>
       <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />

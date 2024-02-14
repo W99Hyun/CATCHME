@@ -1,19 +1,31 @@
 .progress-bar-container {
+  display: flex;
+  text-align: center;
+  align-items: center;
   width: 100%; /* 컨테이너 전체 너비 */
   background-color: #e0e0e0; /* 진행바 배경 색상 */
   border-radius: 4px; /* 둥근 모서리 */
-  margin: 10px 0; /* 상하 여백 */
+  height: 5%;
+  margin-top: 10%;
 }
 
 .progress-bar {
-  height: 20px; /* 진행바 높이 */
+  height: 100%; /* 진행바 높이 */
   background-color: #ffffff; /* 진행바 색상 */
   border-radius: 4px; /* 둥근 모서리 */
   width: 0; /* 초기 너비 */
   transition: width 0.5s ease-in-out; /* 부드러운 전환 효과 */
 }
 
+.header {
+display: flex;
+justify-content: center;
+}
+
 .header1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   color:#FFFFFF
 }
@@ -25,17 +37,19 @@
 
 
 .message {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   width: fit-content;
-  flex-direction: column;
-  margin-bottom: 7.5px; /* 각 메시지 말풍선 하단에 10px 간격을 추가 */
+  flex-direction: column; /* 각 메시지 말풍선 하단에 10px 간격을 추가 */
   padding: 5px;
   border-radius: 15px;
   font-size: 14px;
-  background: #FFFFFF;
+  background: #F9F9F9
   
 }
 
 .message.received {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  background: #F9F9F9;
   justify-content: flex-start; /* 수신 메시지 정렬 */
   width: fit-content;
   margin-top: 25%;
@@ -43,6 +57,8 @@
 }
 
 .message.received2 {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  background: #F9F9F9;
   justify-content: flex-start; /* 수신 메시지 정렬 */
   width: fit-content;
   margin-left: 22%;
@@ -56,7 +72,8 @@
 .message.typing {
   margin-right: 17%;
   margin-top: 5%;
-  background: white;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  background: #F9F9F9;
   border: none;
   padding: 5px 10px; /* 내부 패딩 조정 */
   width: fit-content;
