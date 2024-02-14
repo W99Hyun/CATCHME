@@ -30,6 +30,23 @@ import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
 import { UserProvider } from './component/UserContext';
+import styled from "styled-components";
+
+const AppContainer = styled.div`
+  overflow: hidden; /* 스크롤을 숨기고 */
+`;
+
+const ContentContainer = styled.div`
+  overflow-y: auto; /* 스크롤을 허용하는 영역 */
+  height: calc(100vh - 56px); /* 100vh에서 헤더의 높이를 뺀 값만큼 설정 (핸드폰에서만 적용) */
+`;
+
+const FixedHeader = styled.div`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+`;
 
 function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
@@ -40,10 +57,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <AppContainer>
         <UserProvider>
-        <RoomHeader isUserLoggedIn={isUserLoggedIn}/>
+        <FixedHeader>
+            <RoomHeader isUserLoggedIn={isUserLoggedIn} />
+        </FixedHeader>
         <GenderProvider>
+        <ContentContainer>
       <Routes> 
           <Route path="/" element={<Loading />} />
           <Route path="/notlogin" element={<NotLogin onLogin={handleLogin} />} />
@@ -73,9 +93,10 @@ function App() {
           <Route path="/room/:roomId" element={<Room />} /> 
           <Route path="/PayComplete" element={<PayComplete />} />
       </Routes>
+      </ContentContainer>
       </GenderProvider>
       </UserProvider>
-      </div>
+      </AppContainer>
     </BrowserRouter>
   );
 }
