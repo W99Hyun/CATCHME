@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
 
 const myinformation = {
@@ -12,7 +13,16 @@ const myinformation = {
   certify: "true",
 };
 const lst = [1, 2, 3, 4, 5, 6];
+
 function MyPage() {
+  const navigate = useNavigate();
+  const goWithFriends = function () {
+    navigate("/login/withfriends");
+  };
+  const goMyProfile = function () {
+    navigate("/login/mypage/myprofile");
+  };
+
   return (
     <div>
       <div className="mypage-header">
@@ -20,7 +30,7 @@ function MyPage() {
       </div>
       <div className="mypage-container">
         <div className="mypage-myinfo">
-          <div className="mypage-myinfo-first">
+          <div className="mypage-myinfo-first" onClick={goMyProfile}>
             <div>
               <img
                 src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
@@ -51,25 +61,18 @@ function MyPage() {
           </div>
         </div>
         <div className="mypage-container-col">
-          <div className="emoji-container">
-            <div>감정아이콘 설정</div>
-            <div className="emojies">
-              {lst.map((idx) => (
-                <div>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/image/chat/good.png`}
-                    className="mypage-image-container"
-                  />
-                </div>
-              ))}
-            </div>
-            <div>아이콘변경</div>
+          <div className="mypage-friends-manage">
+            <img
+              src={`${process.env.PUBLIC_URL}/image/personalpage/manageicons.png`}
+              className="mypage-image-container"
+            />
           </div>
 
           <div className="mypage-friends-manage">
             <img
               src={`${process.env.PUBLIC_URL}/image/personalpage/managefriends.png`}
               className="mypage-image-container"
+              onClick={goWithFriends}
             />
           </div>
         </div>
