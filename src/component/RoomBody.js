@@ -19,7 +19,7 @@ const RootBodyContainer = styled.div`
   display: grid;
   width: 100%;
   height: 100vh;
-  grid-template-rows: 0.15fr 0.1fr 0.1fr 0.1fr 0.1fr 0.15fr 0.18fr 0.05fr;
+  grid-template-rows: 0.22fr 0.1fr 0.1fr 0.1fr 0.1fr 0.15fr 0.18fr 0.05fr;
   position: relative;
 `;
 
