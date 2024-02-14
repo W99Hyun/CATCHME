@@ -4,6 +4,7 @@ import './Welcome.css';
 import './Welcome02.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessage';
+import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
     background-image: url(${process.env.PUBLIC_URL}/image/welcome/background3.png); /* public 폴더에 있는 이미지 경로 */
@@ -24,6 +25,8 @@ function Welcome02() {
   const fullMessage2 = "좋은 사람을 찾아줄게!!";
   const buttonMessage = "알겠어!";
   const typingSpeed = 75;
+  const currentStep = 1;
+  const totalSteps = 15;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,9 +64,7 @@ function Welcome02() {
       <BackgroundImage />
       <div className="header"></div>
       <div className="header1">
-        <p>회원님께 딱! 맞는 매칭을 위해서 <br /> 
-           인공지능 친구 "루아"에게 <br />
-           간단한 정보를 알려주세요!</p>
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />

@@ -1,3 +1,18 @@
+.progress-bar-container {
+  width: 100%; /* 컨테이너 전체 너비 */
+  background-color: #e0e0e0; /* 진행바 배경 색상 */
+  border-radius: 4px; /* 둥근 모서리 */
+  margin: 10px 0; /* 상하 여백 */
+}
+
+.progress-bar {
+  height: 20px; /* 진행바 높이 */
+  background-color: #ffffff; /* 진행바 색상 */
+  border-radius: 4px; /* 둥근 모서리 */
+  width: 0; /* 초기 너비 */
+  transition: width 0.5s ease-in-out; /* 부드러운 전환 효과 */
+}
+
 .header1 {
   text-align: center;
   color:#FFFFFF
@@ -267,7 +282,7 @@
     top: 100%; /* job-selection 바로 아래에 위치 */
     left: 0;
     right: 0;
-    max-height: 10vh; /* 드롭다운의 최대 높이를 제한합니다 */
+    max-height: 8vh; /* 드롭다운의 최대 높이를 제한합니다 */
     overflow-y: auto; /* 필요할 경우에만 세로 스크롤바 표시 */
     background: white;
     border-radius: 4px;

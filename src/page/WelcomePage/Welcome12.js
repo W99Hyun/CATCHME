@@ -43,7 +43,7 @@ const Welcome12 = () => {
       navigate('/login/information/Welcome13W'); // 여자를 선택했을 경우의 경로
     } else {
       // 성별이 선택되지 않은 경우의 처리, 예를 들어 경고 메시지 표시
-      alert('성별을 선택해주세요!');
+      alert('성별을 선택하지 않았습니다. 성별을 선택해주세요!');
     }
   };
 
