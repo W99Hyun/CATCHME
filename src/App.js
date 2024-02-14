@@ -1,5 +1,5 @@
-import {React, useState} from 'react';
-import { BrowserRouter,Routes, Route } from 'react-router-dom';
+import { React, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RoomHeader from "./page/RoomHeader";
 import MeetingRoomMain from "./page/MeetingRoomListPage/MeetingRoomMain";
 import Room from "./page/Room";
@@ -29,8 +29,10 @@ import Welcome13M from "./page/WelcomePage/Welcome13M";
 import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
-import { UserProvider } from './component/UserContext';
+
+import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
+import MyProfile from "./page/PersonalPage/MyProfile";
 
 const AppContainer = styled.div`
   overflow: hidden; /* 스크롤을 숨기고 */
@@ -38,7 +40,9 @@ const AppContainer = styled.div`
 
 const ContentContainer = styled.div`
   overflow-y: auto; /* 스크롤을 허용하는 영역 */
-  height: calc(100vh - 56px); /* 100vh에서 헤더의 높이를 뺀 값만큼 설정 (핸드폰에서만 적용) */
+  height: calc(
+    100vh - 56px
+  ); /* 100vh에서 헤더의 높이를 뺀 값만큼 설정 (핸드폰에서만 적용) */
 `;
 
 const FixedHeader = styled.div`
@@ -59,43 +63,92 @@ function App() {
     <BrowserRouter>
       <AppContainer>
         <UserProvider>
-        <FixedHeader>
+          <FixedHeader>
             <RoomHeader isUserLoggedIn={isUserLoggedIn} />
-        </FixedHeader>
-        <GenderProvider>
-        <ContentContainer>
-      <Routes> 
-          <Route path="/" element={<Loading />} />
-          <Route path="/notlogin" element={<NotLogin onLogin={handleLogin} />} />
-          <Route path="/login" element={<YesLogin />} />
-          <Route path="/login/information" element={<Information />} />
-          <Route path="/login/information/Welcome02" element={<Welcome02 />} />
-          <Route path="/login/information/Welcome03" element={<Welcome03 />} />
-          <Route path="/login/information/Welcome04" element={<Welcome04 />} /> 
-          <Route path="/login/information/Welcome05" element={<Welcome05 />} /> 
-          <Route path="/login/information/Welcome06" element={<Welcome06 />} /> 
-          <Route path="/login/information/Welcome07" element={<Welcome07 />} /> 
-          <Route path="/login/information/Welcome08" element={<Welcome08 />} /> 
-          <Route path="/login/information/Welcome09" element={<Welcome09 />} /> 
-          <Route path="/login/information/Welcome10" element={<Welcome10 />} /> 
-          <Route path="/login/information/Welcome11" element={<Welcome11 />} /> 
-          <Route path="/login/information/Welcome12" element={<Welcome12 />} />
-          <Route path="/login/information/Welcome13M" element={<Welcome13M />} /> 
-          <Route path="/login/information/Welcome13W" element={<Welcome13W />} /> 
-          <Route path="/login/information/Welcome14" element={<Welcome14 />} /> 
-          <Route path="/login/information/Welcome15" element={<Welcome15 />} /> 
-          <Route path="/login/mypage" element={<MyPage />} />
-          <Route path="/login/help" element={<Help />} />
-          <Route path="/login/alarm" element={<Alarm />} />
-          <Route path="/login/withfriends" element={<WithFriends />} />
-          <Route path="/login/matchhistory" element={<MatchHistory />} />
-          <Route path="/MeetingRoomMain" element={<MeetingRoomMain />} />
-          <Route path="/room/:roomId" element={<Room />} /> 
-          <Route path="/PayComplete" element={<PayComplete />} />
-      </Routes>
-      </ContentContainer>
-      </GenderProvider>
-      </UserProvider>
+          </FixedHeader>
+          <GenderProvider>
+            <ContentContainer>
+              <Routes>
+                <Route path="/" element={<Loading />} />
+                <Route
+                  path="/notlogin"
+                  element={<NotLogin onLogin={handleLogin} />}
+                />
+                <Route path="/login" element={<YesLogin />} />
+                <Route path="/login/information" element={<Information />} />
+                <Route
+                  path="/login/information/Welcome02"
+                  element={<Welcome02 />}
+                />
+                <Route
+                  path="/login/information/Welcome03"
+                  element={<Welcome03 />}
+                />
+                <Route
+                  path="/login/information/Welcome04"
+                  element={<Welcome04 />}
+                />
+                <Route
+                  path="/login/information/Welcome05"
+                  element={<Welcome05 />}
+                />
+                <Route
+                  path="/login/information/Welcome06"
+                  element={<Welcome06 />}
+                />
+                <Route
+                  path="/login/information/Welcome07"
+                  element={<Welcome07 />}
+                />
+                <Route
+                  path="/login/information/Welcome08"
+                  element={<Welcome08 />}
+                />
+                <Route
+                  path="/login/information/Welcome09"
+                  element={<Welcome09 />}
+                />
+                <Route
+                  path="/login/information/Welcome10"
+                  element={<Welcome10 />}
+                />
+                <Route
+                  path="/login/information/Welcome11"
+                  element={<Welcome11 />}
+                />
+                <Route
+                  path="/login/information/Welcome12"
+                  element={<Welcome12 />}
+                />
+                <Route
+                  path="/login/information/Welcome13M"
+                  element={<Welcome13M />}
+                />
+                <Route
+                  path="/login/information/Welcome13W"
+                  element={<Welcome13W />}
+                />
+                <Route
+                  path="/login/information/Welcome14"
+                  element={<Welcome14 />}
+                />
+                <Route
+                  path="/login/information/Welcome15"
+                  element={<Welcome15 />}
+                />
+                <Route path="/login/mypage" element={<MyPage />} />
+                <Route path="/login/help" element={<Help />} />
+                <Route path="/login/alarm" element={<Alarm />} />
+                <Route path="/login/withfriends" element={<WithFriends />} />
+                <Route path="/login/matchhistory" element={<MatchHistory />} />
+                <Route path="/MeetingRoomMain" element={<MeetingRoomMain />} />
+                <Route path="/room/:roomId" element={<Room />} />
+                <Route path="/PayComplete" element={<PayComplete />} />
+                <Route path="/login/mypage/myprofile" element={<MyProfile />} />
+              </Routes>
+            </ContentContainer>
+          </GenderProvider>
+        </UserProvider>
       </AppContainer>
     </BrowserRouter>
   );

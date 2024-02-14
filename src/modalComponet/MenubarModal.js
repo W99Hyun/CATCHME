@@ -71,11 +71,11 @@ const YesLoginModal = ({ isOpen, onClose }) => {
       className="modal-slide-in container-modal"
     >
       <div className="x-icon">
-        <img
+        {/* <img
           src={`${process.env.PUBLIC_URL}/image/navigationbar/xIcon.png`}
           className="x-icon"
           onClick={onClose}
-        />
+        /> */}
       </div>
       <div className="modal-text">
         <Link to="/login/mypage" className="modal-text">
