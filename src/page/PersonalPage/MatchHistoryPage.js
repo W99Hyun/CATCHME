@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MatchHistoryPage.css"; // CSS 파일을 임포트합니다.
 import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
 
-const historys = [
+let historys = [
   {
     id: 1,
     date: "2024-01-22 19:36분",
@@ -33,16 +34,71 @@ function MatchHistory() {
   const navigate = useNavigate();
   const isZero = historys.length === 0;
   const [choice, setChoice] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]); // 선택된 히스토리 아이템들의 ID를 추적
+  const [allDeleteModal, setAllDeleteModal] = useState(false);
+  // 특정 아이템을 선택 또는 선택 해제하는 함수
 
-  const handleClick = () => {
-    setIsActive(!isActive);
+  const toggleSelectedItem = function (id) {
+    if (selectedItems.includes(id)) {
+      // 이미 선택된 아이템인 경우 선택 해제
+      setSelectedItems(selectedItems.filter((item) => item !== id));
+    } else {
+      // 선택되지 않은 아이템인 경우 선택
+      setSelectedItems([...selectedItems, id]);
+    }
   };
 
+  const deleteSelectedItems = () => {
+    const remainingHistorys = historys.filter(
+      (history) => !selectedItems.includes(history.id)
+    );
+    // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
+    historys = remainingHistorys;
+    setSelectedItems([]); // 선택된 아이템 초기화
+    setChoice(false);
+  };
+  const deleteAllItems = () => {
+    setSelectedItems([]);
+    const remainingHistorys = historys.filter((history) =>
+      selectedItems.includes(history.id)
+    );
+    // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
+    historys = remainingHistorys;
+    setSelectedItems([]); // 선택된 아이템 초기화
+  };
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경
-  const buttonClass = isActive ? "choice-button-active" : "choice-button";
+  //const buttonClass = isActive ? "choice-button-active" : "choice-button";
+
   return (
     <div>
+      <Modal
+        isOpen={allDeleteModal}
+        onRequestClose={() => setAllDeleteModal(false)}
+        className="history-modal-detail"
+      >
+        <div className="history-modal-container">
+          <div>
+            <p className="history-modal-text">모든 기록을 삭제할까요?</p>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                deleteAllItems();
+                setAllDeleteModal(false);
+              }}
+              className="history-modal-buttons"
+            >
+              삭제
+            </button>
+            <button
+              onClick={() => setAllDeleteModal(false)}
+              className="history-modal-buttons"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </Modal>
       <div className="header-history">
         <span className="history-text">매칭 목록</span>
       </div>
@@ -53,54 +109,69 @@ function MatchHistory() {
         {choice ? (
           <button
             className="delete-all-button"
-            onClick={() => setChoice(false)}
+            onClick={() => setChoice(false)} //setSelectItems([])필요
           >
             취소
           </button>
         ) : (
-          <button className="delete-all-button">전체 삭제</button>
+          <button
+            className="delete-all-button"
+            onClick={() => setAllDeleteModal(true)}
+          >
+            전체 삭제
+          </button>
         )}
       </div>
       <div className="history-container">
         <div className="history-list">
-          {!isZero
-            ? historys.map((history) => (
-                <div key={history.id} className="history-item">
-                  <div className="choice-button-locate">
-                    {choice ? (
-                      <button
-                        className={buttonClass}
-                        onClick={handleClick}
-                      ></button>
-                    ) : null}
-                  </div>
-                  <div className="middle-sort">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
-                      className=""
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </div>
-                  <div>
-                    <div className="history-info">
-                      <div>
-                        <p className="history-date">{history.date} 매칭</p>
-                        <p className="history-meeter">{history.meeter}</p>
-                        <p className="history-details">
-                          {history.gender}/{history.age}/{history.location}
-                        </p>
-                      </div>
+          {!isZero ? (
+            historys.map((history) => (
+              <div key={history.id} className="history-item">
+                <div className="choice-button-locate">
+                  {choice ? (
+                    <button
+                      className={
+                        selectedItems.includes(history.id)
+                          ? "choice-button-active"
+                          : "choice-button"
+                      }
+                      onClick={() => toggleSelectedItem(history.id)}
+                    ></button>
+                  ) : null}
+                </div>
+                <div className="middle-sort">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
+                    className=""
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </div>
+                <div>
+                  <div className="history-info">
+                    <div>
+                      <p className="history-date">{history.date} 매칭</p>
+                      <p className="history-meeter">{history.meeter}</p>
+                      <p className="history-details">
+                        {history.gender}/{history.age}/{history.location}
+                      </p>
                     </div>
                   </div>
-                  <div className="middle-sort">
-                    <button className="report-button">신고하기</button>
-                  </div>
                 </div>
-              ))
-            : "매칭 이력이 없습니다."}
+                <div className="middle-sort">
+                  <button className="report-button">신고하기</button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="history-empty-text">매칭 기록이 없습니다.</div>
+          )}
         </div>
         <div className="delete-button">
-          {choice ? <button className="delete-button">삭제하기</button> : null}
+          {choice ? (
+            <button className="delete-button" onClick={deleteSelectedItems}>
+              삭제하기
+            </button>
+          ) : null}
         </div>
       </div>
     </div>
