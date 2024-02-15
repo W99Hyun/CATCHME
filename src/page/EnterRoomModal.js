@@ -51,7 +51,7 @@ const Text2 = styled.div`
 `
 
 const Button = styled.button`
-  background-color: #E296B6;
+  background-color: ${(props) => props.backgroundColor || "#E296B6"}; 
   color: #ffffff;
   border: none;
   border-radius: 20px;
@@ -119,10 +119,10 @@ const EnterRoomModal = ({ isOpen, onClose }) => {
             <Text1> 
               원하는 미팅 인원수를 선택하세요
             </Text1>
-            <Button onClick={() => handleButtonClick(1)}>1 : 1</Button>
-            <Button onClick={() => handleButtonClick(2)}>2 : 2</Button>
-            <Button onClick={() => handleButtonClick(3)}>3 : 3</Button>
-            <Button onClick={() => handleButtonClick(4)}>4 : 4</Button>
+            <Button backgroundColor="#E296B6" onClick={() => handleButtonClick(1)}>1 : 1</Button>
+            <Button backgroundColor="#4AC4AD" onClick={() => handleButtonClick(2)}>2 : 2</Button>
+            <Button backgroundColor="#EFC53B" onClick={() => handleButtonClick(3)}>3 : 3</Button>
+            <Button backgroundColor="#476EBB" onClick={() => handleButtonClick(4)}>4 : 4</Button>
             <Text2> 
               Tip. 매칭이 되면 미팅의 대표자로서의 
               <br />
