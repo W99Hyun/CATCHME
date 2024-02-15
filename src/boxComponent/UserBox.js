@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 
@@ -56,6 +56,7 @@ const SpeechBubble = styled.img`
 
 const UserBox = ({ users, roomId }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const webSocketRef = useRef(null);
 
   const getImagePath = (animal, gender) => {
     return `/image/profile/${animal.toLowerCase()}${
@@ -70,7 +71,7 @@ const UserBox = ({ users, roomId }) => {
   };
 
   const handleUserClick = (user) => {
-    if (user.age === 26) {
+    if (user.user === 1001) {
       //setSelectedUser(user); 나중엔 이걸로
       setSelectedUser({
         ...user,
@@ -83,7 +84,7 @@ const UserBox = ({ users, roomId }) => {
     setSelectedUser(null);
   };
 
-  const [csrfToken, setCsrfToken] = useState(null);
+  /* const [csrfToken, setCsrfToken] = useState(null);
 
   useEffect(() => {
     // 페이지 로드 시 CSRF 토큰을 가져오는 비동기 함수 호출
@@ -109,10 +110,38 @@ const UserBox = ({ users, roomId }) => {
     };
 
     fetchCsrfToken();
-  }, []);
+  }, []); */
 
   const handleSpeechBubbleClick = async (text) => {
     try {
+      if (!webSocketRef.current || webSocketRef.current.readyState !== 1) {
+        // 웹소켓이 없거나 연결 상태가 OPEN이 아닌 경우에만 새로운 웹소켓을 생성
+        webSocketRef.current = new WebSocket(
+          `ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`
+        );
+      }
+
+      webSocketRef.current.onopen = () => {
+        console.log("WebSocket 연결 성공!");
+        // 선택한 말풍선 정보를 서버에 전송
+        webSocketRef.current.send(
+          JSON.stringify({ message: "selected_bubble", text })
+        );
+      };
+
+      webSocketRef.current.onclose = () => {
+        console.log("WebSocket 연결 종료!");
+      };
+
+      webSocketRef.current.onerror = (error) => {
+        console.error("WebSocket 오류:", error);
+      };
+    } catch (error) {
+      console.error("WebSocket 전송 오류:", error);
+    } finally {
+      closeModal();
+    }
+    /* try {
       const response = 
       await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
         method: "POST",
@@ -137,7 +166,7 @@ const UserBox = ({ users, roomId }) => {
       console.error("API 호출 오류:", error);
     } finally {
       closeModal();
-    }
+    } */
   };
 
   return (
@@ -145,7 +174,7 @@ const UserBox = ({ users, roomId }) => {
       {users.map((user, index) => (
         <UserItem
           key={index}
-          isMe={user.kid === "1001"}
+          isMe={user.user === 1001}
           onClick={() => handleUserClick(user)}
         >
           <img

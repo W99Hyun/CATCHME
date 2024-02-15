@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const ReadyBoxContainer = styled.div`
@@ -48,10 +48,11 @@ letter-spacing: 0.92px;
 const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, roomId, isReady, setIsReady } ) => {
 
   const [isMaleUser, setMale] = useState(isMale);
+  const webSocketRef = useRef(null);
 
   const handleReadyClick = () => {
     setIsReady(!isReady);
-    sendReadyStatusToServer();
+    sendReadyStatusToServer(!isReady);
     onReadyButtonClick();
   };
 
@@ -60,7 +61,7 @@ const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, roomId, isReady
     onGenderChange(!isMaleUser);
   };
 
-  const [csrfToken, setCsrfToken] = useState(null); 
+  /* const [csrfToken, setCsrfToken] = useState(null); 
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -91,11 +92,40 @@ const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, roomId, isReady
     };
 
     fetchCsrfToken();
-  }, []);
+  }, []); */
   
 
-  const sendReadyStatusToServer = async () => {
+  const sendReadyStatusToServer = async (readyStatus) => {
     try {
+      // WebSocket이 없으면 새로 연결
+      if (!webSocketRef.current || webSocketRef.current.readyState !== 1) {
+        webSocketRef.current = new WebSocket(
+          `ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`
+        );
+      }
+
+      webSocketRef.current.onopen = () => {
+        console.log("WebSocket 연결 성공!");
+        // 레디 정보를 서버에 전송
+        webSocketRef.current.send(
+          JSON.stringify({
+            message: "ready_status",
+            ready: readyStatus,
+          })
+        );
+      };
+
+      webSocketRef.current.onclose = () => {
+        console.log("WebSocket 연결 종료!");
+      };
+
+      webSocketRef.current.onerror = (error) => {
+        console.error("WebSocket 오류:", error);
+      };
+    } catch (error) {
+      console.error("WebSocket 전송 오류:", error);
+    }
+    /* try {
       if (!csrfToken) {
         console.error('CSRF 토큰이 유효하지 않습니다.');
         return;
@@ -124,7 +154,7 @@ const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, roomId, isReady
       }
     } catch (error) {
       console.error("API 호출 오류:", error);
-    }
+    } */
   };
 
   return (

@@ -19,7 +19,7 @@ const RootBodyContainer = styled.div`
   display: grid;
   width: 100%;
   height: 100vh;
-  grid-template-rows: 0.22fr 0.1fr 0.1fr 0.1fr 0.1fr 0.15fr 0.18fr 0.05fr;
+  grid-template-rows: 0.17fr 0.1fr 0.1fr 0.1fr 0.1fr 0.08fr 0.16fr 0.19fr 0.04fr;
   position: relative;
 `;
 
@@ -47,6 +47,7 @@ const RoomBody = ({roomId}) => {
   const [maleusers, setMaleusers] = useState([]);
   const [femaleusers, setFemaleusers] = useState([]);
   const [isReady, setIsReady] = useState(false);
+  const [isMale, setIsMale] = useState(true);
   const dataSocket = useRef(null);
 
   const handleReadyButtonClick = async () => {
@@ -54,26 +55,27 @@ const RoomBody = ({roomId}) => {
       // 레디 상태일 때 버튼을 누르면 웹소켓 연결을 종료
       if (dataSocket.current) {
         dataSocket.current.close();
+        console.log('웹 소켓 연결 종료!');
         dataSocket.current = null;
       }
       setIsReady(false);
     } else {
-        // 사용자 정보 상태에 저장
-        setUser({
-          kid: 1001
-        });
       // 레디 상태가 아닐 때 버튼을 누르면 웹소켓 연결
-      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/ws/room/${roomId.roomId}/`);
+      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId.roomId}/`);
 
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
-        dataSocket.current.send(JSON.stringify({ message: 'ready', kid: user.kid }));
+        dataSocket.current.send(JSON.stringify({ message: 'ready', kid: 1001 }));
       };
 
       dataSocket.current.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log('서버로부터 메시지 수신:', data);
+        if (data.message === 'api 리랜더링') {
+          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
+          fetchData();
+        }
       };
 
       setIsReady(true);
@@ -91,28 +93,44 @@ const RoomBody = ({roomId}) => {
 
     const fetchData = async () => {
       try {
-        const roomResponse = await fetch(
-          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
-          {
+        const [roomResponse, userResponse] = await Promise.all([
+          fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
             method: "GET",
             mode: "cors",
             headers: {
               "Content-Type": "application/json",
-              "Accept": "application/json"
-            }
-          }
-        );
+              "Accept": "application/json",
+            },
+          }).catch(error => {
+            console.error("Error fetching room info:", error);
+            throw error; 
+          }),
+          fetch(
+            `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
+              method: "GET",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+            }).catch(error => {
+              console.error("Error fetching user info:", error);
+              throw error;
+            }),
+          ]);
 
         const roomdata = await roomResponse.json();
+        const userdata = await userResponse.json();
         setRoomName(roomdata.rname);
         setLocation(roomdata.location);
         setTime(roomdata.created_at);
         setMeetingnum(roomdata.meetingnum);
         setMaleusers(roomdata.menInfos);
         setFemaleusers(roomdata.womenInfos);
+        setIsMale(userdata.ismale);
 
       } catch (error) {
-        console.error("Error fetching room info:", error);
+        console.error("Error fetching data:", error);
       }
   };
 
@@ -191,7 +209,6 @@ const RoomBody = ({roomId}) => {
     checkAllUsersReady();
   }, [maleusers, femaleusers]);
 
-  const [isMale, setIsMale] = useState(true);
   const filteredMaleUsers = maleusers.filter((user) => user.ready);
   const filteredFemaleUsers = femaleusers.filter((user) => user.ready);
 
@@ -220,6 +237,7 @@ const RoomBody = ({roomId}) => {
             : filteredMaleUsers.map((user) => ({ ...user, gender: "Male", roomId: "roomId" }))
         }
       />
+      <div></div>
       <ReadyBox 
         onGenderChange={handleGenderChange} 
         isMale={isMale} 
