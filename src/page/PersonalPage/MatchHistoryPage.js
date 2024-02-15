@@ -26,7 +26,7 @@ let historys = [
     meeter: "Woo_Wu_Uk",
     gender: "남",
     age: 23,
-    location: "서울특별시 노원구",
+    location: "서울특별시 구로구",
   },
 ];
 
