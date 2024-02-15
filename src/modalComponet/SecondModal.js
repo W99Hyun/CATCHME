@@ -197,7 +197,7 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          selectedUser,
+          w_crush: selectedUser.user // 남자여자에 따른 코드 넣기
         }),
       });
 

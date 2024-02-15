@@ -187,7 +187,7 @@ const MaleChooseModal = ({ isOpen, onClose, maleusers }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          selectedUser,
+          m_crush: selectedUser.user
         }),
       });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
@@ -65,7 +65,36 @@ const KakaoPaymentImage = styled.img`
   cursor: pointer; 
 `;
 
-const FinalModal = ({ isOpen, onClose, onConfirm, me, you}) => {
+const FinalModal = ({ isOpen, onClose, me, you}) => {
+  const [meData, setMeData] = useState(null);
+  const [youData, setYouData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async (userId, setData) => {
+      try {
+        const response = await fetch(
+          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${userId}`,
+          {
+            method: "GET",
+            mode: "cors",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user information");
+        }
+
+        const userData = await response.json();
+        setData(userData);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      }
+    };
+
+    fetchUserData(me, setMeData);
+    fetchUserData(you, setYouData);
+  }, [me, you]);
+
 
     const getImagePath1 = (animal) => {
       return `/image/profile/${animal.toLowerCase()}${"Male"}.png`;

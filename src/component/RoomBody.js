@@ -157,10 +157,64 @@ const RoomBody = ({roomId}) => {
 
     const checkAllUsersReady = async () => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
-        if(/*day1*/ true)
+        if(/*day1*/ false)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ false) {
-            const isMutualSelected = true;
+        if(/*day2*/ true) {
+          try {
+            const response = await fetch(
+              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
+              {
+                method: "GET",
+                mode: "cors",
+              }
+            );
+    
+            if (!response.ok) {
+              throw new Error("Failed to fetch room information");
+            }
+    
+            const mydata = await response.json();
+            const isMale = mydata.ismale === true;
+            const crushKid = isMale ? mydata.w_crush : mydata.m_crush;
+
+            if (isMale==false && !crushKid) {
+              setShowReadyConfirmModal(false); // 여성이 선택하지 않았을 경우 모달 제작
+              return;
+            }
+
+            const crushResponse = await fetch(
+              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${crushKid}`,
+              {
+                method: "GET",
+                mode: "cors",
+              }
+            );
+
+            if (!crushResponse.ok) {
+              throw new Error("Failed to fetch crush information");
+            }
+
+            const crushData = await crushResponse.json();
+
+            const isMutualSelected = crushData[isMale ? 'm_crush' : 'w_crush'] === 1001;
+    
+            if (!isMutualSelected) {
+              setSecondRecommendations(mydata.recomandation); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
+              setShowSecondModal(true);
+            } else {
+              setFinal(mydata[isMale ? 'w_crush' : 'm_crush'], crushData[isMale ? 'm_crush' : 'w_crush']);
+              setShowFinalModal(true);
+            }
+          } catch (error) {
+            console.error("Error fetching room information:", error);
+          }
+        } else {
+          setShowSecondModal(false);
+        }
+      } else {
+        setShowReadyConfirmModal(false);
+      }
+            /* const isMutualSelected = true;
 
           if (!isMutualSelected) {
             try {
@@ -204,7 +258,7 @@ const RoomBody = ({roomId}) => {
         }
       } else {
         setShowReadyConfirmModal(false);
-      }
+      } */
     };
     checkAllUsersReady();
   }, [maleusers, femaleusers]);
@@ -289,8 +343,8 @@ const RoomBody = ({roomId}) => {
         <FinalModal
           isOpen={showFinalModal}
           onClose={() => setShowFinalModal(false)}
-          me={final[0]} // 여기 클라이언트랑
-          you={final[1]} // 클라이언트가 선택한 유저로 출력해야함
+          me={final[1]} // 여기 클라이언트랑
+          you={final[0]} // 클라이언트가 선택한 유저로 출력해야함
         />
       )}
     </RootBodyContainer>
