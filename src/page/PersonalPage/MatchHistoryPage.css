@@ -31,6 +31,7 @@
 .history-container {
   display: grid;
   grid-template-rows: 7fr 0.5fr;
+  height: 70vh;
   gap: 20px;
   padding: 2px 20px 20px 20px;
 
