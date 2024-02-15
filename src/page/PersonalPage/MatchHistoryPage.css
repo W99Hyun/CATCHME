@@ -30,7 +30,7 @@
 
 .history-container {
   display: grid;
-  grid-template-rows: 7fr;
+  grid-template-rows: 7fr 0.5fr;
   gap: 20px;
   padding: 2px 20px 20px 20px;
 
@@ -48,13 +48,13 @@
 .history-item {
   background: #ffffff; /* 배경색 변경 */
   border-radius: 20px; /* 더 커진 둥근 모서리 */
-  padding: 10px 10px 10px 10px; /* 패딩 조정 */
+  padding: 10px 10px 10px 3px; /* 패딩 조정 */
   margin-bottom: 16px; /* 마진 조정 */
   /* display: flex;
   align-items: center;  */
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
-  gap: 20px;
+  grid-template-columns: 0.2fr 1fr 4fr 1fr;
+  gap: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
@@ -124,50 +124,34 @@
   text-align: center;
   border: none;
 }
-/* 
-  .explain-box {
-    background: #f9f9f9;
-    border-radius: 30px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-  }
-  
-  .path-box {
-    background: #f9f9f9;
-    border-radius: 30px;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-  }
-  
-  .need-hisoty-text {
-    font-size: 26px;
-    font-weight: bold;
-    text-decoration: none;
-    color: rgb(60, 57, 57);
-    text-align: center;
-  }
-  
-  .need-hisoty-text2 {
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    color: rgb(60, 57, 57);
-    text-align: center;
-  }
-  
-  .path-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    color: rgb(60, 57, 57);
-  }
-  
-  .path-icon {
-    display: block;
-    margin: auto;
-  } */
+.choice-button {
+  width: 13px;
+  height: 13px;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+.choice-button-active {
+  width: 13px;
+  height: 13px;
+  background-color: #5786ff;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px gray;
+}
+.choice-button-locate {
+  margin-top: -80%;
+}
+
+.delete-button {
+  font-size: 15px;
+  background-color: #ffffff;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
