@@ -155,7 +155,8 @@ useEffect(() => {
   const [secondRecommendations, setSecondRecommendations] = useState([]);
 
   const [showFinalModal, setShowFinalModal] = useState(false);
-  const [final, setFinal] = useState([]);
+  const [myAnimal, setMyAnimal] = useState();
+  const [yourAnimal, setYourAnimal] = useState();
 
   // 선택 모달창 여는 알고리즘
   useEffect(() => {
@@ -169,7 +170,7 @@ useEffect(() => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
         if(/*day1*/ false)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ false) {
+        if(/*day2*/ true) {
           try {
             const response = await fetch(
               `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
@@ -216,7 +217,8 @@ useEffect(() => {
               setSecondRecommendations(mydata.recomandation); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
               setShowSecondModal(true);
             } else {
-              setFinal(mydata[isMale ? 'w_crush' : 'm_crush'], crushData[isMale ? 'm_crush' : 'w_crush']);
+              setMyAnimal(mydata.extra_info[0].animal)
+              setYourAnimal(crushData.extra_info[0].animal)
               setShowFinalModal(true);
             }
           } catch (error) {
@@ -358,8 +360,8 @@ useEffect(() => {
         <FinalModal
           isOpen={showFinalModal}
           onClose={() => setShowFinalModal(false)}
-          me={final[1]} // 여기 클라이언트랑
-          you={final[0]} // 클라이언트가 선택한 유저로 출력해야함
+          me={myAnimal} // 여기 클라이언트랑
+          you={yourAnimal} // 클라이언트가 선택한 유저로 출력해야함
         />
       )}
     </RootBodyContainer>
