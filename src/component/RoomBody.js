@@ -39,7 +39,6 @@ const RectangleTable = styled.div`
 const RoomBody = ({roomId}) => {
 
   const [user, setUser] = useState(null);
-
   const [roomName, setRoomName] = useState("");
   const [location, setLocation] = useState("");
   const [time, setTime] = useState("");
@@ -50,26 +49,76 @@ const RoomBody = ({roomId}) => {
   const [isMale, setIsMale] = useState(true);
   const dataSocket = useRef(null);
 
-  const handleReadyButtonClick = async () => {
-    if (isReady) {
-      // 레디 상태일 때 버튼을 누르면 웹소켓 연결을 종료
-      if (dataSocket.current) {
-        dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
-        dataSocket.current.close();
-        console.log('웹 소켓 연결 종료!');
-        dataSocket.current = null;
-      }
-      setIsReady(false);
-    } else {
-      // 레디 상태가 아닐 때 버튼을 누르면 웹소켓 연결
-      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId.roomId}/`);
+  const fetchData = async () => {
+    try {
+      const [roomResponse, userResponse] = await Promise.all([
+        fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }).catch(error => {
+          console.error("Error fetching room info:", error);
+          throw error; 
+        }),
+        fetch(
+          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+          }).catch(error => {
+            console.error("Error fetching user info:", error);
+            throw error;
+          }),
+        ]);
 
+      const roomdata = await roomResponse.json();
+      const userdata = await userResponse.json();
+      setRoomName(roomdata.rname);
+      setLocation(roomdata.location);
+      setTime(roomdata.created_at);
+      setMeetingnum(roomdata.meetingnum);
+      setMaleusers(roomdata.menInfos);
+      setFemaleusers(roomdata.womenInfos);
+      setIsMale(userdata.ismale);
+      setIsReady(userdata.extra_info[0].ready);
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+};
+
+useEffect(() => {
+  fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
+}, [roomId]);
+
+  const handleReadyButtonClick = () => {
+    // 사용자 정보 상태에 저장
+    if (!user) {
+      setUser({
+        kid: 1001 // kid 값을 임의로 1001로 지정
+      });
+    }
+    setIsReady(!isReady);
+  };
+  
+  useEffect(() => {
+    if (user && isReady && !dataSocket.current) {
+      // 레디 상태일 때 웹소켓 연결
+      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
+  
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
-        dataSocket.current.send(JSON.stringify({ message: 'ready', kid: 1001 }));
+        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+        fetchData();
       };
-
+  
       dataSocket.current.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log('서버로부터 메시지 수신:', data);
@@ -79,10 +128,16 @@ const RoomBody = ({roomId}) => {
         }
       };
 
-      setIsReady(true);
+    } else if ((!user || !isReady) && dataSocket.current) {
+      // 레디 상태가 아니면서 웹소켓이 연결되어 있을 때, 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
+      console.log('웹 소켓 연결 끊음!');
+      fetchData();
+      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
+      dataSocket.current.close();
+      dataSocket.current = null;
     }
-  };
-
+  }, [user, isReady]);
+  
   useEffect(() => {
     return () => {
       if (dataSocket.current) {
@@ -91,56 +146,7 @@ const RoomBody = ({roomId}) => {
         dataSocket.current.close();
       }
     };
-  
   }, []);
-
-
-    const fetchData = async () => {
-      try {
-        const [roomResponse, userResponse] = await Promise.all([
-          fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-            },
-          }).catch(error => {
-            console.error("Error fetching room info:", error);
-            throw error; 
-          }),
-          fetch(
-            `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
-              method: "GET",
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-              },
-            }).catch(error => {
-              console.error("Error fetching user info:", error);
-              throw error;
-            }),
-          ]);
-
-        const roomdata = await roomResponse.json();
-        const userdata = await userResponse.json();
-        setRoomName(roomdata.rname);
-        setLocation(roomdata.location);
-        setTime(roomdata.created_at);
-        setMeetingnum(roomdata.meetingnum);
-        setMaleusers(roomdata.menInfos);
-        setFemaleusers(roomdata.womenInfos);
-        setIsMale(userdata.ismale);
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-  };
-
-  useEffect(() => {
-    fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
-  }, [roomId]);
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -163,7 +169,7 @@ const RoomBody = ({roomId}) => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
         if(/*day1*/ false)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ true) {
+        if(/*day2*/ false) {
           try {
             const response = await fetch(
               `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
@@ -179,7 +185,7 @@ const RoomBody = ({roomId}) => {
     
             const mydata = await response.json();
             const isMale = mydata.ismale === true;
-            const crushKid = isMale ? mydata.extra_info[0].w_crush : mydata.extra_info[0].m_crush;
+            const crushKid = isMale ? mydata.extra_info[0].w_crush_kid : mydata.extra_info[0].m_match_kid;
             console.log(mydata)
             console.log(isMale)
             console.log(crushKid)
@@ -202,7 +208,7 @@ const RoomBody = ({roomId}) => {
             }
 
             const crushData = await crushResponse.json();
-            const mutualCrushKid = isMale ? crushData.extra_info[0].w_crush : crushData.extra_info[0].m_crush;
+            const mutualCrushKid = isMale ? crushData.extra_info[0].m_match_kid : crushData.extra_info[0].w_crush_kid;
 
             const isMutualSelected = mutualCrushKid === 1001;
     
@@ -289,6 +295,7 @@ const RoomBody = ({roomId}) => {
             ? filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
             : filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
         }
+        dataSocket={dataSocket}
       />
       <RectangleTable />
       <ChatBox users={isMale ? filteredFemaleUsers : filteredMaleUsers} />
