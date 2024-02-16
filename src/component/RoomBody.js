@@ -54,6 +54,7 @@ const RoomBody = ({roomId}) => {
     if (isReady) {
       // 레디 상태일 때 버튼을 누르면 웹소켓 연결을 종료
       if (dataSocket.current) {
+        dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
         dataSocket.current.close();
         console.log('웹 소켓 연결 종료!');
         dataSocket.current = null;
@@ -85,9 +86,12 @@ const RoomBody = ({roomId}) => {
   useEffect(() => {
     return () => {
       if (dataSocket.current) {
+        // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
+        dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
         dataSocket.current.close();
       }
     };
+  
   }, []);
 
 
@@ -175,7 +179,10 @@ const RoomBody = ({roomId}) => {
     
             const mydata = await response.json();
             const isMale = mydata.ismale === true;
-            const crushKid = isMale ? mydata.w_crush : mydata.m_crush;
+            const crushKid = isMale ? mydata.extra_info[0].w_crush : mydata.extra_info[0].m_crush;
+            console.log(mydata)
+            console.log(isMale)
+            console.log(crushKid)
 
             if (isMale==false && !crushKid) {
               setShowReadyConfirmModal(false); // 여성이 선택하지 않았을 경우 모달 제작
@@ -195,8 +202,9 @@ const RoomBody = ({roomId}) => {
             }
 
             const crushData = await crushResponse.json();
+            const mutualCrushKid = isMale ? crushData.extra_info[0].w_crush : crushData.extra_info[0].m_crush;
 
-            const isMutualSelected = crushData[isMale ? 'm_crush' : 'w_crush'] === 1001;
+            const isMutualSelected = mutualCrushKid === 1001;
     
             if (!isMutualSelected) {
               setSecondRecommendations(mydata.recomandation); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
