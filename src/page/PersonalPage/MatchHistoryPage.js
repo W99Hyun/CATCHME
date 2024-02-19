@@ -18,7 +18,7 @@ let historys = [
     meeter: "JIPDANJISUNG",
     gender: "남",
     age: 20,
-    location: "서울특별시 강남구",
+    location: "서울특별시 서초구",
   },
   {
     id: 3,
