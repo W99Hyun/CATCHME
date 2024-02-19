@@ -152,7 +152,7 @@ useEffect(() => {
   const [showModal, setShowModal] = useState(false);
 
   const [showSecondModal, setShowSecondModal] = useState(false);
-  const [secondRecommendations, setSecondRecommendations] = useState([]);
+  const [secondRecommendation, setSecondRecommendation] = useState();
 
   const [showFinalModal, setShowFinalModal] = useState(false);
   const [myAnimal, setMyAnimal] = useState();
@@ -187,9 +187,6 @@ useEffect(() => {
             const mydata = await response.json();
             const isMale = mydata.ismale === true;
             const crushKid = isMale ? mydata.extra_info[0].w_crush_kid : mydata.extra_info[0].m_match_kid;
-            console.log(mydata)
-            console.log(isMale)
-            console.log(crushKid)
 
             if (isMale==false && !crushKid) {
               setShowReadyConfirmModal(false); // 여성이 선택하지 않았을 경우 모달 제작
@@ -211,10 +208,10 @@ useEffect(() => {
             const crushData = await crushResponse.json();
             const mutualCrushKid = isMale ? crushData.extra_info[0].m_match_kid : crushData.extra_info[0].w_crush_kid;
 
-            const isMutualSelected = mutualCrushKid === 1001;
-    
+            const isMutualSelected = mutualCrushKid === 1002;
+
             if (!isMutualSelected) {
-              setSecondRecommendations(mydata.recomandation); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
+              setSecondRecommendation(mydata.extra_info[0].w_crush_kid); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
               setShowSecondModal(true);
             } else {
               setMyAnimal(mydata.extra_info[0].animal)
@@ -352,7 +349,7 @@ useEffect(() => {
         <SecondModal
           isOpen={showSecondModal}
           onClose={() => setShowSecondModal(false)}
-          recommendations={secondRecommendations}
+          recommendation={secondRecommendation}
           gender={isMale ? "Male" : "Female"}
         />
       )}

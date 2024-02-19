@@ -80,7 +80,6 @@ const GridItem = styled.div`
   border-radius: 18px;
   border: 2px solid #494949;    
   ${(props) =>
-    props.isSelected &&
     css`
       animation: ${blinkAnimation} 1s infinite;
     `}   
@@ -142,10 +141,11 @@ const StyledButton2 = styled.button`
   cursor: pointer;
 `;
 
-const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
+const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [timer, setTimer] = useState(1800);
+  const [recommendationData, setRecommendationData] = useState(null);
 
   const getImagePath = (animal, gender) => {
     if (animal) {
@@ -176,9 +176,7 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
   };
 
   const handleChooseClick = async () => {
-    if (selectedUser) {
-      await sendSelectedUserToServer(selectedUser);
-    }
+      await sendSelectedUserToServer(recommendationData?.extra_info?.[0]?.kid);
     onClose();
   };
 
@@ -187,17 +185,45 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
     onClose();
   };
 
-  const sendSelectedUserToServer = async (selectedUser) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (recommendation) {
+          const Response = await fetch(
+            `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${recommendation}`, // 배열의 첫 번째 요소 사용
+            {
+              method: "GET",
+              mode: "cors",
+            }
+          );
+
+          if (!Response.ok) {
+            throw new Error("Failed to fetch crush information");
+          }
+
+          const data = await Response.json();
+          setRecommendationData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching crush information:", error);
+        // 에러 처리 로직 추가
+      }
+    };
+
+    fetchData();
+  }, [recommendation]); // recommendations가 변경될 때마다 다시 호출
+
+  const sendSelectedUserToServer = async (kid) => {
     try {
       const response = 
-      await fetch("http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/", {
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, {
         method: "POST",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          w_crush: selectedUser.user // 남자여자에 따른 코드 넣기
+          w_crush_kid: kid // 남자여자에 따른 코드 넣기
         }),
       });
 
@@ -211,13 +237,12 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
     }
   };
 
-  const user = recommendations[0];
 
   return (
     <Modal 
         isOpen={isOpen} 
         onRequestClose={onClose} 
-        recommendations={recommendations}
+        recommendation={recommendationData}
         style={customStyles}
     >
         <TimeText>{`00:${timer < 10 ? `0${timer}` : timer}`}</TimeText>
@@ -227,44 +252,44 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
                 마음에 드는 이성을 선택하세요.
             </Text1>
             <Text2>
-                "루아"가 추천하는 이상형은 <br /> {user.nickname} 님이에요.
+                "루아"가 추천하는 이상형은 <br /> {recommendationData?.extra_info?.[0]?.nickname} 님이에요.
                 만나보시겠어요?
             </Text2>
         </div>
-        {user && (
-        <GridItem isSelected={selectedUser === user}>
+        {(
+        <GridItem>
           <SubGridItem1>
             <img 
-              src={getImagePath(user.animal, gender)} 
-              alt={`${user.animal} 이미지`}
+              src={getImagePath(recommendationData?.extra_info[0]?.animal, gender)} 
+              alt={`이미지`}
               style={{ width: "60px", height: "60px" }}
             />
           </SubGridItem1>
           <SubGridItem2>
-            {user.school} {user.major} {user.age}
+            {recommendationData?.extra_info[0]?.school} {recommendationData?.extra_info[0]?.major} {recommendationData?.extra_info[0]?.age}
           </SubGridItem2>
           <SubGridItem3>
-            {user.height} {user.body} {user.mbti}
+            {recommendationData?.extra_info[0]?.height} {recommendationData?.extra_info[0]?.body} {recommendationData?.extra_info[0]?.mbti}
           </SubGridItem3>
           <SubGridItem4>
             회원님의 <span>이상형</span>과 <span>78%</span> 부합해요!
           </SubGridItem4>
           <SubGridItem5>
             <StyledButton
-              selected={selectedUser === user}
-              onClick={() => handleButtonClick(user)}
-            >
-              {selectedUser === user ? "취소하기 ↗" : "선택하기 ↗"}
+              selected={selectedUser === recommendationData?.extra_info?.[0]?.nickname}
+              onClick={() => handleButtonClick(recommendationData?.extra_info?.[0]?.nickname)}
+                        >
+              {selectedUser === recommendationData?.extra_info?.[0]?.nickname ? "취소하기 ↗" : "선택하기 ↗"}
             </StyledButton>
           </SubGridItem5>
         </GridItem>
-      )}
+        )}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <StyledButton2 onClick={handleChooseClick}>
-            선택 완료
+            만나볼래!
         </StyledButton2>
         <StyledButton2 onClick={handleCancelClick}>
-            선택 안 함
+            다음에 만날게
         </StyledButton2>
       </div>
   </Modal>
