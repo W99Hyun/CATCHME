@@ -45,116 +45,17 @@ font-weight: 900;
 letter-spacing: 0.92px;
 `;
 
-const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, roomId, isReady, setIsReady } ) => {
+const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, isReady } ) => {
 
   const [isMaleUser, setMale] = useState(isMale);
-  const webSocketRef = useRef(null);
 
   const handleReadyClick = () => {
-    setIsReady(!isReady);
-    sendReadyStatusToServer(!isReady);
     onReadyButtonClick();
   };
 
   const handleGenderChange = () => {
     setMale(!isMaleUser);
     onGenderChange(!isMaleUser);
-  };
-
-  /* const [csrfToken, setCsrfToken] = useState(null); 
-
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await fetch('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/csrf/', {
-          method: 'GET',
-          mode: 'cors',
-          credentials: 'include',
-        });
-    
-        if (!response.ok) {
-          throw new Error('서버 응답이 OK 상태가 아닙니다.');
-        }
-    
-        const contentType = response.headers.get('content-type');
-      
-        if (contentType && contentType.includes('application/json')) {
-          const data = await response.json();
-          console.log(data);
-          console.log(data.csrfToken);
-          setCsrfToken(data.csrfToken);
-        } else {
-          console.error('서버 응답이 JSON 형식이 아닙니다.');
-        }
-      } catch (error) {
-        console.error('CSRF 토큰 가져오기 오류:', error);
-      }
-    };
-
-    fetchCsrfToken();
-  }, []); */
-  
-
-  const sendReadyStatusToServer = async (readyStatus) => {
-    try {
-      // WebSocket이 없으면 새로 연결
-      if (!webSocketRef.current || webSocketRef.current.readyState !== 1) {
-        webSocketRef.current = new WebSocket(
-          `ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`
-        );
-      }
-
-      webSocketRef.current.onopen = () => {
-        console.log("WebSocket 연결 성공!");
-        // 레디 정보를 서버에 전송
-        webSocketRef.current.send(
-          JSON.stringify({
-            message: "ready_status",
-            ready: readyStatus,
-          })
-        );
-      };
-
-      webSocketRef.current.onclose = () => {
-        console.log("WebSocket 연결 종료!");
-      };
-
-      webSocketRef.current.onerror = (error) => {
-        console.error("WebSocket 오류:", error);
-      };
-    } catch (error) {
-      console.error("WebSocket 전송 오류:", error);
-    }
-    /* try {
-      if (!csrfToken) {
-        console.error('CSRF 토큰이 유효하지 않습니다.');
-        return;
-      }
-      const response = 
-      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
-        // 현재 클라이언트 유저로 접근
-        method: "POST",
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-          'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify({
-          kid: 1001,
-          rno: 1,
-          ready: !isReady,
-        }),
-      });
-
-      if (response.ok) {
-        console.log("레디 정보 전송 성공");
-      } else {
-        console.error("레디 정보 전송 실패");
-      }
-    } catch (error) {
-      console.error("API 호출 오류:", error);
-    } */
   };
 
   return (

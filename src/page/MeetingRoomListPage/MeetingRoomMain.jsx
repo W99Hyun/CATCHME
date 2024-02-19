@@ -69,7 +69,7 @@ const MeetingRoomMain = () => {
         ]);
   
         // selectedPeople과 meetingNum이 일치하는 방만 필터링
-        const filteredRooms = allRoomsResponse.data.filter(room => room.meetingnum === selectedPeople);
+        const filteredRooms = allRoomsResponse.data.filter(room => room.each_match === selectedPeople);
   
         // 방에 랜덤 색상 입히기
         const top5RoomsWithColors = top5Response.data.map(room => ({
