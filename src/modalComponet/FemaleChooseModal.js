@@ -163,6 +163,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
   const handleChooseClick = async () => {
     if (selectedUser) {
       await sendSelectedUserToServer(selectedUser);
+      console.log(selectedUser)
     }
     onClose();
   };
@@ -170,14 +171,14 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/1001', {
-        method: "POST",
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}/`, {
+        method: "PUT",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          w_crush: selectedUser.user
+          w_crush_kid: selectedUser.user
         }),
       });
 

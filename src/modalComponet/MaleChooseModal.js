@@ -180,14 +180,14 @@ const MaleChooseModal = ({ isOpen, onClose, maleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/', {
-        method: "POST",
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${2001}/`, {
+        method: "PUT",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          m_crush: selectedUser.user
+          m_match_kid: selectedUser.user
         }),
       });
 

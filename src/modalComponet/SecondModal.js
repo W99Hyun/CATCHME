@@ -176,7 +176,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
   };
 
   const handleChooseClick = async () => {
-      await sendSelectedUserToServer(recommendationData?.extra_info?.[0]?.kid);
+      await sendSelectedUserToServer(recommendationData.kid);
     onClose();
   };
 
@@ -202,7 +202,12 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
           }
 
           const data = await Response.json();
-          setRecommendationData(data);
+
+          if (data && data.extra_info && data.extra_info.length > 0) {
+            setRecommendationData(data);
+          } else {
+            console.error("Invalid data structure:", data);
+          }
         }
       } catch (error) {
         console.error("Error fetching crush information:", error);
@@ -215,15 +220,17 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
 
   const sendSelectedUserToServer = async (kid) => {
     try {
+      const fieldName = gender === 'male' ? 'm_match_kid' : 'w_crush_kid';
+
       const response = 
-      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, {
-        method: "POST",
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}/`, {
+        method: "PUT",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          w_crush_kid: kid // 남자여자에 따른 코드 넣기
+          [fieldName]: 2002
         }),
       });
 
