@@ -156,3 +156,46 @@
   align-items: center;
   justify-content: center;
 }
+
+.history-empty-text {
+  text-align: center;
+  margin-top: 8%;
+  font-size: 16px;
+  color: #cccbcb;
+}
+
+.history-modal-detail {
+  width: 60%;
+  height: 25%;
+  border-radius: 15px;
+  background-color: white;
+  border: 0px solid black;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* 그림자 효과 추가 */
+  display: block;
+  margin: auto;
+  margin-top: 80%;
+}
+
+.history-modal-container {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  height: 100%;
+  gap: 10px;
+}
+
+.history-modal-text {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 25%;
+}
+
+.history-modal-buttons {
+  height: 70%;
+  width: 40%;
+  border: 0px;
+  border-radius: 10px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
