@@ -100,7 +100,7 @@ function AlarmItem({ notification, onDelete }) {
   function handleTouchEnd() {
     const moveX = touchCurrentX - touchStartX;
 
-    if (moveX > 0) {
+    if (moveX > 50) {
       swipeFunction();
     }
 
