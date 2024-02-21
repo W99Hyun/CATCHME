@@ -17,11 +17,13 @@ const InfoButton = styled.button`
   grid-column: 5;
   background: url(${process.env.PUBLIC_URL}/image/info.png) no-repeat;
   background-size: contain;
-  width: 50%;
-  height: 35%;
+  width: 60%;
+  height: 45%;
   border: none;
   cursor: pointer;
-  margin-left: auto; 
+  margin-left: 10px; 
+  margin-top: 40px;
+  align-self: start;
 `;
 
 const customModalStyles = {

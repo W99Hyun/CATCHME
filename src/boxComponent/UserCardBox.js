@@ -76,24 +76,15 @@ const UserCardItem = styled.div`
 `;
 
 const UserCardInfo = styled.div`
-  font-family: Inter;
-  font-size: 10px;
+  font-size: 11px;
   margin-top: 5px;
+  font-weight: 900;
+  text-align: left;
 `;
 
 const colors = [
-  "#FED3E2",
-  "#EFCBDA",
-  "#FFD5A9",
-  "#BFA9FF",
-  "#BFFFA9",
-  "#F7D6FF",
-  "#FEFFBE",
-  "#F6B6B6",
-  "#E6FED3",
-  "#D3E4FE",
-  "#D3F4FE",
-  "#FEDDD3",
+  "#485BFF",
+  "#61E867",
 ];
 
 const UserCardBox = ({ users, gender }) => {
@@ -120,7 +111,7 @@ const UserCardBox = ({ users, gender }) => {
         return (
         <UserCardItem 
         key={index} 
-        bgColor={colors[index % colors.length +1]} // 나중에 유저 고유 ID값(정수) 이용하여 색상 선택
+        bgColor={colors[index % colors.length]} // 나중에 유저 고유 ID값(정수) 이용하여 색상 선택
         onClick={() => openModal(user, gender)}
         >
           {user ? (

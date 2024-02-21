@@ -10,23 +10,24 @@ const LeftButton = styled.button`
 grid-column: 1;
 grid-row : 3;
 justify-self: left;
-max-width: 30%;
+max-width: 70%;
+width: 70%;
 height:50%;
-border: none;
-border-radius: 25px;
+border: 2.3px solid #3B3B3B;
+border-radius: 15px;
 background: #FAFAFA;
-box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.10);
+box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.10);
 margin: 10px;
 `;
 
 const CenterButton = styled.button`
 grid-column: 2;
 grid-row: 2;
-width: 150px;
-height: 100%;
+width: 170px;
+height: 110%;
 margin: 0 auto;
 border-radius: 16px;
-border: 2px solid #3B3B3B;
+border: 3px solid #3B3B3B;
 background: ${({ isReady }) => (isReady ? "#FCFF71" : "#B2D3FB")};
 box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
 `;
@@ -61,7 +62,7 @@ const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, isReady } ) => 
   return (
     <ReadyBoxContainer>
       <LeftButton onClick={handleGenderChange}>
-      <LeftText>{isMaleUser ? "남" : "여"}</LeftText>
+      <LeftText>{isMaleUser ? "MEN" : "WOMEN"}</LeftText>
         </LeftButton>
       <CenterButton isReady={isReady} onClick={handleReadyClick}>
         <ReadyText>{isReady ? "CANCEL !" : "READY !"}</ReadyText>

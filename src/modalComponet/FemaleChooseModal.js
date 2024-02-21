@@ -4,7 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 
 const customStyles = {
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(255, 255, 255, 0.7)",
     },
     content: {
       top: "50%",
@@ -41,14 +41,14 @@ const customStyles = {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: auto;
+    margin: 10px auto 30px;
 `;
 
 const Text = styled.div`
     text-align: center;
     width: 90%;
     height: 80%;
-    margin: auto;
+    margin: 10px auto 30px;
     color: #CE6591;
     font-size: 23px;
     font-weight: 600;
@@ -65,7 +65,7 @@ const Text = styled.div`
     width: 95%;
     height: 90%;
     background: #FFF;
-    box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     border: 2px solid transparent;
     ${(props) =>
@@ -76,6 +76,7 @@ const Text = styled.div`
 
 const SubGridItem1 = styled.div`
     grid-area: subgrid1;
+    margin: 10px;
  `;
 
 const SubGridItem2 = styled.div`
@@ -96,31 +97,38 @@ const SubGridItem4 = styled.div`
     grid-area: subgrid4;
     span {
         color: #CE6591;
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 19px;
+        font-weight: bold;
     }
     margin: auto;
+    font-size: 13px;
+    font-weight: bold;
 `;
 
 const SubGridItem5 = styled.div`
     grid-area: subgrid5;
     margin: auto;
+    margin-left: 5px;
 `;
 
 const StyledButton = styled.button`
-  width: 100%;
-  height: 70%;
-  font-size: 15px;
-  border-radius: 9px;
+  width: 140%;
+  height: 100%;
+  padding: 5px 0;
+  font-size: 11px;
+  border-radius: 20px;
   background: ${(props) => (props.selected ? "#E296B6" : "#515151")};  
   color: white;
   border: none;
   cursor: pointer;
+  margin-top: 5px; /* 여백 조절 */
+
 `;
 
 const StyledButton2 = styled.button`
   width: 20%;
   height: 30px;
+  padding: 5px 0;
   margin: auto;
   font-size: 13px;
   border-radius: 9px; 
@@ -196,7 +204,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
         <TimeText>{`00:${timer < 10 ? `0${timer}` : timer}`}</TimeText>
         <Text>
-            <span> 마음에 드는 여성을 선택하세요 ! </span>
+            <span> 마음에 드는 상대를 선택하세요 ! </span>
         </Text>
       {femaleusers.map((user, index) => (
         <GridItem key={index} isSelected={selectedUser === user}>

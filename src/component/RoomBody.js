@@ -31,8 +31,9 @@ const RectangleTable = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 42px;
+  border: 2px solid #000; /* 테두리 설정 */
   background: #deaf69;
-  box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.15);
   z-index: -1;
 `;
 
@@ -108,6 +109,7 @@ useEffect(() => {
   };
   
   useEffect(() => {
+    const connectWebSocket = () => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
@@ -116,14 +118,12 @@ useEffect(() => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
         dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
-        fetchData();
       };
   
       dataSocket.current.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log('서버로부터 메시지 수신:', data);
         if (data.message === 'api 리랜더링') {
-          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
           fetchData();
         }
       };
@@ -135,10 +135,41 @@ useEffect(() => {
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
+    }}
+    connectWebSocket();
+  }, [user, isReady]); 
+
+  /* const connectWebSocket = () => {
+    if (user && isReady && !dataSocket.current) {
+      // 레디 상태일 때 웹소켓 연결
+      dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
+
+      dataSocket.current.onopen = () => {
+        console.log('웹 소켓 연결 성공!');
+        // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
+        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+      };
+
+      dataSocket.current.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log('서버로부터 메시지 수신:', data);
+        if (data.message === 'api 리랜더링') {
+          fetchData();
+        }
+      };
+    } else if ((!user || !isReady) && dataSocket.current) {
+      // 레디 상태가 아니면서 웹소켓이 연결되어 있을 때, 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
+      console.log('웹 소켓 연결 끊음!');
+      fetchData();
+      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
+      dataSocket.current.close();
+      dataSocket.current = null;
     }
-  }, [user, isReady]);
+  }; */
   
   useEffect(() => {
+    //connectWebSocket();
+
     return () => {
       if (dataSocket.current) {
         // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
@@ -146,7 +177,7 @@ useEffect(() => {
         dataSocket.current.close();
       }
     };
-  }, []);
+  }, [user, isReady, roomId]);
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -168,9 +199,9 @@ useEffect(() => {
 
     const checkAllUsersReady = async () => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
-        if(/*day1*/ true)
+        if(/*day1*/ false)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ false) {
+        if(/*day2*/ true) {
           try {
             const response = await fetch(
               `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
@@ -208,7 +239,7 @@ useEffect(() => {
             const crushData = await crushResponse.json();
             const mutualCrushKid = isMale ? crushData.extra_info[0].m_match_kid : crushData.extra_info[0].w_crush_kid;
 
-            const isMutualSelected = mutualCrushKid === 1002;
+            const isMutualSelected = mutualCrushKid === 1001;
 
             if (!isMutualSelected) {
               setSecondRecommendation(mydata.extra_info[0].w_crush_kid); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
@@ -287,22 +318,22 @@ useEffect(() => {
     // 기본 방 구조
     <RootBodyContainer>
       <InfoBox roomName={roomName} location={location} time={time} meetingnum={meetingnum} />
-      <ChatBox users={isMale ? filteredMaleUsers : filteredFemaleUsers} />
-      <UserBox
-        users={
-          isMale
-            ? filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
-            : filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
-        }
-        dataSocket={dataSocket}
-      />
-      <RectangleTable />
       <ChatBox users={isMale ? filteredFemaleUsers : filteredMaleUsers} />
       <UserBox
         users={
           isMale
-            ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female", roomId: "roomId" }))
-            : filteredMaleUsers.map((user) => ({ ...user, gender: "Male", roomId: "roomId" }))
+          ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female", roomId: "roomId" }))
+          : filteredMaleUsers.map((user) => ({ ...user, gender: "Male", roomId: "roomId" }))
+        }
+        dataSocket={dataSocket}
+      />
+      <RectangleTable />
+      <ChatBox users={isMale ? filteredMaleUsers : filteredFemaleUsers} />
+      <UserBox
+        users={
+          isMale
+          ? filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
+          : filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
         }
       />
       <div></div>

@@ -4,16 +4,27 @@ import styled, { css, keyframes } from "styled-components";
 
 const customStyles = {
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(255, 255, 255, 0.85)",
     },
     content: {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "85%", 
-      height: "70%",
+      height: "60%",
       display: "grid",
+      borderRadius: "18px",
+      border: "none",
       gridTemplateRows: "1fr 1fr 1fr 3fr 1.5fr ",
+      boxShadow: "0px 0px 20px 10px rgba(0, 0, 0, 0.05)",
+    },
+    dayText: {
+      gridColumn: "1", // DAY 1을 그리드의 첫 번째 열에 배치
+      textAlign: "center", // 가운데 정렬
+      fontSize: "24px", // 원하는 폰트 크기로 조절
+      fontWeight: "bold", // 원하는 글꼴 굵기로 조절
+      margin: "auto", // 세로 가운데 정렬
+      color: "#DA8BAC",
     },
   };
 
@@ -36,11 +47,12 @@ const customStyles = {
     background: #515151;
     border: 2px solid #515151;
     border-radius: 30px;
-    width: 30%;
-    height: 40%;
+    width: 33%;
+    height: 43%;
     display: flex;
     justify-content: center;
-    margin: auto;
+    align-items: center;
+    margin: 10px auto;
 `;
 
 const Text1 = styled.div`
@@ -54,31 +66,36 @@ const Text1 = styled.div`
 `;
 
 const Text2 = styled.div`
-    color: #474747;
-    text-align: center;
-    font-size: 17px;
+    color: #848484;
+    text-align: left;
+    font-size: 13px;
     font-weight: 600;
-    width: 90%;
+    width: 85%;
     height: 80%;
-    margin: auto;
+    margin: 0 ; 
+    margin-top: 10px;
+    span {
+      font-size: 15px;
+      color: #E7C92F;
+    }
 `;
 
 const GridItem = styled.div`
   display: grid;
   margin: auto;
-  margin-bottom: 5px;
+  margin-bottom: 31px;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 0.3fr 1.5fr;
   grid-template-areas:
-  "subgrid1 subgrid2 subgrid3 subgrid3"
-  "subgrid4 subgrid4 subgrid4 subgrid5";
+  "subgrid4 subgrid4 subgrid4 subgrid5"
+  "subgrid1 subgrid2 subgrid3 subgrid3";
   width: 95%;
-  height: 70%;
+  height: 60%;
   background: #FFF;
   box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.10);
   text-align: center;
   border-radius: 18px;
-  border: 2px solid #494949;    
+  border: 3px solid #494949;    
   ${(props) =>
     css`
       animation: ${blinkAnimation} 1s infinite;
@@ -88,6 +105,8 @@ const GridItem = styled.div`
 const SubGridItem1 = styled.div`
     grid-area: subgrid1;
     margin: auto;
+    margin-top: 5px;
+    margin-right: 1px;
  `;
 
 const SubGridItem2 = styled.div`
@@ -96,6 +115,7 @@ const SubGridItem2 = styled.div`
     font-size: 13px;
     font-weight: 700;
     margin: auto;
+    margin-top: 10px;
 `;
 
 const SubGridItem3 = styled.div`
@@ -108,10 +128,11 @@ const SubGridItem4 = styled.div`
   span {
       color: #CE6591;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: bold;
   }
-  font-size: 14px;
-  margin: auto;
+  font-size: 13px;
+  margin: 10px 10px;
+  font-weight: bold;
 `;
 
 const SubGridItem5 = styled.div`
@@ -131,11 +152,12 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
-  width: 30%;
+  width: 40%;
   height: 30px;
   margin: auto;
   font-size: 13px;
-  border-radius: 9px; 
+  font-weight: bold;
+  border-radius: 13px; 
   color: black;
   border: none;
   cursor: pointer;
@@ -253,14 +275,15 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
         style={customStyles}
     >
         <TimeText>{`00:${timer < 10 ? `0${timer}` : timer}`}</TimeText>
-        <div></div>
+        <div style={customStyles.dayText}>DAY 2</div>
         <div>
             <Text1>
                 마음에 드는 이성을 선택하세요.
             </Text1>
             <Text2>
-                "루아"가 추천하는 이상형은 <br /> {recommendationData?.extra_info?.[0]?.nickname} 님이에요.
-                만나보시겠어요?
+                <span> ! 캐치미 추천 ! </span>
+                <br />
+                "루아"가 추천하는 이상형은 {recommendationData?.extra_info?.[0]?.nickname}님이에요.
             </Text2>
         </div>
         {(
@@ -282,21 +305,15 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
             회원님의 <span>이상형</span>과 <span>78%</span> 부합해요!
           </SubGridItem4>
           <SubGridItem5>
-            <StyledButton
-              selected={selectedUser === recommendationData?.extra_info?.[0]?.nickname}
-              onClick={() => handleButtonClick(recommendationData?.extra_info?.[0]?.nickname)}
-                        >
-              {selectedUser === recommendationData?.extra_info?.[0]?.nickname ? "취소하기 ↗" : "선택하기 ↗"}
-            </StyledButton>
           </SubGridItem5>
         </GridItem>
         )}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <StyledButton2 onClick={handleCancelClick}>
+            다음에 만날래
+        </StyledButton2>
         <StyledButton2 onClick={handleChooseClick}>
             만나볼래!
-        </StyledButton2>
-        <StyledButton2 onClick={handleCancelClick}>
-            다음에 만날게
         </StyledButton2>
       </div>
   </Modal>

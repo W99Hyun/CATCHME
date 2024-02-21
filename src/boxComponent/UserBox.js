@@ -7,14 +7,14 @@ const customModalStyles = {
     backgroundColor: "rgba(0, 0, 0, 0)",
   },
   content: {
-    top: "55%",
+    top: "65%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "50%",
-    height: "3%",
+    height: "3.5%",
     borderRadius: "10%",
     padding: "5px",
-    boxShadow: "4px 4px 11px 0px rgba(0, 0, 0, 0.22)",
+    boxShadow: "4px 4px 20px 0px rgba(0, 0, 0, 0.22)",
   },
 };
 
@@ -84,7 +84,7 @@ const UserBox = ({ users, dataSocket }) => {
   };
 
   const handleSpeechBubbleClick = async (text) => {
-    dataSocket.current.send(JSON.stringify({ type: 'selected_bubble', text }));
+    dataSocket.current.send(JSON.stringify({ type: 'selected_bubble', chat: text }));
   };
 
   return (

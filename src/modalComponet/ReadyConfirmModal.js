@@ -1,6 +1,6 @@
-import React from "react";
+import {React, useState} from "react";
 import Modal from "react-modal";
-import styled from "styled-components";
+import {styled} from "styled-components";
 
 const customStyles = {
   content: {
@@ -11,11 +11,13 @@ const customStyles = {
     width: "95%", // 화면 너비만큼
     height: "35%", // 화면 높이만큼
     borderRadius: "18px",
+    border: "none",
     background: "#FFF",
     boxShadow: "0px 0px 22px 0px rgba(0, 0, 0, 0.10)",
     display: "grid",
     gridTemplateRows: "repeat(4, 1fr)",
     gap: "5px",
+    transition: "opacity 1s",
   },
   dayText: {
     gridColumn: "1", // DAY 1을 그리드의 첫 번째 열에 배치
@@ -34,7 +36,7 @@ const ConfirmText1 = styled.div`
   font-weight: 900;
   width: 100%;
   height: 40%;
-  margin: auto;
+  margin: 15px auto 5px;
 `;
 
 const ConfirmText2 = styled.div`
@@ -58,12 +60,26 @@ const ConfirmButton = styled.button`
   color: white;
   border: none;
   cursor: pointer;
-  margin: 0 auto;
+  margin: 20px auto;
 `;
 
 const ReadyConfirmModal = ({ isOpen, onClose, onConfirm }) => {
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  const handleConfirm = () => {
+    setIsFadingOut(true); // 투명도 전환 효과 시작
+    setTimeout(() => {
+      onConfirm();
+      onClose();
+    }, 1000); // 0.5초 후에 onConfirm 및 onClose 호출
+  };
+
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
+    <Modal 
+    isOpen={isOpen} 
+    onRequestClose={onClose} 
+    style={{ ...customStyles, content: { ...customStyles.content, opacity: isFadingOut ? 0 : 1 } }}
+    >
       <div style={customStyles.dayText}>DAY 1</div>
       <ConfirmText1>
         이성 선택의 시간이에요. 
@@ -72,10 +88,8 @@ const ReadyConfirmModal = ({ isOpen, onClose, onConfirm }) => {
       </ConfirmText1>
       <ConfirmText2>
         서로 선택을 하면 <span> 카톡 아이디</span>가 공유돼요!
-        <br /> 
-        시간은 1분이 주어지니 잘 확인하세요 !!
       </ConfirmText2>
-      <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
+      <ConfirmButton onClick={handleConfirm}>확인</ConfirmButton>
     </Modal>
   );
 };

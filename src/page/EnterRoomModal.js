@@ -11,7 +11,6 @@ const CloudModalContainer = styled.div`
   transform: translate(-50%, -50%);
   background-color: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   z-index: 2;
   display: grid;
@@ -26,14 +25,14 @@ const Backdrop = styled.div`
   width: 100%;
   height: 100%;
   background: #F1F1F1;
-  opacity: 50%;
+  opacity: 70%;
   z-index: 1;
 `;
 
 const Text1 = styled.div`
   color: #E296B6;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 900;
   width: 100%;
   height: 40%;
@@ -54,12 +53,12 @@ const Button = styled.button`
   background-color: ${(props) => props.backgroundColor || "#E296B6"}; 
   color: #ffffff;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   cursor: pointer;
   width: 80%;
   height: 80%;
   margin: 0 auto;
-  font-size: 28px;
+  font-size: 34px;
   font-weight: 800;
 `;
 
@@ -117,7 +116,7 @@ const EnterRoomModal = ({ isOpen, onClose }) => {
           <Backdrop onClick={handleBackdropClick} />
           <CloudModalContainer>
             <Text1> 
-              원하는 미팅 인원수를 선택하세요
+              몇 명이서 참여하시나요?
             </Text1>
             <Button backgroundColor="#E296B6" onClick={() => handleButtonClick(1)}>1 : 1</Button>
             <Button backgroundColor="#4AC4AD" onClick={() => handleButtonClick(2)}>2 : 2</Button>

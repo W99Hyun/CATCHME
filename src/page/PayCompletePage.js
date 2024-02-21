@@ -18,7 +18,7 @@ const Image = styled.img`
 
 const Text1 = styled.div`
   text-align: center;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 900;
   color: #444444;
   span {
@@ -35,30 +35,41 @@ const Text3 = styled.div`
 
 const Text2 = styled.div`
   text-align: center;
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
   color: #444444;
   span {
-    color: #CBC41C;
+    &.span1 {
+      color: #F4DE13;
+      font-size: 21px;
+    }
+    &.span2 {
+      font-size: 24px;
+    }
   }
   line-height: 2;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 `;
 
 const Button1Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px 0;
 `;
 
 const Button1 = styled.button`
   background-color: #FFFFFF;
   color: 000000;
-  border: 1px solid #000000;
+  border: none;
   border-radius: 21px;
   cursor: pointer;
   font-size: 11px;
   font-weight: 900;
+  padding: 5px 15px;
+  span {
+    font-size: 20px;
+  }
 `;
 
 const Button2Container = styled.div`
@@ -85,21 +96,18 @@ function PayComplete() {
       <Image src="./image/payComplete.png" alt="Image" />
       <Text1>
         <span> 5,000원 </span> 결제 성공 !
-        <Text3>카카오톡으로 직접 상대방과 만나봐요.</Text3>
       </Text1>
       <div>
       <Text2>
-        상대방의 카카오톡 아이디는
-        <br />
-        <span> jwh1802 </span> 예요.
+        상대방의 <span className="span1"> 카카오톡 아이디 </span>
       </Text2>
       <Button1Container>
-          <Button1>카카오톡 아이디 복사하기</Button1>
+          <Button1> <span>jwh1802</span> <br/> 카카오톡 아이디 복사하기</Button1>
         </Button1Container>
       </div>
       <div>
       <Button2Container>
-          <Button2>다음창으로 넘어가기.</Button2>
+          <Button2>홈으로 가기.</Button2>
         </Button2Container>
       </div>
     </PayBodyContainer>
