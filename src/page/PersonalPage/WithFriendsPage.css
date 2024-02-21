@@ -121,3 +121,9 @@ input:focus {
   text-align: center;
   background-color: #ffffff;
 }
+
+.sfp-button-loc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
