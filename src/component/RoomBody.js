@@ -168,9 +168,9 @@ useEffect(() => {
 
     const checkAllUsersReady = async () => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
-        if(/*day1*/ false)
+        if(/*day1*/ true)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ true) {
+        if(/*day2*/ false) {
           try {
             const response = await fetch(
               `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,

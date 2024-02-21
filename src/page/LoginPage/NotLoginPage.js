@@ -65,7 +65,9 @@ function NotLogin({ onLogin }) {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     console.log(code);
-  }, []); // 빈 배열을 넣어 마운트 시에만 실행되도록 설정
+
+    //navigate("/login");
+  }, [navigate]); // 빈 배열을 넣어 마운트 시에만 실행되도록 설정
 
   return (
     <div>
