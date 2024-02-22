@@ -297,7 +297,7 @@ useEffect(() => {
             : filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
         }
       />
-      <ReadyStateBox users={isMale ? filteredMaleUsers : filteredFemaleUsers} />
+      <ReadyStateBox users={isMale ? filteredFemaleUsers : filteredMaleUsers} />
 
       {/* 선택창 모달 구조 */}
       {showReadyConfirmModal && (
