@@ -29,23 +29,41 @@ function MyPage() {
         <span className="mypage-text">마이페이지</span>
       </div>
       <div className="mypage-container">
-        <div className="mypage-myinfo">
-          <div className="mypage-myinfo-first" onClick={goMyProfile}>
+        <div className="mypage-myinfo-block">
+          <div
+            className="mypage-myinfo-first mypage-myinfo-detail"
+            onClick={goMyProfile}
+          >
             <div>
-              <img
-                src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
-                className="mypage-myinfo-img"
-              />
+              <div className="mypage-myinfo-first-detail">
+                <div className="mypage-myinfo-img-container">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
+                    className="mypage-myinfo-img"
+                  />
+                </div>
+                <div className="">
+                  <div className="mypage-myinfo-nickname-container">
+                    <span className="mypage-myinfo-nickname">r___eve님 </span>{" "}
+                    <br />
+                    <span>LV.8</span>
+                  </div>
+                </div>
+                <div className="mypage-myinfo-modify-button">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/personalpage/personalarrow.png`}
+                    className=""
+                  />
+                </div>
+              </div>
             </div>
-            <div className="mypage-myinfo-nickname">
-              <span>r___eve님</span>
-            </div>
-            <div className="mypage-myinfo-modify-button">
-              <span>{">"}</span>
+            <div className="mypage-myinfo-logout">
+              다른계정으로 로그인하기 LOGOUT
             </div>
           </div>
-
-          <div className="mypage-myinfo-second">
+          <div></div>
+          <div className="mypage-block"></div>
+          {/* <div className="mypage-myinfo-second">
             <div className="mypage-myinfo-body">
               <div>{myinformation.height}</div>
               <div>{myinformation.weight}</div>
@@ -58,7 +76,7 @@ function MyPage() {
               </span>
             </div>
             <div className="mypage-myinfo-univ">{myinformation.home}</div>
-          </div>
+          </div> */}
         </div>
         <div className="mypage-container-col">
           <div className="mypage-friends-manage">
