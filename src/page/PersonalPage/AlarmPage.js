@@ -23,8 +23,13 @@ const styles = {
     fontWeight: "500",
     color: "#433C3C",
   },
+  notificationImgContainer: {
+    position: "relative",
+  },
   notificationImg: {
-    marginTop: "",
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
   notificationTextDelete: {
     display: "flex",
@@ -139,17 +144,15 @@ function AlarmItem({ notification, onDelete }) {
     >
       {/* Notification content */}
 
-      <div className="my-span">
+      <span style={styles.notificationImgContainer}>
         {notification.read ? null : (
-          <span className="my-span">
-            <img
-              src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
-              className="my-img"
-              alt="check"
-            />
-          </span>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
+            alt="check"
+            style={styles.notificationImg}
+          />
         )}
-      </div>
+      </span>
       <p style={styles.alarmContent}>{notification.message}</p>
       <span style={styles.time}>{notification.time}</span>
     </div>
