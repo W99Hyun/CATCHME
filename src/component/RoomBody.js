@@ -13,7 +13,6 @@ import MaleChooseModal from "../modalComponet/MaleChooseModal";
 import FemaleChooseModal from "../modalComponet/FemaleChooseModal";
 import SecondModal from "../modalComponet/SecondModal";
 import FinalModal from "../modalComponet/FinalModal";
-//import io from 'socket.io-client';
 
 const RootBodyContainer = styled.div`
   display: grid;
@@ -107,23 +106,24 @@ useEffect(() => {
     }
     setIsReady(!isReady);
   };
-  
+
   useEffect(() => {
-    const connectWebSocket = () => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
-  
+
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
         dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+        fetchData();
       };
-  
+
       dataSocket.current.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log('서버로부터 메시지 수신:', data);
         if (data.message === 'api 리랜더링') {
+          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
           fetchData();
         }
       };
@@ -135,12 +135,7 @@ useEffect(() => {
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
-    }}
-    connectWebSocket();
-  }, [user, isReady]); 
-
-  /* const connectWebSocket = () => {
-    if (user && isReady && !dataSocket.current) {
+    } else if (!user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
 
@@ -148,28 +143,22 @@ useEffect(() => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
         dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+        fetchData();
       };
 
       dataSocket.current.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log('서버로부터 메시지 수신:', data);
         if (data.message === 'api 리랜더링') {
+          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
           fetchData();
         }
       };
-    } else if ((!user || !isReady) && dataSocket.current) {
-      // 레디 상태가 아니면서 웹소켓이 연결되어 있을 때, 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
-      console.log('웹 소켓 연결 끊음!');
-      fetchData();
-      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
-      dataSocket.current.close();
-      dataSocket.current = null;
+
     }
-  }; */
+  }, [user, isReady]);
   
   useEffect(() => {
-    //connectWebSocket();
-
     return () => {
       if (dataSocket.current) {
         // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
@@ -177,7 +166,7 @@ useEffect(() => {
         dataSocket.current.close();
       }
     };
-  }, [user, isReady, roomId]);
+  }, []);
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -335,6 +324,7 @@ useEffect(() => {
           ? filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
           : filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
         }
+        dataSocket={dataSocket}
       />
       <div></div>
       <ReadyBox 
@@ -348,8 +338,8 @@ useEffect(() => {
       <UserCardBox
         users={
           isMale
-            ? filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
-            : filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
+            ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female" }))
+            : filteredMaleUsers.map((user) => ({ ...user, gender: "Male" }))
         }
       />
       <ReadyStateBox users={isMale ? filteredMaleUsers : filteredFemaleUsers} />
