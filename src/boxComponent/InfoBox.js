@@ -14,6 +14,7 @@ const InfoBoxContainer = styled.div`
 `;
 
 const InfoButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   grid-column: 5;
   background: url(${process.env.PUBLIC_URL}/image/info.png) no-repeat;
   background-size: contain;

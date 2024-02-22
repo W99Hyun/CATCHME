@@ -112,6 +112,7 @@ const SubGridItem5 = styled.div`
 `;
 
 const StyledButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 140%;
   height: 100%;
   padding: 5px 0;
@@ -126,13 +127,15 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 20%;
-  height: 30px;
+  height: 31px;
   padding: 5px 0;
   margin: auto;
-  font-size: 13px;
-  border-radius: 9px; 
-  color: black;
+  font-size: 12px;
+  border-radius: 20px; 
+  background: ${(props) => (props.selected ? "#E296B6" : "#515151")};
+  color: white;
   border: none;
   cursor: pointer;
 `;
@@ -234,7 +237,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
           </SubGridItem5>
         </GridItem>
       ))}
-        <StyledButton2 onClick={handleChooseClick}>
+        <StyledButton2 selected={selectedUser !== null} onClick={handleChooseClick}>
           선택 완료
         </StyledButton2>
     </Modal>

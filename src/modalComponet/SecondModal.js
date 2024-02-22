@@ -89,7 +89,7 @@ const GridItem = styled.div`
   grid-template-areas:
   "subgrid4 subgrid4 subgrid4 subgrid5"
   "subgrid1 subgrid2 subgrid3 subgrid3";
-  width: 95%;
+  width: 100%;
   height: 60%;
   background: #FFF;
   box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.10);
@@ -130,7 +130,7 @@ const SubGridItem4 = styled.div`
       font-size: 16px;
       font-weight: bold;
   }
-  font-size: 13px;
+  font-size: 15px;
   margin: 10px 10px;
   font-weight: bold;
 `;
@@ -141,6 +141,7 @@ const SubGridItem5 = styled.div`
 `;
 
 const StyledButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 70%;
   font-size: 12px;
@@ -152,13 +153,15 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 40%;
   height: 30px;
   margin: auto;
   font-size: 13px;
   font-weight: bold;
   border-radius: 13px; 
-  color: black;
+  background: #515151;
+  color: white;
   border: none;
   cursor: pointer;
 `;
@@ -292,7 +295,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
             <img 
               src={getImagePath(recommendationData?.extra_info[0]?.animal, gender)} 
               alt={`이미지`}
-              style={{ width: "60px", height: "60px" }}
+              style={{ width: "70px", height: "60px" }}
             />
           </SubGridItem1>
           <SubGridItem2>

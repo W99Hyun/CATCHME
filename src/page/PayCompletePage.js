@@ -48,17 +48,19 @@ const Text2 = styled.div`
     }
   }
   line-height: 2;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 `;
 
 const Button1Container = styled.div`
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
-  margin: 10px 0;
+  grid-template-rows: auto 1fr; /* 수정된 부분: 자동 크기 행과 1fr 크기 행 */
+  margin: 0 0;
 `;
 
 const Button1 = styled.button`
+  font-family: 'Noto Sans KR', sans-serif;
   background-color: #FFFFFF;
   color: 000000;
   border: none;
@@ -66,7 +68,6 @@ const Button1 = styled.button`
   cursor: pointer;
   font-size: 11px;
   font-weight: 900;
-  padding: 5px 15px;
   span {
     font-size: 20px;
   }
@@ -80,14 +81,15 @@ const Button2Container = styled.div`
 `;
 
 const Button2 = styled.button`
-  background-color: #FFFFFF;
-  color: 000000;
-  padding: 10px;
-  border: 1px solid #000000;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #515151;
+  color: white;
+  padding: 12px 28px;
+  border: none;
   border-radius: 29px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 900;
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 function PayComplete() {
@@ -98,16 +100,16 @@ function PayComplete() {
         <span> 5,000원 </span> 결제 성공 !
       </Text1>
       <div>
-      <Text2>
-        상대방의 <span className="span1"> 카카오톡 아이디 </span>
-      </Text2>
       <Button1Container>
-          <Button1> <span>jwh1802</span> <br/> 카카오톡 아이디 복사하기</Button1>
-        </Button1Container>
+        <Text2>
+          상대방의 <span className="span1"> 카카오톡 아이디 </span>
+        </Text2>
+        <Button1> <span>jwh1802</span> <br/> 카카오톡 아이디 복사하기</Button1>
+      </Button1Container>
       </div>
       <div>
       <Button2Container>
-          <Button2>홈으로 가기.</Button2>
+          <Button2>홈으로 가기</Button2>
         </Button2Container>
       </div>
     </PayBodyContainer>

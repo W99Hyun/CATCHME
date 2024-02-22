@@ -7,6 +7,7 @@ const ReadyBoxContainer = styled.div`
 `;
 
 const LeftButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
 grid-column: 1;
 grid-row : 3;
 justify-self: left;
@@ -21,6 +22,7 @@ margin: 10px;
 `;
 
 const CenterButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
 grid-column: 2;
 grid-row: 2;
 width: 170px;
@@ -40,7 +42,6 @@ font-weight: 700;
 
 const ReadyText = styled.span`
 color: #3C3C3C;
-font-family: Inter;
 font-size: 23px;
 font-weight: 900;
 letter-spacing: 0.92px;

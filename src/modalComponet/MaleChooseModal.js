@@ -113,6 +113,7 @@ const SubGridItem5 = styled.div`
 `;
 
 const StyledButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 70%;
   font-size: 15px;
@@ -124,6 +125,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 20%;
   height: 30px;
   margin: auto;

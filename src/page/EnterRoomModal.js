@@ -50,6 +50,7 @@ const Text2 = styled.div`
 `
 
 const Button = styled.button`
+  font-family: 'Noto Sans KR', sans-serif;
   background-color: ${(props) => props.backgroundColor || "#E296B6"}; 
   color: #ffffff;
   border: none;

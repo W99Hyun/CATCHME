@@ -3,6 +3,9 @@ import Modal from "react-modal";
 import {styled} from "styled-components";
 
 const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+  },
   content: {
     top: "45%",
     left: "50%",
@@ -13,7 +16,7 @@ const customStyles = {
     borderRadius: "18px",
     border: "none",
     background: "#FFF",
-    boxShadow: "0px 0px 22px 0px rgba(0, 0, 0, 0.10)",
+    boxShadow: "0px 0px 22px 0px rgba(0, 0, 0, 0.08)",
     display: "grid",
     gridTemplateRows: "repeat(4, 1fr)",
     gap: "5px",
@@ -53,6 +56,7 @@ const ConfirmText2 = styled.div`
 `;
 
 const ConfirmButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 20%;
   height: 30%;
   border-radius: 9px;

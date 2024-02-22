@@ -79,12 +79,12 @@ const Logo = styled.img`
 `;
 
 const Alarm = styled.img`
-  width: 34px;
-  height: 43px;
+  width: 29px;
+  height: 26px;
   cursor: pointer;
-  top: 27%;
+  top: 34%;
   position: absolute;
-  right: 2.6rem;
+  right: 2.9rem;
   transform: translateX(-50%);
 `;
 

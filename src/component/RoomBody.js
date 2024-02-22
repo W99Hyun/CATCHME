@@ -239,7 +239,7 @@ useEffect(() => {
             const crushData = await crushResponse.json();
             const mutualCrushKid = isMale ? crushData.extra_info[0].m_match_kid : crushData.extra_info[0].w_crush_kid;
 
-            const isMutualSelected = mutualCrushKid === 1001;
+            const isMutualSelected = mutualCrushKid === 1002;
 
             if (!isMutualSelected) {
               setSecondRecommendation(mydata.extra_info[0].w_crush_kid); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
