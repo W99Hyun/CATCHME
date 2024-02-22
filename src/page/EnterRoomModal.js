@@ -9,13 +9,15 @@ const CloudModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 20px;
   padding: 20px;
   z-index: 2;
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-gap: 10px;
+  border: 45px solid transparent;
+  border-image: url('/image/enterBackground.png') 35 fill;
 `;
 
 const Backdrop = styled.div`
