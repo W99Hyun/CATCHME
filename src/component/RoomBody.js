@@ -228,7 +228,7 @@ useEffect(() => {
             const crushData = await crushResponse.json();
             const mutualCrushKid = isMale ? crushData.extra_info[0].m_match_kid : crushData.extra_info[0].w_crush_kid;
 
-            const isMutualSelected = mutualCrushKid === 1002;
+            const isMutualSelected = mutualCrushKid === 1001;
 
             if (!isMutualSelected) {
               setSecondRecommendation(mydata.extra_info[0].w_crush_kid); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
@@ -247,51 +247,6 @@ useEffect(() => {
       } else {
         setShowReadyConfirmModal(false);
       }
-            /* const isMutualSelected = true;
-
-          if (!isMutualSelected) {
-            try {
-              const response = await fetch(
-                "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
-                {
-                  method: "GET",
-                  mode: "cors",
-                }
-              );
-              if (!response.ok) {
-                throw new Error("Failed to fetch second recommendations");
-              }
-              const data = await response.json();
-              setSecondRecommendations(data[0].menInfos);
-              setShowSecondModal(true);
-            } catch (error) {
-              console.error("Error fetching second recommendations:", error);
-            }
-          } else if (isMutualSelected) {
-            try {
-              const response = await fetch(
-                "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/",
-                {
-                  method: "GET",
-                  mode: "cors",
-                }
-              );
-              if (!response.ok) {
-                throw new Error("Failed to fetch second recommendations");
-              }
-              const data = await response.json();
-              setFinal(data[0].menInfos);
-              setShowFinalModal(true);
-            } catch (error) {
-              console.error("Error fetching second recommendations:", error);
-            }
-          }
-        } else {
-          setShowSecondModal(false);
-        }
-      } else {
-        setShowReadyConfirmModal(false);
-      } */
     };
     checkAllUsersReady();
   }, [maleusers, femaleusers]);

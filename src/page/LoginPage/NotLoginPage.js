@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import "./NotLoginPage.css";
 import styled from "styled-components";
 import { useUser } from "../../component/UserContext";
+import KakaoLoginComponent from "../KakaoLoginComponent";
 
 const BackgroundImage = styled.div`
   background-image: url(${process.env.PUBLIC_URL}/image/background2.png);
@@ -42,15 +43,15 @@ function NotLogin({ onLogin }) {
     }
   };
 
-  const loginClick = function () {
+  const loginClick = async  () => {
     try {
       // 카카오톡 로그인 링크를 가져온 후 저장
-      fetchKakaoLoginLink();
+      await fetchKakaoLoginLink();
+      directLogin();
     } catch (error) {
       console.error("Error during login:", error);
       // 에러에 대한 처리 추가
     }
-    directLogin();
   };
 
   // 사용자가 저장된 링크로 직접 이동
@@ -64,10 +65,10 @@ function NotLogin({ onLogin }) {
     // URL 쿼리 파라미터에서 코드값 추출
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    console.log(code);
-
-    //navigate("/login");
-  }, [navigate]); // 빈 배열을 넣어 마운트 시에만 실행되도록 설정
+    if (code) {
+      return <KakaoLoginComponent code={code} />;    
+    }
+    }, []);
 
   return (
     <div>

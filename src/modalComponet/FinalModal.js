@@ -99,6 +99,11 @@ const FinalModal = ({ isOpen, onClose, me, you}) => {
             alt={`${me.animal} 이미지`}
             style={{ width: "85px", height: "85px" }}
         />
+        <img
+            src={`/image/bomb.png`} 
+            alt={`${me.animal} 이미지`}
+            style={{ width: "85px", height: "85px" }}
+        />
         <img 
             src={getImagePath2(you)} 
             alt={`${you.animal} 이미지`}
