@@ -63,11 +63,13 @@ const styles = {
     textAlign: "center",
   },
   friendsList: {
+    margin: "5px 0px 0px 0px",
     padding: "10px",
     backgroundColor: "rgb(255, 255, 255)",
-    borderRadius: "30px",
+    borderRadius: "15px",
     border: "0px solid rgb(213, 213, 213)",
     overflowY: "auto",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
   },
   friendsItem: {
     background: "#ffffff",

@@ -27,6 +27,9 @@
   color: rgba(238, 101, 183, 0.859);
   text-align: left;
   align-items: center;
+  margin-left: 3%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 1.5px;
 }
 
 .modal-text-team {

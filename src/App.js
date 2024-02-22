@@ -33,6 +33,7 @@ import Welcome15 from "./page/WelcomePage/Welcome15";
 import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
+import MyProfile2 from "./page/PersonalPage/MyProfile2";
 
 const AppContainer = styled.div`
   overflow: hidden; /* 스크롤을 숨기고 */
@@ -145,6 +146,10 @@ function App() {
                 <Route path="/room/:roomId" element={<Room />} />
                 <Route path="/PayComplete" element={<PayComplete />} />
                 <Route path="/login/mypage/myprofile" element={<MyProfile />} />
+                <Route
+                  path="/login/mypage/myprofile2"
+                  element={<MyProfile2 />}
+                />
               </Routes>
             </ContentContainer>
           </GenderProvider>

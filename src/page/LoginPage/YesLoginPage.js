@@ -24,11 +24,11 @@ const BackgroundNoneImage = styled.div`
 
 const ModalButton = styled.button`
   padding: 10px 15px;
-  width: 200px;
-  height: 50px;
+  width: 245px;
+  height: 70px;
   background-color: transparent;
   color: #ffffff;
-  border: 1.7px solid #3b3b3b;
+  border: 2px solid #3b3b3b;
   border-radius: 44px;
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
   cursor: pointer;
@@ -39,7 +39,7 @@ const ModalButton = styled.button`
 
 const StartText = styled.span`
   color: #515151;
-  font-size: 23px;
+  font-size: 28px;
   font-weight: bold;
 `;
 
@@ -68,7 +68,7 @@ function YesLogin() {
           >
             <StartText> 지금 시작하기 </StartText>
           </ModalButton>
-          <EnterRoomModal isOpen={showModal} onClose={toggleModal}/>
+          <EnterRoomModal isOpen={showModal} onClose={toggleModal} />
         </div>
         <div className="yeslogin-logout-text">
           <Link to="/notlogin" className="yeslogin-logout-text">
