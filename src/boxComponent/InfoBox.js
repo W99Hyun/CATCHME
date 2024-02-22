@@ -18,12 +18,12 @@ font-family: 'Noto Sans KR', sans-serif;
   grid-column: 5;
   background: url(${process.env.PUBLIC_URL}/image/info.png) no-repeat;
   background-size: contain;
-  width: 60%;
-  height: 45%;
+  width: 30%;
+  height: 30%;
   border: none;
   cursor: pointer;
-  margin-left: 10px; 
-  margin-top: 40px;
+  margin-left: 23px; 
+  margin-top: 35px;
   align-self: start;
 `;
 

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import EnterRoomModal from "../EnterRoomModal";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./YesLoginPage.css";
+import KakaoLoginComponent from "../KakaoLoginComponent";
 
 const BackgroundNoneImage = styled.div`
   background-image: url(${process.env.PUBLIC_URL}/image/backgroundNone.png);
@@ -44,6 +45,14 @@ const StartText = styled.span`
 `;
 
 function YesLogin() {
+  const [code, setCode] = useState(null);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    setCode(code);
+    }, []);
+
   const userName = "r___eve";
   const navigate = useNavigate();
 
@@ -54,6 +63,7 @@ function YesLogin() {
 
   return (
     <>
+      {code && <KakaoLoginComponent code={code} />}
       <BackgroundNoneImage />
       <div className="yeslogin-container">
         <div></div>
