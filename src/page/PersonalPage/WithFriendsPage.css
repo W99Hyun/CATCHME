@@ -148,12 +148,14 @@ input:focus {
   grid-template-columns: 0.1fr 2fr 4.9fr 1fr;
   gap: 5px;
   justify-content: space-between;
-  align-items: center;
   box-shadow: 3px 15px 15px rgba(0, 0, 0, 0.03),
     -3px -3px 15px rgba(0, 0, 0, 0.03);
   height: 16%;
 }
-
+.align-item {
+  display: flex;
+  align-items: center;
+}
 .withfriends-myinfo-modify-button {
   display: flex; /* 이미지를 중앙에 배치하기 위해 flex를 사용 */
   justify-content: center; /* 가로 중앙 정렬 */
@@ -178,6 +180,6 @@ input:focus {
   max-height: 77vh;
 }
 .btn-location {
-  position: relative; /* 상대적 위치 지정 */
-  top: 0; /* 상단으로부터 0 위치 */
+  align-items: start;
+  margin-top: -20%;
 }

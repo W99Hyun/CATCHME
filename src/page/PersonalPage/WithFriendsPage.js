@@ -367,7 +367,7 @@ function WithFriends() {
                     className="withfriends-myinfo-img"
                   />
                 </div>
-                <div style={styles.friendInfo}>
+                <div style={styles.friendInfo} className="align-item">
                   <span>
                     <span style={styles.friendNickname}>
                       {friend.nickname}님<br />
