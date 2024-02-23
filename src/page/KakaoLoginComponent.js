@@ -19,10 +19,11 @@ const KakaoLoginComponent = ({ code }) => {
 
         const token = response.data.tokens;
         console.log(token)
-
+        console.log(token.kid)
 
         localStorage.setItem("kid", token.kid);
         localStorage.setItem("token", token);
+        console.log(JSON.stringify(token))
 
         navigate("/login");
       } catch (error) {
