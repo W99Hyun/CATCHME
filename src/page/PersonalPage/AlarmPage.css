@@ -37,9 +37,13 @@
 .my-span {
   position: relative;
 }
-
 .my-img {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.dot-container {
+  display: flex; /* 부모 요소를 플렉스 박스로 지정 */
+  align-items: start; /* 세로 방향 정렬을 시작으로 설정 */
 }

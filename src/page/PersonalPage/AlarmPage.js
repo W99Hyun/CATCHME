@@ -23,8 +23,13 @@ const styles = {
     fontWeight: "500",
     color: "#433C3C",
   },
+  notificationImgContainer: {
+    position: "relative",
+  },
   notificationImg: {
-    marginTop: "",
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
   notificationTextDelete: {
     display: "flex",
@@ -53,11 +58,16 @@ const styles = {
     gridTemplateColumns: "0.1fr 6fr 1fr",
     gap: "10px",
     justifyContent: "space-between",
-    alignItems: "center",
+
     minHeight: "8.2vh",
     maxHeight: "20vh",
     boxShadow:
       "3px 15px 15px rgba(0, 0, 0, 0.03), -3px -0px 10px rgba(0, 0, 0, 0.03)", // 그림자 효과 추가
+  },
+  alignItem: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   notificationEmpty: {
     textAlign: "center",
@@ -139,19 +149,20 @@ function AlarmItem({ notification, onDelete }) {
     >
       {/* Notification content */}
 
-      <div className="my-span">
+      <div className="dot-container">
         {notification.read ? null : (
-          <span className="my-span">
-            <img
-              src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
-              className="my-img"
-              alt="check"
-            />
-          </span>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
+            alt="check"
+          />
         )}
       </div>
-      <p style={styles.alarmContent}>{notification.message}</p>
-      <span style={styles.time}>{notification.time}</span>
+      <p style={{ ...styles.alarmContent, ...styles.alignItem }}>
+        {notification.message}
+      </p>
+      <span style={{ ...styles.time, ...styles.alignItem }}>
+        {notification.time}
+      </span>
     </div>
   );
 }
