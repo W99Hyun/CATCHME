@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 
@@ -7,14 +7,14 @@ const customModalStyles = {
     backgroundColor: "rgba(0, 0, 0, 0)",
   },
   content: {
-    top: "55%",
+    top: "65%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "50%",
-    height: "3%",
+    height: "3.5%",
     borderRadius: "10%",
     padding: "5px",
-    boxShadow: "4px 4px 11px 0px rgba(0, 0, 0, 0.22)",
+    boxShadow: "4px 4px 20px 0px rgba(0, 0, 0, 0.22)",
   },
 };
 
@@ -54,7 +54,7 @@ const SpeechBubble = styled.img`
   cursor: pointer;
 `;
 
-const UserBox = ({ users, roomId }) => {
+const UserBox = ({ users, dataSocket }) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const getImagePath = (animal, gender) => {
@@ -70,7 +70,7 @@ const UserBox = ({ users, roomId }) => {
   };
 
   const handleUserClick = (user) => {
-    if (user.age === 26) {
+    if (user.user === 1001) {
       //setSelectedUser(user); 나중엔 이걸로
       setSelectedUser({
         ...user,
@@ -83,61 +83,8 @@ const UserBox = ({ users, roomId }) => {
     setSelectedUser(null);
   };
 
-  const [csrfToken, setCsrfToken] = useState(null);
-
-  useEffect(() => {
-    // 페이지 로드 시 CSRF 토큰을 가져오는 비동기 함수 호출
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await fetch(
-          `http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`,
-          {
-            method: "GET",
-            mode: "cors",
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setCsrfToken(data.csrfToken);
-        } else {
-          console.error("CSRF 토큰 가져오기 실패");
-        }
-      } catch (error) {
-        console.error("CSRF 토큰 가져오기 오류:", error);
-      }
-    };
-
-    fetchCsrfToken();
-  }, []);
-
   const handleSpeechBubbleClick = async (text) => {
-    try {
-      const response = 
-      await fetch(`http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
-        method: "POST",
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json",
-          'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify({
-          kid: 1001,
-          rno: 1,
-          chat: text,
-        }),
-      });
-
-      if (response.ok) {
-        console.log("말풍선 선택 정보 전송 성공");
-      } else {
-        console.error("말풍선 선택 정보 전송 실패");
-      }
-    } catch (error) {
-      console.error("API 호출 오류:", error);
-    } finally {
-      closeModal();
-    }
+      dataSocket.current.send(JSON.stringify({ type: 'selected_bubble', chat: text }));
   };
 
   return (
@@ -145,7 +92,7 @@ const UserBox = ({ users, roomId }) => {
       {users.map((user, index) => (
         <UserItem
           key={index}
-          isMe={user.kid === "1001"}
+          isMe={user.user === 1001}
           onClick={() => handleUserClick(user)}
         >
           <img

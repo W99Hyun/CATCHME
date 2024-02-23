@@ -64,12 +64,12 @@ const MeetingRoomMain = () => {
       setIsLoading(true);
       try {
         const [top5Response, allRoomsResponse] = await Promise.all([
-          axios.get('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/'),
-          axios.get('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/')
+          axios.get('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/'),
+          axios.get('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/')
         ]);
   
         // selectedPeople과 meetingNum이 일치하는 방만 필터링
-        const filteredRooms = allRoomsResponse.data.filter(room => room.meetingnum === selectedPeople);
+        const filteredRooms = allRoomsResponse.data.filter(room => room.each_match === selectedPeople);
   
         // 방에 랜덤 색상 입히기
         const top5RoomsWithColors = top5Response.data.map(room => ({

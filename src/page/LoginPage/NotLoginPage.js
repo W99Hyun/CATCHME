@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./NotLoginPage.css";
 import styled from "styled-components";
-import { useUser } from "../../component/UserContext";
+
+const kakaoParams = new URLSearchParams({
+  client_id: "273e3f916e59df62a965cb94d235f29e",
+  redirect_uri: "http://localhost:3000/login",
+  response_type: "code",
+});
+const kParams = new URLSearchParams(kakaoParams).toString();
 
 const BackgroundImage = styled.div`
   background-image: url(${process.env.PUBLIC_URL}/image/background2.png);
@@ -21,51 +27,18 @@ const BackgroundImage = styled.div`
   }
 `;
 
+const KakaoLoginButton = styled.button.attrs(props => ({
+  as: "a",
+  href: `https://kauth.kakao.com/oauth/authorize?${kParams}`
+}))`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none; /* a 태그의 기본 밑줄 스타일 제거 */
+`;
+
 function NotLogin({ onLogin }) {
-  const navigate = useNavigate();
-  const [kakaoLoginLink, setKakaoLoginLink] = useState("");
-  const { setKidValue } = useUser();
-
-  const fetchKakaoLoginLink = async () => {
-    try {
-      // 백엔드에서 카카오톡 로그인 링크를 가져오는 API 호출
-      const response = await fetch("http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLoginLogic/");
-      if (!response.ok) {
-        throw new Error("Failed to fetch Kakao login link");
-      }
-      const data = await response.json();
-      // 가져온 링크를 상태에 저장
-      setKakaoLoginLink(data._url);
-    } catch (error) {
-      console.error("Error fetching Kakao login link:", error);
-      // 에러에 대한 처리 추가
-    }
-  };
-
-  const loginClick = function () {
-    try {
-      // 카카오톡 로그인 링크를 가져온 후 저장
-      fetchKakaoLoginLink();
-    } catch (error) {
-      console.error("Error during login:", error);
-      // 에러에 대한 처리 추가
-    }
-    directLogin();
-  };
-
-  // 사용자가 저장된 링크로 직접 이동
-  const directLogin = async () => {
-    if (kakaoLoginLink) {
-      window.location.href = kakaoLoginLink;
-    }
-  };
-
-  useEffect(() => {
-    // URL 쿼리 파라미터에서 코드값 추출
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    console.log(code);
-  }, []); // 빈 배열을 넣어 마운트 시에만 실행되도록 설정
 
   return (
     <div>
@@ -83,15 +56,12 @@ function NotLogin({ onLogin }) {
         <div></div>
         <div>
           <div className="notlogin-kakao-image">
+          <KakaoLoginButton>
             <img
               src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
-              onClick={loginClick}
+              alt="Kakao Login Button"
             />
-          </div>
-          <div className="notlogin-problem-text">
-            <Link to="/login/help" className="notlogin-problem-text">
-              문제가 발생했나요?
-            </Link>
+          </KakaoLoginButton>
           </div>
         </div>
       </div>

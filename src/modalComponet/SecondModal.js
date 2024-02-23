@@ -4,16 +4,27 @@ import styled, { css, keyframes } from "styled-components";
 
 const customStyles = {
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(255, 255, 255, 0.85)",
     },
     content: {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "85%", 
-      height: "70%",
+      height: "60%",
       display: "grid",
+      borderRadius: "18px",
+      border: "none",
       gridTemplateRows: "1fr 1fr 1fr 3fr 1.5fr ",
+      boxShadow: "0px 0px 20px 10px rgba(0, 0, 0, 0.05)",
+    },
+    dayText: {
+      gridColumn: "1", // DAY 1을 그리드의 첫 번째 열에 배치
+      textAlign: "center", // 가운데 정렬
+      fontSize: "24px", // 원하는 폰트 크기로 조절
+      fontWeight: "bold", // 원하는 글꼴 굵기로 조절
+      margin: "auto", // 세로 가운데 정렬
+      color: "#DA8BAC",
     },
   };
 
@@ -36,11 +47,12 @@ const customStyles = {
     background: #515151;
     border: 2px solid #515151;
     border-radius: 30px;
-    width: 30%;
-    height: 40%;
+    width: 33%;
+    height: 43%;
     display: flex;
     justify-content: center;
-    margin: auto;
+    align-items: center;
+    margin: 10px auto;
 `;
 
 const Text1 = styled.div`
@@ -54,33 +66,37 @@ const Text1 = styled.div`
 `;
 
 const Text2 = styled.div`
-    color: #474747;
-    text-align: center;
-    font-size: 17px;
+    color: #848484;
+    text-align: left;
+    font-size: 13px;
     font-weight: 600;
-    width: 90%;
+    width: 85%;
     height: 80%;
-    margin: auto;
+    margin: 0 ; 
+    margin-top: 10px;
+    span {
+      font-size: 15px;
+      color: #E7C92F;
+    }
 `;
 
 const GridItem = styled.div`
   display: grid;
   margin: auto;
-  margin-bottom: 5px;
+  margin-bottom: 31px;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 0.3fr 1.5fr;
   grid-template-areas:
-  "subgrid1 subgrid2 subgrid3 subgrid3"
-  "subgrid4 subgrid4 subgrid4 subgrid5";
-  width: 95%;
-  height: 70%;
+  "subgrid4 subgrid4 subgrid4 subgrid5"
+  "subgrid1 subgrid2 subgrid3 subgrid3";
+  width: 100%;
+  height: 60%;
   background: #FFF;
   box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.10);
   text-align: center;
   border-radius: 18px;
-  border: 2px solid #494949;    
+  border: 3px solid #494949;    
   ${(props) =>
-    props.isSelected &&
     css`
       animation: ${blinkAnimation} 1s infinite;
     `}   
@@ -89,6 +105,8 @@ const GridItem = styled.div`
 const SubGridItem1 = styled.div`
     grid-area: subgrid1;
     margin: auto;
+    margin-top: 5px;
+    margin-right: 1px;
  `;
 
 const SubGridItem2 = styled.div`
@@ -97,6 +115,7 @@ const SubGridItem2 = styled.div`
     font-size: 13px;
     font-weight: 700;
     margin: auto;
+    margin-top: 10px;
 `;
 
 const SubGridItem3 = styled.div`
@@ -109,10 +128,11 @@ const SubGridItem4 = styled.div`
   span {
       color: #CE6591;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: bold;
   }
-  font-size: 14px;
-  margin: auto;
+  font-size: 15px;
+  margin: 10px 10px;
+  font-weight: bold;
 `;
 
 const SubGridItem5 = styled.div`
@@ -121,6 +141,7 @@ const SubGridItem5 = styled.div`
 `;
 
 const StyledButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 70%;
   font-size: 12px;
@@ -132,20 +153,24 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
-  width: 30%;
+font-family: 'Noto Sans KR', sans-serif;
+  width: 40%;
   height: 30px;
   margin: auto;
   font-size: 13px;
-  border-radius: 9px; 
-  color: black;
+  font-weight: bold;
+  border-radius: 13px; 
+  background: #515151;
+  color: white;
   border: none;
   cursor: pointer;
 `;
 
-const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
+const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [timer, setTimer] = useState(1800);
+  const [recommendationData, setRecommendationData] = useState(null);
 
   const getImagePath = (animal, gender) => {
     if (animal) {
@@ -176,9 +201,7 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
   };
 
   const handleChooseClick = async () => {
-    if (selectedUser) {
-      await sendSelectedUserToServer(selectedUser);
-    }
+      await sendSelectedUserToServer(recommendationData.kid);
     onClose();
   };
 
@@ -187,17 +210,52 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
     onClose();
   };
 
-  const sendSelectedUserToServer = async (selectedUser) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (recommendation) {
+          const Response = await fetch(
+            `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${recommendation}`, // 배열의 첫 번째 요소 사용
+            {
+              method: "GET",
+              mode: "cors",
+            }
+          );
+
+          if (!Response.ok) {
+            throw new Error("Failed to fetch crush information");
+          }
+
+          const data = await Response.json();
+
+          if (data && data.extra_info && data.extra_info.length > 0) {
+            setRecommendationData(data);
+          } else {
+            console.error("Invalid data structure:", data);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching crush information:", error);
+        // 에러 처리 로직 추가
+      }
+    };
+
+    fetchData();
+  }, [recommendation]); // recommendations가 변경될 때마다 다시 호출
+
+  const sendSelectedUserToServer = async (kid) => {
     try {
+      const fieldName = gender === 'male' ? 'm_match_kid' : 'w_crush_kid';
+
       const response = 
-      await fetch("http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/", {
-        method: "POST",
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}/`, {
+        method: "PUT",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          selectedUser,
+          [fieldName]: 2002
         }),
       });
 
@@ -211,60 +269,54 @@ const SecondModal = ({ isOpen, onClose, recommendations, gender }) => {
     }
   };
 
-  const user = recommendations[0];
 
   return (
     <Modal 
         isOpen={isOpen} 
         onRequestClose={onClose} 
-        recommendations={recommendations}
+        recommendation={recommendationData}
         style={customStyles}
     >
         <TimeText>{`00:${timer < 10 ? `0${timer}` : timer}`}</TimeText>
-        <div></div>
+        <div style={customStyles.dayText}>DAY 2</div>
         <div>
             <Text1>
                 마음에 드는 이성을 선택하세요.
             </Text1>
             <Text2>
-                "루아"가 추천하는 이상형은 <br /> {user.nickname} 님이에요.
-                만나보시겠어요?
+                <span> ! 캐치미 추천 ! </span>
+                <br />
+                "루아"가 추천하는 이상형은 {recommendationData?.extra_info?.[0]?.nickname}님이에요.
             </Text2>
         </div>
-        {user && (
-        <GridItem isSelected={selectedUser === user}>
+        {(
+        <GridItem>
           <SubGridItem1>
             <img 
-              src={getImagePath(user.animal, gender)} 
-              alt={`${user.animal} 이미지`}
-              style={{ width: "60px", height: "60px" }}
+              src={getImagePath(recommendationData?.extra_info[0]?.animal, gender)} 
+              alt={`이미지`}
+              style={{ width: "70px", height: "60px" }}
             />
           </SubGridItem1>
           <SubGridItem2>
-            {user.school} {user.major} {user.age}
+            {recommendationData?.extra_info[0]?.school} {recommendationData?.extra_info[0]?.major} {recommendationData?.extra_info[0]?.age}
           </SubGridItem2>
           <SubGridItem3>
-            {user.height} {user.body} {user.mbti}
+            {recommendationData?.extra_info[0]?.height} {recommendationData?.extra_info[0]?.body} {recommendationData?.extra_info[0]?.mbti}
           </SubGridItem3>
           <SubGridItem4>
             회원님의 <span>이상형</span>과 <span>78%</span> 부합해요!
           </SubGridItem4>
           <SubGridItem5>
-            <StyledButton
-              selected={selectedUser === user}
-              onClick={() => handleButtonClick(user)}
-            >
-              {selectedUser === user ? "취소하기 ↗" : "선택하기 ↗"}
-            </StyledButton>
           </SubGridItem5>
         </GridItem>
-      )}
+        )}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <StyledButton2 onClick={handleChooseClick}>
-            선택 완료
-        </StyledButton2>
         <StyledButton2 onClick={handleCancelClick}>
-            선택 안 함
+            다음에 만날래
+        </StyledButton2>
+        <StyledButton2 onClick={handleChooseClick}>
+            만나볼래!
         </StyledButton2>
       </div>
   </Modal>

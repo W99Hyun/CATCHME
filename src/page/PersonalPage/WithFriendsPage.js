@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./WithFriendsPage.css";
 
-const friends = [
+let friends = [
   {
     id: 1,
     nickname: "w98_hyun_",
@@ -32,6 +32,13 @@ const friends = [
     age: "24",
     locate: "강남구 ",
   },
+  {
+    id: 5,
+    nickname: "JIPDANJISUNG",
+    gender: "여",
+    age: "24",
+    locate: "강남구 ",
+  },
 ];
 
 const styles = {
@@ -43,10 +50,7 @@ const styles = {
     borderBottom: "1px solid #f0f0f0",
   },
   withfriendsHeader: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    gap: "20px",
-    padding: "10px 20px 10px 15px",
+    padding: "0px 0px 0px 29px",
   },
   withfriendsText: {
     fontSize: "25px",
@@ -55,34 +59,22 @@ const styles = {
     color: "rgb(60, 57, 57)",
     textAlign: "center",
   },
-  friendsList: {
-    padding: "10px",
-    backgroundColor: "rgb(255, 255, 255)",
-    borderRadius: "30px",
-    border: "0px solid rgb(213, 213, 213)",
-    overflowY: "auto",
-  },
-  friendsItem: {
-    background: "#ffffff",
-    borderRadius: "16px",
-    padding: "12px",
-    marginBottom: "8px",
-    display: "grid",
-    gridTemplateColumns: "2fr 5fr 1fr",
-    gap: "15px",
-    justifyContent: "space-between",
-    alignItems: "center",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-  },
+
   friendInfo: {},
   friendNickname: {
-    marginLeft: "0px",
-    fontWeight: "bold",
+    marginLeft: "5px",
+    fontWeight: "900",
+    fontSize: "20px",
+  },
+  friendLevel: {
+    marginLeft: "5px",
+    color: "#313131",
+    fontSize: "16px",
   },
   friendDetails: {
-    marginLeft: "0px",
-    fontSize: "0.8em",
-    color: "#777",
+    marginLeft: "5px",
+    color: "#313131",
+    fontSize: "12px",
   },
   gogo: {
     fontSize: "30px",
@@ -97,7 +89,7 @@ const styles = {
     textAlign: "center",
     borderRadius: "10px",
     border: "0.2px solid rgb(213, 213, 213)",
-    marginTop: "10%", // Adjusted for direct use
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.12)",
   },
   kakaoButton1: {
     display: "block",
@@ -118,14 +110,6 @@ const styles = {
     fontSize: "16px",
     color: "#cccbcb",
   },
-  withfriendsContainer: {
-    display: "grid",
-    gridTemplateRows: "7fr 1fr",
-    gap: "20px",
-    padding: "20px",
-    minHeight: "75vh",
-    maxHeight: "75vh",
-  },
 };
 const modalStyles = {
   overlay: {
@@ -135,6 +119,10 @@ const modalStyles = {
 
 function WithFriends() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [choice, setChoice] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]); // 선택된 히스토리 아이템들의 ID를 추적
+  const [allDeleteModal, setAllDeleteModal] = useState(false);
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -174,8 +162,68 @@ function WithFriends() {
   const simpleFriendPlus = function () {
     setModalIsOpen(true);
   };
+
+  const toggleSelectedItem = function (id) {
+    if (selectedItems.includes(id)) {
+      // 이미 선택된 아이템인 경우 선택 해제
+      setSelectedItems(selectedItems.filter((item) => item !== id));
+    } else {
+      // 선택되지 않은 아이템인 경우 선택
+      setSelectedItems([...selectedItems, id]);
+    }
+  };
+
+  const deleteSelectedItems = () => {
+    const remainingFriends = friends.filter(
+      (friend) => !selectedItems.includes(friend.id)
+    );
+    // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
+    friends = remainingFriends;
+    setSelectedItems([]); // 선택된 아이템 초기화
+    setChoice(false);
+  };
+  const deleteAllItems = () => {
+    setSelectedItems([]);
+    const remainingFriends = friends.filter((friend) =>
+      selectedItems.includes(friend.id)
+    );
+    // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
+    friends = remainingFriends;
+    setSelectedItems([]); // 선택된 아이템 초기화
+  };
+  // 버튼의 클래스 설정을 isActive 상태에 따라 변경
+  //const buttonClass = isActive ? "choice-button-active" : "choice-button";
+
   return (
     <div>
+      <Modal
+        isOpen={allDeleteModal}
+        onRequestClose={() => setAllDeleteModal(false)}
+        className="history-modal-detail"
+      >
+        <div className="history-modal-container">
+          <div>
+            <p className="history-modal-text">모든 친구를 삭제할까요?</p>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                deleteAllItems();
+                setAllDeleteModal(false);
+              }}
+              className="history-modal-buttons"
+            >
+              삭제
+            </button>
+            <button
+              onClick={() => setAllDeleteModal(false)}
+              className="history-modal-buttons"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
@@ -271,37 +319,70 @@ function WithFriends() {
           <span style={styles.withfriendsText}>친구목록</span>
         </div>
         <div style={{ flexGrow: 1 }}></div>
-        <div>
-          <button style={styles.simplePlusButton} onClick={simpleFriendPlus}>
-            간편친구추가
-          </button>
-        </div>
+        <div></div>
       </div>
-
-      <div style={styles.withfriendsContainer}>
-        <div style={styles.friendsList}>
+      <div className="button-select-delete-locate">
+        <button className="select-button" onClick={() => setChoice(true)}>
+          선택
+        </button>
+        {choice ? (
+          <button
+            className="delete-all-button"
+            onClick={() => setChoice(false)} //setSelectItems([])필요
+          >
+            취소
+          </button>
+        ) : (
+          <button
+            className="delete-all-button"
+            onClick={() => setAllDeleteModal(true)}
+          >
+            전체 삭제
+          </button>
+        )}
+      </div>
+      <div className="withfriendsContainer ">
+        <div className="friendsList">
           {friends.length > 0 ? (
             friends.map((friend, index) => (
-              <div key={index} style={styles.friendsItem} onClinck={null}>
-                <div>
+              <div key={index} className="friends-item">
+                <div className="btn-location">
+                  {choice ? (
+                    <div className="btn-location">
+                      <button
+                        className={
+                          selectedItems.includes(friend.id)
+                            ? "choice-button-active"
+                            : "choice-button"
+                        }
+                        onClick={() => toggleSelectedItem(friend.id)}
+                      ></button>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="mypage-myinfo-img-container">
                   <img
                     src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
                     alt=""
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
+                    className="withfriends-myinfo-img"
                   />
                 </div>
-                <div style={styles.friendInfo}>
-                  <p style={styles.friendNickname}>{friend.nickname}님</p>
-                  <p style={styles.friendDetails}>
-                    {friend.age}/{friend.gender}/{friend.locate}
-                  </p>
+                <div style={styles.friendInfo} className="align-item">
+                  <span>
+                    <span style={styles.friendNickname}>
+                      {friend.nickname}님<br />
+                    </span>
+                    <span style={styles.friendLevel}>Lv. 2 </span>&nbsp;
+                    <span style={styles.friendDetails}>
+                      {friend.gender}/{friend.age}/{friend.locate}
+                    </span>
+                  </span>
                 </div>
-                <div>
-                  <span style={styles.gogo}>{">"}</span>
+                <div className="withfriends-myinfo-modify-button">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/personalpage/personalarrow.png`}
+                    alt="arrow-btn"
+                  />
                 </div>
               </div>
             ))
@@ -313,7 +394,28 @@ function WithFriends() {
           )}
         </div>
         <div>
-          <button style={styles.kakaoButton1}>카카오톡으로 초대하기</button>
+          {choice ? (
+            <div className="delete-button">
+              <button className="delete-button" onClick={deleteSelectedItems}>
+                삭제하기
+              </button>
+            </div>
+          ) : (
+            <div className="sfp-button-loc">
+              <button
+                style={styles.simplePlusButton}
+                onClick={simpleFriendPlus}
+                className="fontfamily"
+              >
+                간편친구추가
+              </button>
+            </div>
+          )}
+        </div>
+        <div>
+          <button style={styles.kakaoButton1} className="fontfamily">
+            <div>카카오톡으로 초대하기</div>
+          </button>
         </div>
       </div>
     </div>

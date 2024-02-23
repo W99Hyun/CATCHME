@@ -8,6 +8,8 @@ const ModalContainer = styled.div`
   display: grid;
   grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 2px;
+
+  z-index: 999;
   animation: 0.5s ease-out 0s 1 slideInFromLeft forwards;
   background: white;
   width: 50%; /* You can adjust the width as needed */
@@ -54,12 +56,17 @@ const YesLoginModal = ({ isOpen, onClose }) => {
       marginRight: "-50%",
       transform: "translate(-50%, 0)",
       width: "50%",
-      height: "95%",
+      height: "100%",
       background: "rgb(255, 255, 255, 0.9)",
     },
     overlay: {
       backgroundColor: "transparent",
+      zIndex: "1000",
     },
+  };
+
+  const closeModalAndNavigate = () => {
+    onClose(); // Close the modal
   };
 
   return (
@@ -71,34 +78,54 @@ const YesLoginModal = ({ isOpen, onClose }) => {
       className="modal-slide-in container-modal"
     >
       <div className="x-icon">
-        <img
+        {/* <img
           src={`${process.env.PUBLIC_URL}/image/navigationbar/xIcon.png`}
           className="x-icon"
           onClick={onClose}
-        />
+        /> */}
       </div>
       <div className="modal-text">
-        <Link to="/login/mypage" className="modal-text">
+        <Link
+          to="/login/mypage"
+          className="modal-text"
+          onClick={closeModalAndNavigate}
+        >
           my page.
         </Link>
       </div>
       <div className="modal-text">
-        <Link to="/login/withfriends" className="modal-text">
-          whth friends.
+        <Link
+          to="/login/withfriends"
+          className="modal-text"
+          onClick={closeModalAndNavigate}
+        >
+          with friends.
         </Link>
       </div>
       <div className="modal-text">
-        <Link to="/login/matchhistory" className="modal-text">
+        <Link
+          to="/login/matchhistory"
+          className="modal-text"
+          onClick={closeModalAndNavigate}
+        >
           match history.
         </Link>
       </div>
       <div className="modal-text">
-        <Link to="/login/help" className="modal-text">
+        <Link
+          to="/login/help"
+          className="modal-text"
+          onClick={closeModalAndNavigate}
+        >
           help.
         </Link>
       </div>
       <div className="modal-text">
-        <Link to="https://www.instagram.com/" className="modal-text">
+        <Link
+          to="https://www.instagram.com/"
+          className="modal-text"
+          onClick={closeModalAndNavigate}
+        >
           about us.
         </Link>
       </div>
@@ -106,7 +133,7 @@ const YesLoginModal = ({ isOpen, onClose }) => {
       <div></div>
       <div></div>
       <div></div>
-      <div className="modal-text-team">JIPDANJISUNG</div>
+      <div className="modal-text-team"></div>
     </Modal>
   );
 };

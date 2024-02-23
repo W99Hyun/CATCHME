@@ -113,6 +113,7 @@ const SubGridItem5 = styled.div`
 `;
 
 const StyledButton = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 70%;
   font-size: 15px;
@@ -124,6 +125,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledButton2 = styled.button`
+font-family: 'Noto Sans KR', sans-serif;
   width: 20%;
   height: 30px;
   margin: auto;
@@ -180,14 +182,14 @@ const MaleChooseModal = ({ isOpen, onClose, maleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch('http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/', {
-        method: "POST",
+      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${2001}/`, {
+        method: "PUT",
         mode: 'cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          selectedUser,
+          m_match_kid: selectedUser.user
         }),
       });
 
