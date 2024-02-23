@@ -17,7 +17,9 @@ const KakaoLoginComponent = ({ code }) => {
           data: { code: code }
         });
 
-        const token = response.tokens;
+        const token = response.data.tokens;
+        console.log(token)
+
 
         localStorage.setItem("kid", token.kid);
         localStorage.setItem("token", token);
