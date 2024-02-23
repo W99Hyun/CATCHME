@@ -18,13 +18,12 @@ const KakaoLoginComponent = ({ code }) => {
         });
 
         const token = response.data.tokens;
-        console.log(token)
-        console.log(token.kid)
-
-        localStorage.setItem("kid", token.kid);
+        
         localStorage.setItem("token", token);
-        console.log(JSON.stringify(token))
-
+        const storedTokenString = localStorage.getItem("token");
+        const storedTokenObject = JSON.parse(storedTokenString);
+        console.log(storedTokenObject.kid);
+       
         navigate("/login");
       } catch (error) {
         console.log("소셜로그인 에러", error);
