@@ -1,5 +1,5 @@
 {
-  "proxy": "http://ec2-54-180-83-160.ap-northeast-2.compute.amazonaws.com:8080",
+  "proxy": "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080",
   "name": "catch_me",
   "version": "0.1.0",
   "private": true,

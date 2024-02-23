@@ -12,14 +12,14 @@ const KakaoLoginComponent = ({ code }) => {
       try {
         const response = await axios({
           method: "POST",
-          url: `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLogin`,
+          url: `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLogin/
+          `,
           data: { code: code }
         });
 
-        const kid = response.data.user.kid;
-        const token = response.data.tokens;
+        const token = response.tokens;
 
-        localStorage.setItem("kid", kid);
+        localStorage.setItem("kid", token.kid);
         localStorage.setItem("token", token);
 
         navigate("/login");
