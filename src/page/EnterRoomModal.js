@@ -76,7 +76,7 @@ const EnterRoomModal = ({ isOpen, onClose }) => {
       const fetchData = async () => {
         try {
           const roomResponse = 
-          await fetch('http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/', { //뒤에 ${selectedPeople} 붙이기 
+          await fetch('https://api.catchmenow.co.kr/room/api/room_info/', { //뒤에 ${selectedPeople} 붙이기 
             method: "GET",
             mode: 'cors'
           })

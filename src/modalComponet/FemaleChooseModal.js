@@ -182,7 +182,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}/`, {
+      await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/`, {
         method: "PUT",
         mode: 'cors',
         headers: {

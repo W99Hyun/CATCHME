@@ -52,7 +52,7 @@ const RoomBody = ({roomId}) => {
   const fetchData = async () => {
     try {
       const [roomResponse, userResponse] = await Promise.all([
-        fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
+        fetch(`https://api.catchmenow.co.kr/room/api/room_info/${roomId}/`, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -64,7 +64,7 @@ const RoomBody = ({roomId}) => {
           throw error; 
         }),
         fetch(
-          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
+          `https://api.catchmenow.co.kr/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
             method: "GET",
             mode: "cors",
             headers: {
@@ -193,7 +193,7 @@ useEffect(() => {
         if(/*day2*/ true) {
           try {
             const response = await fetch(
-              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
+              `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
               {
                 method: "GET",
                 mode: "cors",
@@ -214,7 +214,7 @@ useEffect(() => {
             }
 
             const crushResponse = await fetch(
-              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${crushKid}`,
+              `https://api.catchmenow.co.kr/main/api/user_info/${crushKid}`,
               {
                 method: "GET",
                 mode: "cors",
