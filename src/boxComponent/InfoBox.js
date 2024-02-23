@@ -33,7 +33,7 @@ const customModalStyles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "80%", 
-    height: "46%", 
+    height: "47%", 
     borderRadius: "10%",
     opacity: 1,
     boxShadow: "4px 4px 11px 0px rgba(0, 0, 0, 0.22)",
@@ -101,7 +101,7 @@ const InfoBox = ({ roomName, location, time, meetingnum }) => {
           <span> CLOSE {formattedCloseTime} </span> <br />
           {roomName}
         </ModalTitle>
-        <br /><br /><br /><br />
+        <br /><br /><br />
         <ModalText> 
           {location}
           <br />

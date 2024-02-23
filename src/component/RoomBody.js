@@ -107,7 +107,7 @@ useEffect(() => {
     setIsReady(!isReady);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
@@ -166,7 +166,7 @@ useEffect(() => {
         dataSocket.current.close();
       }
     };
-  }, []);
+  }, []); */
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
