@@ -5,7 +5,7 @@ const GenderContext = createContext();
 export const useGender = () => useContext(GenderContext);
 
 export const GenderProvider = ({ children }) => {
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState('');
   return (
     <GenderContext.Provider value={{ gender, setGender }}>
       {children}

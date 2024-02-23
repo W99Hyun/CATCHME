@@ -23,7 +23,7 @@ function Home() {
       <div className="app-background">
         <div className="buttons">
           <button onClick={handleRegisterClick} className="register-button">
-            회원 정보 등록하기
+            나의 이상형 찾기
           </button>
           <button onClick={handleLogoutClick} className="logout-button">
             LOGOUT

@@ -1,81 +1,127 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
 
+
 const BackgroundImage = styled.div `
-background-size: contain;
-background-repeat: no-repeat;
-background-color: #B591D1;
-background-position: center top; 
-width: 100vw;
-height: 100vh;
-position: fixed;
-z-index: -1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #565656;
+    background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -1;
 
 ` 
 
-function Welcome07() {
-  const currentStep = 6;
+  function Welcome07() {
+    const [message, setMessage] = useState('');
+const fullMessage1 = "너는 어떤 것들에 관심이 많아?";
+const fullMessage2 = "취미를 골라줘!"
+const typingSpeed = 75;
+const currentStep = 6;
   const totalSteps = 14;
-  const [message, setMessage] = useState('');
-  const fullMessage1 = "전공이 어느쪽이야?";
-  const typingSpeed = 75;
+
+  const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
+  const typingIntervalRef = useRef(null);
+  const [selected, setSelected] = useState([]);
+
+  const interests = [
+    '운동', '산책', '공부', '쇼핑', '카페', '영화', '등산',
+    '독서', '음악', '미술', '사진', '여행', '게임', '요리'
+  ];
   
-  useEffect(() => {
-      if (message.length < fullMessage1.length) {
-        setTimeout(() => {
-          setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
-        }, typingSpeed);
+  const interestEmojis = {
+    '운동': '💪',
+    '산책': '🚶‍♂️',
+    '공부': '📚',
+    '쇼핑': '🛍️',
+    '카페': '☕',
+    '영화': '🎬',
+    '등산': '⛰️',
+    '독서': '📖',
+    '음악': '🎵',
+    '미술': '🎨',
+    '사진': '📸',
+    '여행': '✈️',
+    '게임': '🎮',
+    '요리': '🍳'
+  };
+
+
+ 
+  const toggleSelect = (interest) => {
+    setSelected(prevSelected => {
+      if (prevSelected.includes(interest)) {
+        return prevSelected.filter(item => item !== interest);
+      } else if (prevSelected.length < 3) {
+        return [...prevSelected, interest];
+      } else {
+        return prevSelected;
       }
-    }, [message, fullMessage1]);
+    });
+  };
+
+  const startTyping = (text) => {
+    let index = 0;
+    setCurrentText('');
+    clearInterval(typingIntervalRef.current);
+    typingIntervalRef.current = setInterval(() => {
+      if (index < text.length) {
+        setCurrentText((prev) => prev + text.charAt(index));
+        index++;
+      } else {
+        clearInterval(typingIntervalRef.current);
+      }
+    }, typingSpeed);
+  };
+
+  useEffect(() => {
+    if (selected.length === 3) {
+      const newMessage = ` 나는 ${selected.join(', ')}에 관심이 많아!`;
+      startTyping(newMessage);
+    }
+  }, [selected]);
+  
+
+useEffect(() => {
+  if (message.length < fullMessage1.length + fullMessage2.length) {
+    setTimeout(() => {
+      setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
+                 fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
+    }, typingSpeed);
+  }
+}, [message, fullMessage1, fullMessage2]);
 
   const navigate = useNavigate();
 
-  const [selectedJob, setSelectedJob] = useState(''); // 사용자가 선택한 직업
-  const [showOptions, setShowOptions] = useState(false); // 옵션 목록을 표시할지 결정하는 상태
-  const [typingText, setTypingText] = useState('...'); // 말풍선에 표시될 타이핑 텍스트
-  const [isTyping, setIsTyping] = useState(false); // 타이핑 상태
-
-  useEffect(() => {
-    if (isTyping) {
-      if (typingText !== selectedJob && selectedJob) {
-        const nextCharIndex = typingText.length;
-        const nextChar = selectedJob[nextCharIndex];
-
-        const timeoutId = setTimeout(() => {
-          setTypingText((text) => text + nextChar);
-        }, 75); // 한 글자씩 타이핑 속도 조절
-
-        return () => clearTimeout(timeoutId);
-      } else {
-        setIsTyping(false); // 타이핑이 완료되면 상태를 업데이트
-      }
-    }
-  }, [typingText, selectedJob, isTyping]);
-
-  const jobs = ['공대', '자연대', '인문대', '미대' , '체대' , '음대', '의대']; // 선택 가능한 옵션들
-
-  const handleJobSelect = (job) => {
-    setSelectedJob(job); // 선택한 직업을 상태에 저장합니다.
-    setTypingText(''); // 타이핑 텍스트를 초기화합니다.
-    setIsTyping(true); // 타이핑 시작 상태로 변경합니다.
-    setShowOptions(false); // 옵션 목록을 숨깁니다.
-  };
+      
+ 
   
+ 
+ 
+
 
   const handlePreviousClick = () => {
     // "이전" 버튼 로직
-    navigate(-1);
+    navigate(-1); // 이전 페이지로 돌아갑니다.
   };
 
   const handleNextClick = () => {
-    // "다음" 버튼 클릭 시에 실행될 로직
-    navigate('/login/information/Welcome08'); // '/welcome05' 경로로 이동
+    if (selected.length === 3) {
+      navigate('/login/information/Welcome08');
+    } else {
+      alert("최소 3개의 취미를 선택해주세요.");
+    }
   };
+
+ 
+ 
 
 
   return (
@@ -85,32 +131,47 @@ function Welcome07() {
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className="header1">
-      </div>
+      <div className="image-with-typing">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+      />
+       <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
+      </div></div></div>
       <div className="typing-container">
-      <div className="typing message">
-        {typingText}
-      </div>
-      </div>
-      <div className="JobSelectionButton">
-      <div className="job-selection" onClick={() => setShowOptions(!showOptions)}>
-        {selectedJob || "학과를 선택해주세요."}
-      </div>
-      {showOptions && (
-        <div className="options">
-          {jobs.map((job) => (
-            <div key={job} onClick={() => handleJobSelect(job)} className="option">
-              {job}
-            </div>
-          ))}
+      <div className="message typing">
+        <span>{currentText}</span>
         </div>
-      )}
+      
       </div>
+      <div className="hobby-container">
+        {interests.slice(0, 7).map((interest, index) => (
+          <button
+            key={index}
+            className={`hobby-btn ${selected.includes(interest) ? 'selected' : ''}`}
+            onClick={() => toggleSelect(interest)}
+          >
+            {interestEmojis[interest]} {interest}
+          </button>
+        ))}
+        <div className="hobby-container2">
+        {interests.slice(7).map((interest, index) => (
+          <button
+            key={index}
+            className={`hobby-btn ${selected.includes(interest) ? 'selected' : ''}`}
+            onClick={() => toggleSelect(interest)}
+          >
+            {interestEmojis[interest]} {interest}
+          </button>
+        ))}
+      </div>
+      </div>
+      <div></div>
       
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
-      </div>
+    
+    </div>
     </div>
     
   );

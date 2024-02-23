@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #B591D1;
+    background-color: #565656;
     background-position: center top; /* 이미지가 수평 및 수직 중앙에 위치 */
     width: 100vw;
     height: 100vh;

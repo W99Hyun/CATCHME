@@ -1,0 +1,88 @@
+.home2 {
+    display: grid; 
+    grid-template-rows: 0.5fr 1.17fr 0.73fr 2fr 0.75fr ;
+    
+    height: 100vh; /* 전체 뷰포트 높이 */
+  }
+
+.character-selector {
+    position: relative;
+  margin-top: 10%;
+  text-align: center;
+}
+
+.character-selector img {
+    margin: 0 10vw; /* 좌우 마진 설정 */
+  }
+
+.character-selector button {
+   position: absolute;
+   margin-top: 20vw;
+   margin-left: -3vw
+}
+
+.unlockslider-container {
+  margin-top: 20%;
+  position: relative;
+  width: 100%; /* 슬라이더 너비 조정 */
+  text-align: center;
+}
+
+.unlockslider {
+  margin-top: 5%;
+  -webkit-appearance: none; /* Chrome, Safari, Edge 대응 */
+  appearance: none; /* 스타일 초기화 */
+  width: 60vw;
+  height: 8vh; /* 높이 설정 */
+  background: transparent; /* 배경색 투명 */
+  border-radius: 10vw; /* 둥근 모서리 */
+  border: 2px solid #fff; /* 흰색 테두리 */
+  outline: none; /* 포커스시 아웃라인 제거 */
+}
+
+.unlockslider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Chrome, Safari, Opera */
+  appearance: none;
+  width: 16vw; /* thumb의 너비 */
+  height: 16vw; /* thumb의 높이 */
+  border-radius: 50%; /* 원형 모양 */
+  background: #fff; /* 흰색 배경 */
+  border: 2px solid #fff; /* 흰색 테두리 */
+  cursor: pointer;
+}
+
+/* Firefox에서의 스타일 */
+.unlockslider::-moz-range-thumb {
+  width: 10vw; /* thumb의 너비 */
+  height: 10vw; /* thumb의 높이 */
+  border: none; /* 테두리 없음 */
+  border-radius: 50%; /* 원형 모양 */
+  background: #fff;
+  cursor: pointer;
+}
+
+/* IE 및 Edge에서의 스타일 */
+.unlockslider::-ms-thumb {
+  width: 10vw; /* thumb의 너비 */
+  height: 10vw; /* thumb의 높이 */
+  border-radius: 50%; /* 원형 모양 */
+  background: #fff;
+  cursor: pointer;
+}
+
+/* 활성화된 슬라이더 색상 변경 */
+.unlockslider.active + .unlockslider-thumb {
+  left: calc(100% - 20px); /* 핸들 이동 */
+}
+
+.unlockslider.active {
+  background: #cfa6df; /* 활성화된 슬라이더 배경색 */
+}
+
+/* 밀어서 동의하기 텍스트 스타일 */
+.unlockslider-text {
+  text-align: center;
+  color: #DBDBDB;
+  margin-top: 5px; /* 슬라이더와의 간격 */
+  font-size: 2.5vw
+}
