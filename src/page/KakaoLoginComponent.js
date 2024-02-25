@@ -18,8 +18,8 @@ const KakaoLoginComponent = ({ code }) => {
 
         const token = response.data.tokens;
 
-        localStorage.setItem("accessToken", token.accessToken);
-        localStorage.setItem("refreshToken", token.refreshToken);
+        localStorage.setItem("accessToken", token.access);
+        localStorage.setItem("refreshToken", token.refresh);
         localStorage.setItem("kid", token.kid);
 
         console.log(localStorage.getItem("accessToken"))
