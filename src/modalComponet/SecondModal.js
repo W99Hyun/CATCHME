@@ -11,7 +11,7 @@ const customStyles = {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "85%", 
-      height: "70%",
+      height: "73%",
       display: "grid",
       borderRadius: "18px",
       border: "none",
