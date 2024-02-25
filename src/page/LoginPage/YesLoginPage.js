@@ -61,6 +61,9 @@ function YesLogin() {
     setShowModal(!showModal);
   };
 
+  const kid = localStorage.getItem("kid");
+  console.log(kid)
+
   return (
     <>
       {code && <KakaoLoginComponent code={code} />}

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 const KakaoLoginComponent = ({ code }) => {
 
   const navigate = useNavigate();
-  console.log(code)
 
   useEffect(() => {
     const KakaoClick = async () => {
@@ -18,20 +17,13 @@ const KakaoLoginComponent = ({ code }) => {
         });
 
         const token = response.data.tokens;
-        
-        localStorage.setItem("kid", JSON.stringify(token.kid));
-        localStorage.setItem("token", token);
 
-        const storedKidString = localStorage.getItem("kid");
-        const storedTokenString = localStorage.getItem("token");
+        localStorage.setItem("accessToken", token.accessToken);
+        localStorage.setItem("refreshToken", token.refreshToken);
+        localStorage.setItem("kid", token.kid);
 
-        const storedKid = JSON.parse(storedKidString);
-        const storedToken = JSON.parse(storedTokenString);
+        console.log(token)
 
-        console.log(storedKid);
-        console.log(storedToken);
-       
-        navigate("/login");
       } catch (error) {
         console.log("소셜로그인 에러", error);
         window.alert("로그인에 실패하였습니다.");

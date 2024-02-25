@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CloudModalContainer = styled.div`
   position: fixed;
-  width: 70%;
+  width: 65%;
   height: 60%;
   top: 50%;
   left: 50%;
@@ -16,7 +16,7 @@ const CloudModalContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-gap: 10px;
-  border: 45px solid transparent;
+  border: 45px solid;
   border-image: url('/image/enterBackground.png') 35 fill;
 `;
 
@@ -63,6 +63,10 @@ const Button = styled.button`
   margin: 0 auto;
   font-size: 34px;
   font-weight: 800;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
 `;
 
 const EnterRoomModal = ({ isOpen, onClose }) => {
