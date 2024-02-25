@@ -103,8 +103,8 @@ const UserBox = ({ users, dataSocket }) => {
             }
             alt={`${user.animal} 이미지`}
             style={{
-              width: /*user.idealScore > 50 */ false ? "78px" : "65px",
-              height: /*user.idealScore > 50 */ false ? "78px" : "65px",
+              width: /*user.idealScore > 50 */ false ? "78px" : "62px",
+              height: /*user.idealScore > 50 */ false ? "78px" : "62px",
             }}
           />
         </UserItem>
