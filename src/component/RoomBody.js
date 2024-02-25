@@ -38,6 +38,7 @@ const RectangleTable = styled.div`
 
 const RoomBody = ({roomId}) => {
 
+  //이렇게 kid 가져와짐
   const kid = localStorage.getItem("kid");
   console.log(kid)
 
