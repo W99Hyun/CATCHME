@@ -38,6 +38,9 @@ const RectangleTable = styled.div`
 
 const RoomBody = ({roomId}) => {
 
+  const kid = localStorage.getItem("kid");
+  console.log(kid)
+
   const [user, setUser] = useState(null);
   const [roomName, setRoomName] = useState("");
   const [location, setLocation] = useState("");
