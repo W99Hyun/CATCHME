@@ -99,11 +99,11 @@ const UserCardInfo = styled.div`
 `;
 
 const colors = [
-  "#FFA4CF",
-  "#FFCCC0",
-  "#B4D0AA",
-  "#E9E5DA",
+  "#C5E7CF",
+  "#FAF4C2",
+  "#D2E0FB",
   "#EFCBDA",
+  "#E0D6FD",
 ];
 
 const NextButton = styled.button`
