@@ -126,33 +126,6 @@ function AlarmItem({ notification, onDelete }) {
       return "오래 전";
     }
   };
-  useEffect(() => {
-    // 데이터를 가져오는 함수를 정의합니다.
-    const fetchData = async () => {
-      try {
-        // fetch를 사용하여 데이터를 가져옵니다.
-        const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1001/notice/"
-        );
-
-        // response에서 JSON 데이터를 추출합니다.
-        const jsonData = await response.json();
-
-        // 가져온 데이터를 상태에 설정합니다.
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    // 컴포넌트가 마운트되었을 때 데이터를 가져옵니다.
-    fetchData();
-    console.log(data.notice);
-    // clean-up 함수를 반환하여 컴포넌트가 언마운트될 때 이전에 설정한 데이터 요청을 취소합니다.
-    return () => {
-      // clean-up 작업을 수행합니다.
-    };
-  }, []); // 두 번째 인자로 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 합니다.
 
   let touchStartX = 0;
   let touchCurrentX = 0;
@@ -192,7 +165,7 @@ function AlarmItem({ notification, onDelete }) {
   }
 
   function swipeFunction() {
-    onDelete(notification.id);
+    onDelete([notification.id]);
   }
 
   return (
@@ -205,7 +178,7 @@ function AlarmItem({ notification, onDelete }) {
       {/* Notification content */}
 
       <div className="dot-container">
-        {notification.read ? null : (
+        {notification.readed ? null : (
           <img
             src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
             alt="check"
@@ -225,6 +198,30 @@ function AlarmItem({ notification, onDelete }) {
 function Alarm() {
   const [allDeleteModal, setAllDeleteModal] = useState(false); //m
   const [notifications, setNotifications] = useState([]);
+  const [render, setRender] = useState(false);
+
+  const [csrfToken, setCsrfToken] = useState("");
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch(
+          "https://api.catchmenow.co.kr/main/csrf/",
+          {
+            method: "GET",
+            credentials: "include", // 필요에 따라 설정하세요. 예: 쿠키를 전송하기 위해 include를 사용합니다.
+          }
+        );
+
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   useEffect(() => {
     // 데이터를 가져오는 함수를 정의합니다.
@@ -252,56 +249,74 @@ function Alarm() {
     return () => {
       // clean-up 작업을 수행합니다.
     };
-  }, []); // 두 번째 인자로 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 합니다.
-
-  // const [notifications, setNotifications] = useState([
-  //   {
-  //     id: 1,
-  //     message: "___eve 님의 이상형과 76% 일치하는 사람이 활동중이에요.",
-  //     time: "지금",
-  //     read: 0,
-  //   },
-  //   { id: 2, message: "3,000 코인 충전이 완료되었습니다.", time: "1분 전" },
-  //   {
-  //     id: 3,
-  //     message: "___eve 님의 이상형과 43% 일치하는 사람이 활동중이에요.",
-  //     time: "20분 전",
-  //     read: 0,
-  //   },
-  //   {
-  //     id: 4,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  //   {
-  //     id: 5,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  //   {
-  //     id: 6,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  // ]);
+  }, [render]); // 두 번째 인자로 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 합니다.
 
   const isZero = notifications.length === 0;
   // 읽지 않은 알림의 개수를 계산합니다.
-  const notRead = 0;
-  // notifications.reduce(
-  //   (count, notification) => count + (notification.read ? 0 : 1),
-  //   0
-  // );
+  const notRead = notifications.reduce(
+    (count, notification) => count + (notification.readed ? 0 : 1),
+    0
+  );
 
   // 알림을 삭제하는 함수
-  const deleteNotification = (id) => {
-    // ID가 일치하지 않는 알림만 남깁니다.
-    setNotifications(
-      notifications.filter((notification) => notification.id !== id)
-    );
+  const deleteNotification = (idsToUpdate) => {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ ids: idsToUpdate }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("수정 요청이 실패했습니다.");
+        }
+        console.log("수정 요청이 성공했습니다.");
+        setRender((prevRender) => !prevRender);
+      })
+      .catch((error) => {
+        console.error("수정 요청이 실패했습니다:", error);
+      });
+  };
+
+  const deleteAllNotice = (notices) => {
+    // readed가 false인 id를 추출합니다.
+    const allIds = notices.map((notice) => notice.id);
+    // 추출한 id들을 서버로 보내어 수정 요청을 합니다.
+
+    deleteNotification(allIds);
+  };
+
+  const handleUpdateNotices = (notices) => {
+    // readed가 false인 id를 추출합니다.
+    const unreadIds = notices
+      .filter((notice) => !notice.readed)
+      .map((notice) => notice.id);
+    // 추출한 id들을 서버로 보내어 수정 요청을 합니다.
+    console.log(unreadIds);
+    updateNotices(unreadIds);
+  };
+
+  const updateNotices = (idsToUpdate) => {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ ids: idsToUpdate }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("수정 요청이 실패했습니다.");
+        }
+        console.log("수정 요청이 성공했습니다.");
+        setRender((prevRender) => !prevRender);
+      })
+      .catch((error) => {
+        console.error("수정 요청이 실패했습니다:", error);
+      });
   };
 
   return (
@@ -342,16 +357,18 @@ function Alarm() {
           <span style={styles.notificationTextNumber}>
             <span>{`읽지 않은 알람 ${notRead}개`}</span>
             <span className="my-span">
-              <img
-                src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
-                className="my-img"
-                alt="check"
-              />
+              {notRead ? (
+                <img
+                  src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
+                  className="my-img"
+                  alt="check"
+                />
+              ) : null}
             </span>
           </span>
           <span
             style={styles.notificationTextDelete}
-            onClick={() => setAllDeleteModal(true)}
+            onClick={() => deleteAllNotice(notifications)} //setAllDeleteModal(true)
           >
             전체 삭제
           </span>
