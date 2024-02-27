@@ -1,20 +1,5 @@
-.home2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2개의 열 */
-    grid-template-rows: 0.5fr repeat(7, 0.5fr) 0.5fr 0.5fr ; /* 7개의 행 추가 */
-    grid-template-areas: 
-      "headtext headtext"
-      "content-1 content-2"
-      "content-3 content-4"
-      "content-5 content-6"
-      "content-7 content-8"
-      "content-9 content-10"
-      "content-11 content-12"
-      "content-13 content-14"
-      "previousnext previousnext"
-      "bottom bottom";
-    height: 100vh;
-  }
+
+
   
   .head {
     grid-area: head;

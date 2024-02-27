@@ -1,70 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Welcome02.css'; // CSS 파일을 임포트하세요
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
+import './Welcome02.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+import SplitMessage from './SplitMessagesingle';
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
-background-size: contain;
-background-repeat: no-repeat;
-background-color: #B591D1;
-background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
-width: 100vw;
-height: 100vh;
-position: fixed;
-z-index: -1;
-` 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #565656;
+    background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -2;
+`
 
-  function Welcome05() {
-    const currentStep = 4;
-  const totalSteps = 14;
-    const [message, setMessage] = useState('');
-const fullMessage1 = "직업이 뭐야?";
-const typingSpeed = 75;
-
-useEffect(() => {
-    if (message.length < fullMessage1.length) {
-      setTimeout(() => {
-        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
-      }, typingSpeed);
-    }
-  }, [message, fullMessage1]);
+function Welcome05() {
+  const [message, setMessage] = useState('');
+  const fullMessage1 = "너는 MBTI가 뭐야?";
+  const typingSpeed = 75;
+  const currentStep = 4;
+    const totalSteps = 14;
+  
+  useEffect(() => {
+      if (message.length < fullMessage1.length) {
+        setTimeout(() => {
+          setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+        }, typingSpeed);
+      }
+    }, [message, fullMessage1]);
 
   const navigate = useNavigate();
 
-  const [selectedJob, setSelectedJob] = useState(''); // 사용자가 선택한 직업
-  const [showOptions, setShowOptions] = useState(false); // 옵션 목록을 표시할지 결정하는 상태
-  const [typingText, setTypingText] = useState('...'); // 말풍선에 표시될 타이핑 텍스트
-  const [isTyping, setIsTyping] = useState(false); // 타이핑 상태
+  
+  const [currentText, setCurrentText] = useState('...');
+  const [typingText, setTypingText] = useState('');
+  const [selectedMBTI, setSelectedMBTI] = useState('');
+  const typingIntervalRef = useRef(); // 타이핑 인터벌을 위한 ref
+
+  const mbtiTypes = [
+    'ENFP', 'ESFP', 'ENTP', 'ESTP',
+    'ENFJ', 'ESFJ', 'ENTJ', 'ESTJ',
+    'INFP', 'ISFP', 'INTP', 'ISTP',
+    'INFJ', 'ISFJ', 'INTJ', 'ISTJ',
+  ];
+
+  const handleMbtiButtonClick = (type) => {
+    if (selectedMBTI !== type) { // 선택된 MBTI가 변경되었을 때만 타이핑을 재시작합니다.
+      setSelectedMBTI(type);
+      setCurrentText(''); // 이전 타이핑된 텍스트를 지웁니다.
+      clearInterval(typingIntervalRef.current); // 이전 타이핑 인터벌을 클리어합니다.
+      setTypingText(` 나는 ${type}야!`); // 새로운 타이핑 텍스트를 설정합니다.
+    }
+  };
 
   useEffect(() => {
-    if (isTyping) {
-      if (typingText !== selectedJob && selectedJob) {
-        const nextCharIndex = typingText.length;
-        const nextChar = selectedJob[nextCharIndex];
-
-        const timeoutId = setTimeout(() => {
-          setTypingText((text) => text + nextChar);
-        }, 75); // 한 글자씩 타이핑 속도 조절
-
-        return () => clearTimeout(timeoutId);
+    clearInterval(typingIntervalRef.current); // 이전 인터벌을 클리어합니다.
+    let index = 0;
+    typingIntervalRef.current = setInterval(() => {
+      if (index < typingText.length) {
+        setCurrentText((prev) => prev + typingText.charAt(index));
+        index++;
       } else {
-        setIsTyping(false); // 타이핑이 완료되면 상태를 업데이트
+        clearInterval(typingIntervalRef.current); // 타이핑이 끝나면 인터벌을 클리어합니다.
       }
-    }
-  }, [typingText, selectedJob, isTyping]);
-
-  const jobs = ['대학생', '대학원생', '휴학생']; // 선택 가능한 옵션들
-
-  const handleJobSelect = (job) => {
-    setSelectedJob(job); // 선택한 직업을 상태에 저장합니다.
-    setTypingText(''); // 타이핑 텍스트를 초기화합니다.
-    setIsTyping(true); // 타이핑 시작 상태로 변경합니다.
-    setShowOptions(false); // 옵션 목록을 숨깁니다.
-  };
+    }, typingSpeed);
   
+    // 컴포넌트가 언마운트되거나 typingText가 변경될 때 타이머를 정리합니다.
+    return () => clearInterval(typingIntervalRef.current);
+  }, [typingText, typingSpeed]);
+
+  
+  
+
+  
+
 
   const handlePreviousClick = () => {
     // "이전" 버튼 로직
@@ -72,10 +84,14 @@ useEffect(() => {
   };
 
   const handleNextClick = () => {
-    // "다음" 버튼 클릭 시에 실행될 로직
-    navigate('/login/information/Welcome06'); // '/welcome05' 경로로 이동
+    if (selectedMBTI) {
+      navigate('/login/information/Welcome06');
+    } else {
+      alert('MBTI 유형을 선택해주세요.');
+    }
   };
 
+ 
 
   return (
     <div className="home">
@@ -84,35 +100,79 @@ useEffect(() => {
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className="header1">
-      </div>
+      <div className="image-with-typing">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+      />
+       <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      <div className="typing-container">
-      <div className="typing message">
-        {typingText}
+    </div></div></div>
+    <div className="typing-container">
+      <div className="message typing">
+        <div className="message-content">{currentText}</div>
       </div>
       </div>
+      
+
       <div className="JobSelectionButton">
-      <div className="job-selection" onClick={() => setShowOptions(!showOptions)}>
-        {selectedJob || "직업을 선택해주세요."}
+      {/* 첫 번째 행: E N F P */}
+      <div className="mbti-selection-container1">
+        {mbtiTypes.slice(0, 4).map(type => ( // 첫 8개의 MBTI 유형
+          <button
+            key={type}
+            className={`mbti-button ${selectedMBTI === type ? 'selected' : ''}`}
+            onClick={() => handleMbtiButtonClick(type)}
+          >
+            {type}
+          </button>
+        ))}
       </div>
-      {showOptions && (
-        <div className="options">
-          {jobs.map((job) => (
-            <div key={job} onClick={() => handleJobSelect(job)} className="option">
-              {job}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="mbti-selection-container2">
+        {mbtiTypes.slice(4, 8).map(type => ( // 첫 8개의 MBTI 유형
+          <button
+            key={type}
+            className={`mbti-button ${selectedMBTI === type ? 'selected' : ''}`}
+            onClick={() => handleMbtiButtonClick(type)}
+          >
+            {type}
+          </button>
+        ))}
       </div>
+    </div>
+    <div className="JobSelectionButton">
+    <div className="mbti-selection-container3">
+        {mbtiTypes.slice(8, 12).map(type => ( // 나머지 8개의 MBTI 유형
+          <button
+            key={type}
+            className={`mbti-button ${selectedMBTI === type ? 'selected' : ''}`}
+            onClick={() => handleMbtiButtonClick(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+      <div className="mbti-selection-container4">
+        {mbtiTypes.slice(12, 16).map(type => ( // 나머지 8개의 MBTI 유형
+          <button
+            key={type}
+            className={`mbti-button ${selectedMBTI === type ? 'selected' : ''}`}
+            onClick={() => handleMbtiButtonClick(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+      
+    </div>
       
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
       </div>
-    </div>
-    
+      <div></div>
+      
+      </div>
+   
   );
 }
 
-export default Welcome05 ;
+export default Welcome05;

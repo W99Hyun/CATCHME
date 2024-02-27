@@ -18,7 +18,7 @@ border: 2.3px solid #3B3B3B;
 border-radius: 15px;
 background: #FAFAFA;
 box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.10);
-margin: 10px;
+margin: 10px 10px;
 `;
 
 const CenterButton = styled.button`
@@ -63,7 +63,7 @@ const ReadyBox = ( { onGenderChange, isMale, onReadyButtonClick, isReady } ) => 
   return (
     <ReadyBoxContainer>
       <LeftButton onClick={handleGenderChange}>
-      <LeftText>{isMaleUser ? "MEN" : "WOMEN"}</LeftText>
+      <LeftText>{isMaleUser ? "WOMEN" : "MEN"}</LeftText>
         </LeftButton>
       <CenterButton isReady={isReady} onClick={handleReadyClick}>
         <ReadyText>{isReady ? "CANCEL !" : "READY !"}</ReadyText>

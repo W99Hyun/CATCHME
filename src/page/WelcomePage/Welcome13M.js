@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `

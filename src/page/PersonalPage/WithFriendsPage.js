@@ -50,10 +50,7 @@ const styles = {
     borderBottom: "1px solid #f0f0f0",
   },
   withfriendsHeader: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    gap: "20px",
-    padding: "10px 20px 10px 15px",
+    padding: "0px 0px 0px 29px",
   },
   withfriendsText: {
     fontSize: "25px",
@@ -62,34 +59,22 @@ const styles = {
     color: "rgb(60, 57, 57)",
     textAlign: "center",
   },
-  friendsList: {
-    padding: "10px",
-    backgroundColor: "rgb(255, 255, 255)",
-    borderRadius: "30px",
-    border: "0px solid rgb(213, 213, 213)",
-    overflowY: "auto",
-  },
-  friendsItem: {
-    background: "#ffffff",
-    borderRadius: "16px",
-    padding: "12px",
-    marginBottom: "8px",
-    display: "grid",
-    gridTemplateColumns: "0.1fr 2fr 4.9fr 1fr",
-    gap: "15px",
-    justifyContent: "space-between",
-    alignItems: "center",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-  },
+
   friendInfo: {},
   friendNickname: {
-    marginLeft: "0px",
-    fontWeight: "bold",
+    marginLeft: "5px",
+    fontWeight: "900",
+    fontSize: "20px",
+  },
+  friendLevel: {
+    marginLeft: "5px",
+    color: "#313131",
+    fontSize: "16px",
   },
   friendDetails: {
-    marginLeft: "0px",
-    fontSize: "0.8em",
-    color: "#777",
+    marginLeft: "5px",
+    color: "#313131",
+    fontSize: "12px",
   },
   gogo: {
     fontSize: "30px",
@@ -104,7 +89,7 @@ const styles = {
     textAlign: "center",
     borderRadius: "10px",
     border: "0.2px solid rgb(213, 213, 213)",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.12)",
   },
   kakaoButton1: {
     display: "block",
@@ -124,14 +109,6 @@ const styles = {
     marginTop: "8%",
     fontSize: "16px",
     color: "#cccbcb",
-  },
-  withfriendsContainer: {
-    display: "grid",
-    gridTemplateRows: "7.1fr 0.5fr 1fr",
-    gap: "10px",
-    padding: "0px 20px 20px 20px",
-    minHeight: "75vh",
-    maxHeight: "75vh",
   },
 };
 const modalStyles = {
@@ -364,42 +341,48 @@ function WithFriends() {
           </button>
         )}
       </div>
-      <div style={styles.withfriendsContainer}>
-        <div style={styles.friendsList}>
+      <div className="withfriendsContainer ">
+        <div className="friendsList">
           {friends.length > 0 ? (
             friends.map((friend, index) => (
-              <div key={index} style={styles.friendsItem} onClinck={null}>
-                <div className="choice-button-locate">
+              <div key={index} className="friends-item">
+                <div className="btn-location">
                   {choice ? (
-                    <button
-                      className={
-                        selectedItems.includes(friend.id)
-                          ? "choice-button-active"
-                          : "choice-button"
-                      }
-                      onClick={() => toggleSelectedItem(friend.id)}
-                    ></button>
+                    <div className="btn-location">
+                      <button
+                        className={
+                          selectedItems.includes(friend.id)
+                            ? "choice-button-active"
+                            : "choice-button"
+                        }
+                        onClick={() => toggleSelectedItem(friend.id)}
+                      ></button>
+                    </div>
                   ) : null}
                 </div>
-                <div>
+                <div className="mypage-myinfo-img-container">
                   <img
                     src={`${process.env.PUBLIC_URL}/image/profile/catMale.png`}
                     alt=""
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                    }}
+                    className="withfriends-myinfo-img"
                   />
                 </div>
-                <div style={styles.friendInfo}>
-                  <p style={styles.friendNickname}>{friend.nickname}님</p>
-                  <p style={styles.friendDetails}>
-                    {friend.age}/{friend.gender}/{friend.locate}
-                  </p>
+                <div style={styles.friendInfo} className="align-item">
+                  <span>
+                    <span style={styles.friendNickname}>
+                      {friend.nickname}님<br />
+                    </span>
+                    <span style={styles.friendLevel}>Lv. 2 </span>&nbsp;
+                    <span style={styles.friendDetails}>
+                      {friend.gender}/{friend.age}/{friend.locate}
+                    </span>
+                  </span>
                 </div>
-                <div>
-                  <span style={styles.gogo}>{">"}</span>
+                <div className="withfriends-myinfo-modify-button">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/personalpage/personalarrow.png`}
+                    alt="arrow-btn"
+                  />
                 </div>
               </div>
             ))
@@ -422,6 +405,7 @@ function WithFriends() {
               <button
                 style={styles.simplePlusButton}
                 onClick={simpleFriendPlus}
+                className="fontfamily"
               >
                 간편친구추가
               </button>
@@ -429,7 +413,9 @@ function WithFriends() {
           )}
         </div>
         <div>
-          <button style={styles.kakaoButton1}>카카오톡으로 초대하기</button>
+          <button style={styles.kakaoButton1} className="fontfamily">
+            <div>카카오톡으로 초대하기</div>
+          </button>
         </div>
       </div>
     </div>

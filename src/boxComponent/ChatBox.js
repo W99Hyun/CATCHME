@@ -38,7 +38,7 @@ const ChatBox = ({ users }) => {
           <img 
           src={getImagePath(user.chat)} 
           alt={`${user.chat} 이미지`} 
-          style={{ width: "70px", height: "70px" }}
+          style={{ width: "52px", height: "52px" }}
           />
         </ChatItem >
       ))}

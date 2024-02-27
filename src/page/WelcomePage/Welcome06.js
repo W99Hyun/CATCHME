@@ -1,119 +1,115 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+import SplitMessage from './SplitMessagesingle';
 import ProgressBar from './ProgressBar';
 
+
 const BackgroundImage = styled.div `
-background-size: contain;
-background-repeat: no-repeat;
-background-color: #B591D1;
-background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
-width: 100vw;
-height: 100vh;
-position: fixed;
-z-index: -1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #565656;
+    background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -1;
 
 ` 
 
-function Welcome06() {
+  function Welcome06() {
+  const [message, setMessage] = useState('');
+  const fullMessage1 = "너는 어떤 모습인지 궁금해!";
+  const typingSpeed = 75;
   const currentStep = 5;
   const totalSteps = 14;
-  const [message, setMessage] = useState('');
-  const fullMessage1 = "학교가 어딘지 알려줘!";
-  const typingSpeed = 75;
   
+
+  const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
+  const [typingText, setTypingText] = useState(''); // 타이핑될 전체 텍스트
+  const [typing, setTyping] = useState(false); // 타이핑 상태
+  
+
+  const typingIntervalRef = useRef(null);
+
+  const heightChange = (event) => {
+    const newValue = event.target.value;
+    if (selectedtype) { // 선택된 체형이 있을 경우에만 타이핑을 시작합니다.
+      setValue(newValue); // 슬라이더의 값을 업데이트합니다.
+      startTypingMessage(newValue, selectedtype); // 타이핑을 시작합니다.
+    }
+  };
+
+
   useEffect(() => {
-      if (message.length < fullMessage1.length) {
-        setTimeout(() => {
-          setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+    if (typing) {
+      if (typingText.length > 0) {
+        typingIntervalRef.current = setInterval(() => {
+          setCurrentText((prev) => prev + typingText.charAt(0));
+          setTypingText((prev) => prev.slice(1));
+          if (typingText.length === 1) {
+            setTyping(false);
+          }
         }, typingSpeed);
       }
-    }, [message, fullMessage1]);
-
-  const navigate = useNavigate();
-
-  const [schoolInput, setSchoolInput] = useState('');
-  const [autoCompleteOptions, setAutoCompleteOptions] = useState([]);
-  const [selectedSchool, setSelectedSchool] = useState(''); // 선택된 학교
-  const [typingText, setTypingText] = useState('...'); // 타이핑 텍스트
-  const [isTyping, setIsTyping] = useState(false); // 타이핑 상태
-  const [showOptions, setShowOptions] = useState(false);
-  
-
-  // 예시 학교 목록
-  useEffect(() => {
-    const schools = [
-      '서울대학교', '연세대학교', '고려대학교', '서강대학교', '성균관대학교', '한양대학교',
-      '이화여자대학교', '중앙대학교', '경희대학교', '서울시립대학교', '서울과학기술대학교',
-      '동국대학교', '숙명여자대학교', '건국대학교', '동덕여자대학교',
-      '명지대학교', '숭실대학교', '상명대학교', '서울여자대학교', '국민대학교',
-      '세종대학교', '상지대학교', '덕성여자대학교', '삼육대학교', '서울기독대학교',
-      '카이스트 서울캠퍼스', '가톨릭대학교', '육군사관학교', '백석예술대학교',
-      '총신대학교', '한성대학교', '한국방송통신대학교', '한국예술종합학교', '한세대학교',
-      '서울신학대학교', '서울장신대학교', '서울한영대학교', '세계사이버대학', '숭의여자대학교',
-      '신한대학교', '아세아연합신학대학교', '예수대학교', '우석대학교', '유한대학교',
-      '이화여자대학교 의과대학', '인덕대학교', '장로회신학대학교', '정화예술대학교', '종로대학교',
-      '중앙승가대학교', '차의과학대학교', '총신대학교 신학대학원', '평택대학교', '한국과학기술원',
-      '한국교통대학교', '한국국제대학교', '한국기술교육대학교', '한국방송통신대학교', '한국성서대학교',
-      '한국영상대학교', '한국외국어대학교', '한국체육대학교', '한국폴리텍대학교',
-      '한국항공대학교', '한남대학교', '한동대학교', '한라대학교', '한림대학교',
-      '한밭대학교', '한서대학교', '한성대학교', '한세대학교', '한신대학교',
-      '한양대학교', '한양여자대학교', '한영신학대학교', '한일장신대학교', '한중대학교',
-      '협성대학교', '홍익대학교', '화신사이버대학교', '횃불트리니티신학대학원대학교', '흥덕대학교', 
-      '경상대학교', '경북대학교', '부산대학교', '울산과학기술원(UNIST)', '부경대학교',
-      '동아대학교', '영남대학교', '인제대학교', '부산외국어대학교', '경남대학교',
-      '경일대학교', '경주대학교', '경성대학교', '경운대학교', '경주대학교',
-      '대구가톨릭대학교', '대구대학교', '대구예술대학교', '대구한의대학교', '동명대학교',
-      '동서대학교', '동신대학교', '동의대학교', '부산가톨릭대학교', '부산교육대학교',
-      '부산장신대학교', '상지영서대학교', '서라벌대학교', '서울장신대학교', '성신여자대학교',
-      '신라대학교', '안동대학교', '영산대학교', '영산선학대학교', '영진전문대학',
-      '우송정보대학', '울산대학교', '위덕대학교', '인하대학교', '창신대학교',
-      '창원대학교', '청강문화산업대학교', '포항공과대학교'
-    ];
-    
-    if (schoolInput) {
-      setAutoCompleteOptions(schools.filter(school => school.toLowerCase().includes(schoolInput.toLowerCase())));
-    } else 
-     { setAutoCompleteOptions([]);
+      return () => clearInterval(typingIntervalRef.current);
     }
-  }, [schoolInput]);
+  }, [typing, typingText]);
 
-  useEffect(() => {
-    if (isTyping && selectedSchool) {
-      if (typingText.length < selectedSchool.length) {
-        const nextChar = selectedSchool[typingText.length];
-        const timeoutId = setTimeout(() => {
-          setTypingText((text) => text + nextChar);
-        }, 75); // 한 글자씩 타이핑 속도 조절
-  
-        return () => clearTimeout(timeoutId);
-      } else {
-        setIsTyping(false); // 타이핑이 완료되면 상태를 업데이트
-      }
-    }
-  }, [typingText, selectedSchool, isTyping]);
-  
-
-  const handleSchoolSelect = (school) => {
-    setSelectedSchool(school); // 선택한 학교를 상태에 저장합니다.
-    setTypingText(''); // 타이핑 텍스트를 초기화합니다.
-    setIsTyping(true); // 타이핑 시작 상태로 변경합니다.
-    setSchoolInput(school); // 입력 필드를 선택한 학교명으로 설정합니다.
-    setShowOptions(false); // 드롭다운 메뉴를 닫습니다.
+  // 타이핑 리셋 함수
+  const resetTyping = () => {
+    clearInterval(typingIntervalRef.current);
+    setCurrentText('');
+    setTypingText('');
+    setTyping(false);
   };
+
+
+  useEffect(() => {
+    if (message.length < fullMessage1.length) {
+      setTimeout(() => {
+        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+      }, typingSpeed);
+    }
+  }, [message, fullMessage1]);
+
+const navigate = useNavigate();
+
   const handlePreviousClick = () => {
     // "이전" 버튼 로직
-    navigate(-1);
+    navigate(-1); // 이전 페이지로 돌아갑니다.
   };
 
   const handleNextClick = () => {
-    // "다음" 버튼 클릭 시에 실행될 로직
-    navigate('/login/information/Welcome07'); // '/welcome05' 경로로 이동
+    if (selectedtype) { // 체형이 선택되었는지 확인
+      navigate('/login/information/Welcome07'); // 선택되었다면 해당 경로로 이동
+    } else {
+      alert('체형을 선택해주세요.'); // 체형이 선택되지 않았다면 알림 표시
+    } 
   };
 
+  
+  const marks = [150, 155, 160, 165, 170, 175, 180, 185, 190]; // 슬라이더의 눈금 값
+  const [value, setValue] = useState(170); // 슬라이더의 현재 값
+  const [selectedtype, setSelectedtype] = useState(''); // 선택된 버튼의 상태
+  const handleButtonClick = (type) => {
+    setSelectedtype(type); // 선택된 체형의 상태를 업데이트합니다.
+    if (value) { // 슬라이더의 값이 설정되어 있을 경우에만 타이핑을 시작합니다.
+      startTypingMessage(value, type); // 타이핑을 시작합니다.
+    }
+  };
+
+  const startTypingMessage = (height, type) => {
+    resetTyping();
+    const newMessage = `나는 ${height}cm고 ${type} 체형을 가지고 있어!`;
+    setTypingText(newMessage);
+    setTyping(true);
+  };
+
+
+  
 
   return (
     <div className="home">
@@ -122,45 +118,76 @@ function Welcome06() {
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className="header1">
-      </div>
-      <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      <div className="typing-container">
-      <div className="typing message">
-        {typingText}
-      </div>
-      </div>
-      <div className="JobSelectionButton">
-      <input
-        className="job-selection"
-        value={schoolInput}
-        onChange={(e) => {
-          setSchoolInput(e.target.value);
-          if (e.target.value) {
-            setShowOptions(true); // 사용자가 입력할 때 드롭다운 메뉴를 보여줍니다.
-          } else {
-            setShowOptions(false); // 입력이 없으면 드롭다운 메뉴를 숨깁니다.
-          }
-        }}
-        placeholder="학교를 입력해주세요."
+      <div className="image-with-typing">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-      {showOptions && autoCompleteOptions.length > 0 && (
-        <div className="options">
-          {autoCompleteOptions.map((school) => (
-            <div key={school} onClick={() => handleSchoolSelect(school)} className="options">
-              {school}
-            </div>
-          ))}
+       <div className='received'>
+      <SplitMessage message={message} splitIndex={fullMessage1.length} />
+      </div></div></div>
+      <div className="typing-container">
+      <div className="message typing">
+        <span>{currentText}</span>
         </div>
-      )}
+      </div>
+      
+      <div className="heightslider-container">
+      <div className="heightlocation-container"> 
+      <input
+          type="range"
+          min="150"
+          max="190"
+          value={value}
+          className="heightslider"
+          id="myRange"
+          onChange={(e) => setValue(e.target.value)} // 슬라이더 값만 업데이트합니다.
+          onMouseUp={heightChange} // 마우스 클릭을 놓을 때 이벤트 핸들러
+          onTouchEnd={heightChange} // 터치를 놓을 때 이벤트 핸들러
+        />
+      <div className="marks">
+    {marks.map(mark => (
+      <div key={mark} className="mark-container" style={{ left: `${(mark - 150) / (190 - 150) * 100}%` }}>
+        <div className="mark" />
+        <div className="mark-label">{mark}</div>
+        </div>
+    ))}
+  </div>
+  <div className="heightslider-instructions">화살표를 좌우로 이동하여 조정하세요</div>
+    </div>
+    </div>
+    <div className="physicalbutton-container">
+    <div className="physicalbutton">
+    <button
+      onClick={() => handleButtonClick('슬림')}
+      className={selectedtype === '슬림' ? 'selected' : ''}
+    >슬림</button>
+    <button 
+      onClick={() => handleButtonClick('보통')}
+      className={selectedtype === '보통' ? 'selected' : ''}
+    >보통</button>
+    <button
+      onClick={() => handleButtonClick('통통')}
+      className={selectedtype === '통통' ? 'selected' : ''}
+    >통통</button>
+  </div>
+  <div className="physicalmusclebutton">
+    <button
+      onClick={() => handleButtonClick('슬림탄탄')}
+      className={selectedtype === '슬림탄탄' ? 'selected' : ''}
+    >슬림탄탄</button>
+    <button
+      onClick={() => handleButtonClick('근육통통')}
+      className={selectedtype === '근육통통' ? 'selected' : ''}
+    >근육통통</button>
+  </div>
       </div>
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
-      </div>
+    
+    </div>
     </div>
     
   );
-   }
-
+}
 
 export default Welcome06 ;

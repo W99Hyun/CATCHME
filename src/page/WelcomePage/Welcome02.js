@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
+import SplitMessage from './SplitMessagedouble';
 import styled from "styled-components"
-import SplitMessage from './SplitMessage';
+
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #B591D1;
+    background-color: #565656;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: -1;
+    z-index: -2;
 `
 
 function Welcome02() {
   const [message, setMessage] = useState('');
   const [typingMessage, setTypingMessage] = useState('...');
-  const fullMessage1 = "나에게 너를 소개해줘!";
+  const fullMessage1 = "나에게 너를 소개해줘! ";
   const fullMessage2 = "좋은 사람을 찾아줄게!!";
   const buttonMessage = "알겠어!";
   const typingSpeed = 75;
@@ -65,18 +66,22 @@ function Welcome02() {
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className="header1">
-      </div>
-      <div className='received'>
+      <div className="image-with-typing">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+      />
+       <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div>
+    </div></div></div>
     <div className="typing-container">
       <div className="message typing">
         <div className="message-content">{typingMessage}</div>
       </div>
       </div>
+      
+      <div></div>
       <div className="footer">
-        <button className="button" onClick={handleButtonClick}>알겠어!</button>
-        <button className="button secondary" onClick={handlePreviousClick}>다음에 할래...</button>
+        <button className="button" onClick={handlePreviousClick}>다음에 할래...</button>
+        <button className="button secondary" onClick={handleButtonClick}>알겠어!</button> 
       </div>
     </div>
   );

@@ -16,36 +16,58 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     margin: "0px 30px 0px 15px",
+    textAlign: "center",
   },
   notificationTextNumber: {
-    fontSize: "12px",
-    fontWeight: "lighter",
+    fontSize: "13px",
+    fontWeight: "500",
+    color: "#433C3C",
+  },
+  notificationImgContainer: {
+    position: "relative",
+  },
+  notificationImg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
   notificationTextDelete: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
     fontSize: "10px",
-    fontWeight: "lighter",
+    fontWeight: "",
+    color: "#433C3C",
   },
   notificationList: {
     padding: "10px",
     backgroundColor: "rgb(255, 255, 255)",
-    border: "1px solid grey",
+    border: "0px solid grey",
     borderRadius: "30px",
     overflowY: "auto",
-    minHeight: "63vh",
-    maxHeight: "63vh",
+    minHeight: "75vh",
+    maxHeight: "75vh",
   },
   notificationItem: {
     background: "#ffffff",
     borderRadius: "16px",
-    padding: "12px",
-    marginBottom: "8px",
+    padding: "8px 8px 8px 8px",
+    marginBottom: "15px",
     display: "grid",
     minHeight: "60px",
     gridTemplateColumns: "0.1fr 6fr 1fr",
     gap: "10px",
     justifyContent: "space-between",
+
+    minHeight: "8.2vh",
+    maxHeight: "20vh",
+    boxShadow:
+      "3px 15px 15px rgba(0, 0, 0, 0.03), -3px -0px 10px rgba(0, 0, 0, 0.03)", // 그림자 효과 추가
+  },
+  alignItem: {
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // 그림자 효과 추가
   },
   notificationEmpty: {
     textAlign: "center",
@@ -56,11 +78,12 @@ const styles = {
   alarmHeader: {
     display: "flex",
     alignItems: "center",
-    padding: "16px",
+    padding: "0px 0px 0px 29px",
   },
   time: {
     color: "#666666",
     fontSize: "12px",
+    textAlign: "center",
   },
   alarmText: {
     fontSize: "25px",
@@ -68,6 +91,9 @@ const styles = {
     textDecoration: "none",
     color: "rgb(60, 57, 57)",
     textAlign: "center",
+  },
+  alarmContent: {
+    margin: "12px 0px",
   },
 };
 function AlarmItem({ notification, onDelete }) {
@@ -123,54 +149,24 @@ function AlarmItem({ notification, onDelete }) {
     >
       {/* Notification content */}
 
-      <div style={styles.alarmCheck}>
+      <div className="dot-container">
         {notification.read ? null : (
           <img
             src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
-            style={styles.alarmCheck}
             alt="check"
           />
         )}
       </div>
-      <p>{notification.message}</p>
-      <span style={styles.time}>{notification.time}</span>
+      <p style={{ ...styles.alarmContent, ...styles.alignItem }}>
+        {notification.message}
+      </p>
+      <span style={{ ...styles.time, ...styles.alignItem }}>
+        {notification.time}
+      </span>
     </div>
   );
 }
 function Alarm() {
-  // const notifications = [
-  //   {
-  //     id: 1,
-  //     message: "___eve 님의 이상형과 76% 일치하는 사람이 활동중이에요.",
-  //     time: "지금",
-  //     read: 0,
-  //   },
-  //   { id: 2, message: "3,000 코인 충전이 완료되었습니다.", time: "1분 전" },
-  //   {
-  //     id: 3,
-  //     message: "___eve 님의 이상형과 43% 일치하는 사람이 활동중이에요.",
-  //     time: "20분 전",
-  //     read: 0,
-  //   },
-  //   {
-  //     id: 4,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  //   {
-  //     id: 5,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  //   {
-  //     id: 6,
-  //     message: "___eve 님의 이상형과 98% 일치하는 사람이 활동중이에요.",
-  //     time: "25분 전",
-  //     read: 1,
-  //   },
-  // ];
   const [allDeleteModal, setAllDeleteModal] = useState(false); //m
   const [notifications, setNotifications] = useState([
     {
@@ -256,7 +252,14 @@ function Alarm() {
       <div style={styles.notificationsContainer}>
         <div style={styles.notificationsTextContainer}>
           <span style={styles.notificationTextNumber}>
-            {`읽지 않은 알람 ${notRead}개`}
+            <span>{`읽지 않은 알람 ${notRead}개`}</span>
+            <span className="my-span">
+              <img
+                src={`${process.env.PUBLIC_URL}/image/alarm/alarmCheck.png`}
+                className="my-img"
+                alt="check"
+              />
+            </span>
           </span>
           <span
             style={styles.notificationTextDelete}

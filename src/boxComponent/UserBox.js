@@ -97,14 +97,14 @@ const UserBox = ({ users, dataSocket }) => {
         >
           <img
             src={
-              /*user.idealScore > 50*/ true
+              /*user.idealScore > 50*/ false
                 ? getIdealImagePath(user.animal, user.gender)
                 : getImagePath(user.animal, user.gender)
             }
             alt={`${user.animal} 이미지`}
             style={{
-              width: /*user.idealScore > 50 */ true ? "78px" : "65px",
-              height: /*user.idealScore > 50 */ true ? "78px" : "65px",
+              width: /*user.idealScore > 50 */ false ? "78px" : "62px",
+              height: /*user.idealScore > 50 */ false ? "78px" : "62px",
             }}
           />
         </UserItem>

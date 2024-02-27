@@ -1,7 +1,7 @@
 .app-background {
   display: flex;
   flex-direction: column; /* 자식 요소를 가로로 배열 */
-  background-image: url(../../../public/image/welcome/Welcome.png);
+  background-image: url(../../../public/image/welcome/Welcome02.png);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -30,25 +30,25 @@
   /* 회원 정보 등록하기 버튼 스타일 */
   .register-button {
     display:flex;
-    background-color: #3C3C3C; /* 버튼의 배경색 */
-    border: none;
+    background-color: transparent;; /* 버튼의 배경색 */
+    border: 0.4vw solid white; /* 흰색 테두리 설정 */
     border-radius: 25px; /* 버튼의 둥근 모서리 */
     padding: 15px 40px; /* 버튼의 크기 */
     font-size: 16px; /* 글자 크기 */
     color: white; /* 글자 색상 */
     margin-bottom: 15px; /* 로그아웃 버튼과의 간격 */
     cursor: pointer; /* 마우스 오버 시 포인터 변경 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    
     font-weight: bold; /* 글자 두께 */
   }
   
   /* 로그아웃 버튼 스타일 */
   .logout-button {
     display:flex;
-    background-color: #3C3C3C;/* 투명 배경 */
+    background-color: transparent;/* 투명 배경 */
     border: none;
     border-radius: 25px;
     color: white; /* 글자 색상과 일치 */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 3vw;
   }
