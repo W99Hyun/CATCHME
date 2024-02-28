@@ -82,7 +82,7 @@ justify-content: center;
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
   z-index: 2;
-  margin-top: 6%;
+  margin-top: 15%;
   margin-right: 20%;
 }
 
