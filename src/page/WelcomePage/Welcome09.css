@@ -1,6 +1,6 @@
 .home2 {
     display: grid; 
-    grid-template-rows: 0.5fr 1.17fr 0.73fr 2fr 0.75fr ;
+    grid-template-rows: 0.5fr 1.17fr 0.73fr 1.8fr 0.95fr ;
     
     height: 100vh; /* 전체 뷰포트 높이 */
   }
@@ -8,17 +8,24 @@
 .character-selector {
     position: relative;
   margin-top: 10%;
+  display: flex;
   text-align: center;
+  justify-content: center;
+ 
 }
 
 .character-selector img {
-    margin: 0 10vw; /* 좌우 마진 설정 */
+    margin: 0 5vw; /* 좌우 마진 설정 */
   }
 
 .character-selector button {
-   position: absolute;
-   margin-top: 20vw;
-   margin-left: -3vw
+   outline: none;
+   border: none;
+   background: transparent;
+   color: #3F3F3F;
+   font-size: 3vh;
+   margin-top: 5vw;
+   margin-left: -1vw
 }
 
 .unlockslider-container {
@@ -85,4 +92,12 @@
   color: #DBDBDB;
   margin-top: 5px; /* 슬라이더와의 간격 */
   font-size: 2.5vw
+}
+
+.buttons09-container {
+  display: flex;
+  justify-content: space-between;
+  /* 좌우 패딩을 추가하여 버튼이 화면 끝에 닿지 않도록 합니다 */
+ /* 버튼들과 상단 컨텐츠 사이에 여백을 추가합니다 */
+  width: 100%; /* 너비를 100%로 설정하여 전체 화면을 사용합니다 */
 }
