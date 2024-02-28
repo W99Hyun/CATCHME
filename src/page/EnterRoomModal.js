@@ -106,7 +106,7 @@ const EnterRoomModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (roomCount.count) {
-      navigate(`/MeetingRoomMain/${roomCount.count}`);
+      navigate(`/meetingroommain/${roomCount.count}`);
     }
   }, [roomCount, navigate]);
 
