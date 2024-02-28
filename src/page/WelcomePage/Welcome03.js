@@ -126,15 +126,17 @@ const BackgroundImage = styled.div `
       <div className="image-with-typing">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-       <div className='received'>
+       <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div>
+      </div>
       <div className="typing-container">
       <div className="message typing">
         <span>{currentText}</span>
         
       </div>
       </div>
+      </div>
+      
       
       </div>
       
