@@ -25,7 +25,7 @@ import Welcome09 from "./page/WelcomePage/Welcome09";
 import Welcome10 from "./page/WelcomePage/Welcome10";
 import Welcome11 from "./page/WelcomePage/Welcome11";
 import Welcome12 from "./page/WelcomePage/Welcome12";
-import Welcome13M from "./page/WelcomePage/Welcome13M";
+import Welcome13 from "./page/WelcomePage/Welcome13";
 import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
@@ -122,8 +122,8 @@ function App() {
                   element={<Welcome12 />}
                 />
                 <Route
-                  path="/login/information/Welcome13M"
-                  element={<Welcome13M />}
+                  path="/login/information/Welcome13"
+                  element={<Welcome13 />}
                 />
                 <Route
                   path="/login/information/Welcome13W"

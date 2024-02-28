@@ -39,7 +39,7 @@ background-color: rgba(255, 255, 255, 0.8); // 흰색 배경에 투명도 80%를
 const fullMessage1 = "종아! 이제 너가 사용할 캐릭터를 골라봐!";
 const fullMessage2 = "너와 닮은 동물이면 더 좋겠지?"
 const typingSpeed = 75;
-const currentStep = 7;
+const currentStep = 8;
   const totalSteps = 14;
 
   const { gender } = useGender();
@@ -202,7 +202,7 @@ useEffect(() => {
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
       </div></div></div>
       <div className="typing-container">
-      <div className="message typing">
+      <div className="message typing9">
         <span>{currentText}</span>
         </div>
       

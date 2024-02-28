@@ -20,12 +20,12 @@ const BackgroundImage = styled.div `
 
 ` 
 
-  function Welcome11() {
+  function Welcome13() {
   const [message, setMessage] = useState('');
-  const fullMessage1 = "상대에게 선호하는 나이가 있으면 알려줘!";
-  const fullMessage2 = "두개의 스크롤을 움직여봐!"
+  const fullMessage1 = "선호하는 이상적인 키가 궁금해!";
+  const fullMessage2 = "범위를 알려줘!"
   const typingSpeed = 75;
-  const currentStep = 10;
+  const currentStep = 12;
   const totalSteps = 14;
 
   const [currentText, setCurrentText] = useState('...'); 
@@ -53,19 +53,19 @@ const BackgroundImage = styled.div `
   const navigate = useNavigate();
 
       
-  const [sliderValueMin, setSliderValueMin] = useState(20); // 최소값 슬라이더의 상태
-  const [sliderValueMax, setSliderValueMax] = useState(30); // 최대값 슬라이더의 상태
+  const [sliderValueMin, setSliderValueMin] = useState(140); // 최소값 슬라이더의 상태
+  const [sliderValueMax, setSliderValueMax] = useState(190); // 최대값 슬라이더의 상태
   const handleSliderChangeMin = (e) => {
-    const newMinValue = Math.min(e.target.value, sliderValueMax - 1);
+    const newMinValue = Math.min(e.target.value, sliderValueMax - 5);
     setSliderValueMin(newMinValue);
   };
 
   const handleSliderChangeMax = (e) => {
-    const newMaxValue = Math.max(e.target.value, sliderValueMin + 1);
+    const newMaxValue = Math.max(e.target.value, sliderValueMin + 5);
     setSliderValueMax(newMaxValue);
   };
   useEffect(() => {
-    const percentage = ((sliderValueMax - 20) / (30 - 20)) * 100; 
+    const percentage = ((sliderValueMax - 140) / (190 - 140)) * 100; 
     document.documentElement.style.setProperty('--slider-percentage', `${percentage}%`);
   }, [sliderValueMax]);
 
@@ -76,14 +76,14 @@ const BackgroundImage = styled.div `
 
   const handleNextClick = () => {
     
-      navigate('/login/information/Welcome12'); 
+      navigate('/login/information/Welcome14'); 
 
   };
 
  
   const handleSliderStop = () => {
     resetTyping();
-      setTypingText(` 나는 ${sliderValueMin}살부터 ${sliderValueMax}살이 좋아!`);
+      setTypingText(` 나는 ${sliderValueMin}cm부터 ${sliderValueMax}cm가 좋아!`);
       setTyping(true); // 새로운 타이핑 시작
   };
 
@@ -132,8 +132,8 @@ const BackgroundImage = styled.div `
       
     <input
           type="range"
-          min="20"
-          max="30"
+          min="140"
+          max="190"
           value={sliderValueMin}
           onChange={handleSliderChangeMin}
           onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
@@ -142,8 +142,8 @@ const BackgroundImage = styled.div `
         />
         <input
           type="range"
-          min="20"
-          max="30"
+          min="140"
+          max="190"
           value={sliderValueMax}
           onChange={handleSliderChangeMax}
           onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
@@ -151,8 +151,8 @@ const BackgroundImage = styled.div `
           className="slider3"
         />
       <div className="slider-labels">
-      <div className="slider-label-left">20</div>
-      <div className="slider-label-right">30</div>
+      <div className="slider-label-left">140</div>
+      <div className="slider-label-right">190</div>
     </div>
     <div className="slider-instruction">스크롤을 좌우로 이동하여 조절하세요</div>
       </div>
@@ -177,4 +177,4 @@ const BackgroundImage = styled.div `
   );
 }
 
-export default Welcome11 ;
+export default Welcome13 ;

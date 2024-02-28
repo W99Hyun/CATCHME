@@ -22,7 +22,7 @@ background-size: contain;
     const fullMessage1 = "알려줘서 고마워!";
     const fullMessage2 = "이제 너의 이상형을 알려줘!!"
     const typingSpeed = 75;
-    const currentStep = 8;
+    const currentStep = 9;
       const totalSteps = 14;
 
       useEffect(() => {
@@ -103,7 +103,7 @@ background-size: contain;
     <SplitMessage message={message} splitIndex={fullMessage1.length} />
     </div></div></div>
     <div className="typing-container">
-      <div className="message typing">
+      <div className="message typing9">
         <span>{currentText}</span>
         </div>
       
