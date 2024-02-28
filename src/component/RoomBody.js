@@ -172,7 +172,6 @@ useEffect(() => {
       }
     };
   }, []);
-
   */
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
