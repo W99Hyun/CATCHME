@@ -14,7 +14,7 @@ const interests = [
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #B591D1;
+    background-color: #83A98B;
     background-position: center top; /* 이미지가 수평 및 수직 중앙에 위치 */
     width: 100vw;
     height: 100vh;

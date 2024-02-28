@@ -5,12 +5,13 @@ import './Welcome02.css';
 import SplitMessage from './SplitMessagedouble';
 import styled from "styled-components"
 
+
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #565656;
+    background-color: #83A98B;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -58,6 +59,7 @@ function Welcome02() {
     // "이전" 버튼 로직
     navigate(-1); // 이전 페이지로 돌아갑니다.
   };
+
 
   return (
     <div className="home">

@@ -1,103 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Welcome02.css'; // CSS 파일을 임포트하세요
-import './Welcome.css';
-import styled from "styled-components"
-import SplitMessage from './SplitMessagedouble';
-import ProgressBar from './ProgressBar';
+import React, { useState } from 'react';
 
-const BackgroundImage = styled.div `
-background-size: contain;
-background-repeat: no-repeat;
-background-color: #B591D1;
-background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
-width: 100vw;
-height: 100vh;
-position: fixed;
-z-index: -1;
-` 
+function DualRangeSlider() {
+  const minDistance = 1;
+  const [range, setRange] = useState({ min: 20, max: 30 });
 
-  function Welcome14() {
-    const currentStep = 13;
-  const totalSteps = 14;
-    const [message, setMessage] = useState('');
-const fullMessage1 = "어떤 체형이 이상형이야?";
-const typingSpeed = 75;
-
-useEffect(() => {
-    if (message.length < fullMessage1.length) {
-      setTimeout(() => {
-        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
-      }, typingSpeed);
-    }
-  }, [message, fullMessage1]);
-
-  const navigate = useNavigate();
-
-  const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
-  const [typingText, setTypingText] = useState(''); // 타이핑될 전체 텍스트
-  const [typing, setTyping] = useState(false); // 타이핑 상태
-
-  useEffect(() => {
-    if (typing) {
-      if (currentText !== typingText) {
-        const timer = setTimeout(() => {
-          setCurrentText(typingText.slice(0, currentText.length + 1));
-        }, 75); // 타이핑 속도 조절
-        return () => clearTimeout(timer);
-      } else {
-        setTyping(false); // 타이핑이 끝났을 때 상태 업데이트
-      }
-    }
-  }, [currentText, typingText, typing]);
-
-  const handleButtonClick = (text) => {
-    setTypingText(text); // 타이핑될 전체 텍스트 설정
-    setCurrentText(''); // 현재 텍스트 초기화
-    setTyping(true); // 타이핑 시작
-  };
-  
-
-  const handlePreviousClick = () => {
-    // "이전" 버튼 로직
-    navigate(-1);
+  const onMinChange = (event) => {
+    const value = Math.min(Number(event.target.value), range.max - minDistance);
+    setRange((prevRange) => ({ ...prevRange, min: value }));
   };
 
-  const handleNextClick = () => {
-    // "다음" 버튼 클릭 시에 실행될 로직
-    navigate('/login/information/Welcome15'); // '/welcome10' 경로로 이동
+  const onMaxChange = (event) => {
+    const value = Math.max(Number(event.target.value), range.min + minDistance);
+    setRange((prevRange) => ({ ...prevRange, max: value }));
   };
 
+  const trackStyle = {
+    left: `${(range.min - 20) / (30 - 20) * 100}%`,
+    right: `${100 - (range.max - 20) / (30 - 20) * 100}%`
+  };
 
   return (
-    <div className="home">
-      <BackgroundImage />
-      <div className="header">
-      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      </div>
-      <div className="header1">
-      </div>
-      <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      <div className="typing-container">
-      <div className="message typing">
-        <span>{currentText}</span>
-      </div>
-      </div>
-      <div className="Physical-buttons">
-        <button onClick={() => handleButtonClick('슬림!')} className="button">슬림!</button>
-        <button onClick={() => handleButtonClick('보통!')} className="button">보통!</button>
-        <div className="Physical-buttons-bottom">
-        <button onClick={() => handleButtonClick('탄탄!')} className="button">탄탄!</button>
-        <button onClick={() => handleButtonClick('통통!')} className="button">통통!</button>
-        </div>
-      </div>
-      <div className="buttons-container">
-        <button onClick={handlePreviousClick} className="previous-button">이전</button>
-        <button onClick={handleNextClick} className="next-button">다음</button>
+    <div className="slider-container">
+      <div className="slider-track" />
+      <div className="slider-range" style={trackStyle} />
+      <input
+        type="range"
+        min="20"
+        max="30"
+        value={range.min}
+        onChange={onMinChange}
+        className="slider3"
+        id="min-slider"
+      />
+      <input
+        type="range"
+        min="20"
+        max="30"
+        value={range.max}
+        onChange={onMaxChange}
+        className="slider3"
+        id="max-slider"
+      />
+      {/* Display for the min and max values */}
+      <div className="values-display">
+        <div className="min-value-display">{range.min}</div>
+        <span> ~ </span>
+        <div className="max-value-display">{range.max}</div>
       </div>
     </div>
-    
   );
 }
 
-export default Welcome14 ;
+export default DualRangeSlider;

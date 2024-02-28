@@ -1,5 +1,5 @@
 {
-  "proxy": "http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080",
+  "proxy": "https://api.catchmenow.co.kr",
   "name": "catch_me",
   "version": "0.1.0",
   "private": true,
@@ -15,6 +15,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.3",
     "react-scripts": "^5.0.1",
+    "react-transition-group": "^4.4.5",
     "socket.io-client": "^4.7.4",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"

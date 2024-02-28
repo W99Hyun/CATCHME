@@ -25,18 +25,16 @@ const allColors =
   "#BFD8D2"];
 const usedColors = new Set();
 
-const getRandomColor = () => {
-  let availableColors = allColors.filter(color => !usedColors.has(color)); // 이미 사용된 색깔 제외
-  if (availableColors.length === 0) {
-      console.error("No more unique colors available.");
-      return "black"; // 모든 색깔이 사용되었다면 기본 색상 반환
-  }
-  const randomIndex = Math.floor(Math.random() * availableColors.length);
-  const color = availableColors[randomIndex];
-  usedColors.add(color);
-  return color;
-};
 
+const getRandomColor = () => { 
+  let availableColors = allColors.filter(color => !usedColors.has(color)); 
+   if (availableColors.length === 0) {
+     usedColors.clear(); 
+     availableColors = allColors; } 
+     const randomIndex = Math.floor(Math.random() * availableColors.length); 
+     const color = availableColors[randomIndex]; 
+     usedColors.add(color); return color; 
+    };
 
 const MeetingRoomMain = () => {
   const navigate = useNavigate();
@@ -58,6 +56,10 @@ const MeetingRoomMain = () => {
   const [sortOption, setSortOption] = useState('whole'); // 'whole', 'downtown', 'participants'
   const [filteredRooms, setFilteredRooms] = useState([...allRooms]); // 필터링된 방 목록 초기화
   const [error, setError] = useState('');
+  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
+  const roomsPerPage = 4;
+
+
   // useState를 사용하여 selectedRno 상태를 정의합니다.
   useEffect(() => {
     const fetchRooms = async () => {
@@ -67,9 +69,9 @@ const MeetingRoomMain = () => {
           axios.get('https://api.catchmenow.co.kr/room/api/room_info/'),
           axios.get('https://api.catchmenow.co.kr/room/api/room_info/')
         ]);
-  
+
         // selectedPeople과 meetingNum이 일치하는 방만 필터링
-        const filteredRooms = allRoomsResponse.data.filter(room => room.each_match === selectedPeople);
+        const filteredRooms = allRoomsResponse.data.filter(room => room.meetingnum === selectedPeople);
   
         // 방에 랜덤 색상 입히기
         const top5RoomsWithColors = top5Response.data.map(room => ({
@@ -80,7 +82,8 @@ const MeetingRoomMain = () => {
           ...room,
           bgColor: getRandomColor()
         }));
-
+        const totalPages = Math.ceil(allFilteredRoomsWithColors.length / roomsPerPage);
+        setAllTotalPage(totalPages);
         const sortedAllRooms = sortRooms(allFilteredRoomsWithColors, 'whole');  
         setTopRooms(top5RoomsWithColors);
         setAllRooms(sortedAllRooms); // 정렬된 전체 방 목록을 상태에 저장
@@ -177,18 +180,16 @@ const sortRooms = (rooms, option) => {
 
 
 useEffect(() => {
-  // filteredRooms 상태가 변경될 때마다 displayedRooms를 업데이트
-  const updateDisplayedRooms = () => {
-    // 페이지네이션 로직에 따라 displayedRooms를 계산
-    const startIndex = (currentAllPageIndex - 1) * 4;
-    const endIndex = startIndex + 4;
-    const newDisplayedRooms = filteredRooms.slice(startIndex, endIndex);
-    setDisplayedRooms(newDisplayedRooms);
-  };
+  const totalPages = Math.ceil(allRooms.length / roomsPerPage);
+  setAllTotalPage(totalPages);
+  updateDisplayedRooms(currentAllPageIndex); // 현재 페이지에 맞는 방 목록 업데이트
+}, [allRooms, currentAllPageIndex]);
 
-  updateDisplayedRooms();
-}, [filteredRooms, currentAllPageIndex]);
-
+const updateDisplayedRooms = (pageIndex) => {
+  const startIndex = (pageIndex - 1) * roomsPerPage;
+  const endIndex = startIndex + roomsPerPage;
+  setDisplayedRooms(allRooms.slice(startIndex, endIndex));
+};
 
 
 const handleTop5Next = () => {
@@ -202,36 +203,26 @@ const handleTop5Prev = () => {
       const lastRoom = prev[prev.length - 1];
       return [lastRoom, ...prev.slice(0, prev.length - 1)];
   });
-  setCurrentTop5RoomIndex(prev => (prev - 1 + 5) % 5);
+  setCurrentTop5RoomIndex(prev => (prev - 1 + top5Rooms.length) % top5Rooms.length);
 };
 
 
 const handleAllRoomsNextPage = () => {
   if (currentAllPageIndex < allTotalPage) {
     const newPageIndex = currentAllPageIndex + 1;
-    setCurrentAllPageIndex(newPageIndex); // 페이지 인덱스 업데이트
-
-    // 방 목록 업데이트
-    const startIndex = (newPageIndex - 1) * 4;
-    const endIndex = startIndex + 4;
-    const paginatedRooms = allRooms.slice(startIndex, endIndex);
-    setAllRooms(paginatedRooms);
-
-    // "다음" 버튼 가시성 업데이트
-    if (newPageIndex >= allTotalPage) {
-      setHasMoreRooms(false);
-    } else {
-      setHasMoreRooms(true);
-    }
+    setCurrentAllPageIndex(newPageIndex);
+    updateDisplayedRooms(newPageIndex);
   }
 };
 
 const handleAllRoomsPrevPage = () => {
   if (currentAllPageIndex > 1) {
     const newPageIndex = currentAllPageIndex - 1;
-    setCurrentAllPageIndex(newPageIndex); // 페이지 인덱스 업데이트
+    setCurrentAllPageIndex(newPageIndex);
+    updateDisplayedRooms(newPageIndex);
   }
 };
+
 
 //입장제한 사용자의 개인정보 api 필요합니다
 const enterRoom = (roomId, gender) => {
@@ -266,25 +257,30 @@ const enterRoom = (roomId, gender) => {
 if (isLoading) return <p>Loading...</p>;
 if (error) return <p>{error}</p>;
 
+const totalAllPages = Math.ceil(allRooms.length / roomsPerPage);
 // Top 5 방 목록에 대한 이전/다음 버튼의 가시성 처리
 const showTop5PrevButton = currentTop5RoomIndex > 0 && top5Rooms.length > 0;
-const showTop5NextButton = currentTop5RoomIndex < (top5Rooms.length - 1) && top5Rooms.length > 0;
+const showTop5NextButton = (currentTop5RoomIndex < (top5Rooms.length - 1)) && top5Rooms.length > 0;
 
 // 전체 방 목록에 대한 이전/다음 버튼의 가시성 처리
 const showAllPrevButton = currentAllPageIndex > 1 && allRooms.length > 0;
-const showAllNextButton = currentAllPageIndex < allTotalPage && allRooms.length > 0;
-
+const showAllNextButton = currentAllPageIndex < totalAllPages; 
   return (
     <MainContainer>
-        <HeaderText>맞춤 Top5</HeaderText>
+        <HeaderText>맞춤 Top5
+          <FireImg
+          src="./image/MeetingRoomList/Group222.png"/>
+        </HeaderText>
         <RecommendRoomContainer>
-            {showTop5PrevButton && (
+           
             <Arrow
                src="./image/MeetingRoomList/Group15.png"
               alt="Back Button"
               onClick={handleTop5Prev}
+              isVisible={showTop5PrevButton}
              />
-            )}
+            
+            
 
             {top5Rooms.length > 0 ? (
             <RoomsWrapper>
@@ -315,36 +311,23 @@ const showAllNextButton = currentAllPageIndex < allTotalPage && allRooms.length 
             </RoomsWrapper>) : (
       <NoneMessage>당신의 이상형은 아직 안왔나봐요!</NoneMessage>
         )}
-            {showTop5NextButton && (
+            
              <Arrow
                src="./image/MeetingRoomList/Group14.png"
               alt="Next Button"
               onClick={handleTop5Next}
+              isVisible={showTop5NextButton}
              />
-      )}
+      
         </RecommendRoomContainer>
 
 
         <SortContainer>
           <SortStateContainer>
-          <CreateRoomButton onClick={() => setCreateRoomModalOpen(true)}>
-        +
-      </CreateRoomButton>
-      <CreateRoomModal
-        isOpen={isCreateRoomModalOpen}
-        onClose={() => setCreateRoomModalOpen(false)}
-        onCreateRoom={handleCreateRoom}
-      />
-      <DeleteButton onClick={() => setDeleteRoomModalOpen(true)}>
-        -</DeleteButton>
-       <DeleteRoomModal
-       isOpen={isDeleteRoomModalOpen}
-          rooms={allRooms}
-          onDeleteRoom={handleDeleteRoom}
-         onClose={() => setDeleteRoomModalOpen(false)}
-         />
-
-
+           
+          <SortStateText>
+            정렬 상태
+         </SortStateText>
 
             <SortingButtonWrapper>
             <SortingButton
@@ -366,15 +349,37 @@ const showAllNextButton = currentAllPageIndex < allTotalPage && allRooms.length 
           </SortStateContainer>
         </SortContainer>
 
+        <OptionButtonsContainer>
+            <SearchButton
+            src="./image/MeetingRoomList/Group220.png"
+            onClick={() => setSearchModalOpen(true)}/>
+          <CreateRoomButton 
+           src="./image/MeetingRoomList/+.png"
+          onClick={() => setCreateRoomModalOpen(true)}/>
+      <CreateRoomModal
+        isOpen={isCreateRoomModalOpen}
+        onClose={() => setCreateRoomModalOpen(false)}
+        onCreateRoom={handleCreateRoom}
+      />
+      <DeleteButton src="./image/MeetingRoomList/+.png"
+          onClick={() => setDeleteRoomModalOpen(true)}/>
+       <DeleteRoomModal
+       isOpen={isDeleteRoomModalOpen}
+          rooms={allRooms}
+          onDeleteRoom={handleDeleteRoom}
+         onClose={() => setDeleteRoomModalOpen(false)}
+         />
+         </OptionButtonsContainer>
 
         <PopularMeetingBox>
-        {showAllPrevButton &&
+       
             <Arrow
              src="./image/MeetingRoomList/Group15.png"
              alt="Back Button"
              onClick={handleAllRoomsPrevPage}
+             isVisible={showAllPrevButton}
            />
-        }  
+      
         {noMatchingRooms ? (
           <NoMatchingRoomsMessage>우리동네에 일치하는 방이 없어요!</NoMatchingRoomsMessage>
         ) : (     
@@ -405,12 +410,13 @@ const showAllNextButton = currentAllPageIndex < allTotalPage && allRooms.length 
            ))}
           </MeetingRoomWrapper>
             )}  
-            {showAllNextButton && 
+            
              <Arrow
              src="./image/MeetingRoomList/Group14.png"
              alt="Next Button"
              onClick={handleAllRoomsNextPage}
-            />}
+             isVisible={showAllNextButton}
+            />
           </PopularMeetingBox>
     </MainContainer>
   );
@@ -423,17 +429,21 @@ const showAllNextButton = currentAllPageIndex < allTotalPage && allRooms.length 
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  margin: 2.5rem auto;
-  padding: 1.06rem;
-  height: 20rem;
+  height: 100%;
+  margin-top: 12px;
 
+`;
+const FireImg = styled.img`
+width: 12px;
+height: 16px;
+margin-left: 7px;
 `;
 
   const MeetingRoomWrapper=styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
   grid-template-rows: repeat(2, 1fr); 
-  gap: 0.5rem;
+  gap: 28px;
   justify-content: center; 
   align-content: center; 
   width: 100%;
@@ -450,6 +460,7 @@ justify-content: space-around;
   flex-direction: column;
   background-color: ${props => props.bgColor};
   border-radius: 0.75rem;
+  border: 2px solid #444444;
   width: 9.5625rem;
   height: 9.1875rem;
   box-shadow: 4px 4px 22px 0px rgba(0, 0, 0, 0.09);
@@ -531,7 +542,8 @@ const SortingButtonWrapper = styled.div`
   margin-left: 1rem;
   margin-right: 1rem;
   cursor: pointer;
-  
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
 `;
   const MainContainer = styled.div`
   display: flex; 
@@ -550,6 +562,13 @@ color: #414141;
   top:2rem;
   height: 5rem;
 `;
+const SortStateText = styled.div`
+color: #414141;
+  font-size: 1.125rem;
+  font-weight: 700;
+  position: relative;
+left: 12px;
+  `;
 
   const RecommendRoomContainer = styled.div`
   width: 100%;
@@ -562,9 +581,9 @@ color: #414141;
   
 `;
 const RecommendRoom = styled.div`
-position: relative;
-
-justify-content: center;
+  position: relative;
+  border: 2px solid #444444;
+  justify-content: center;
   align-items: center;
   width: 19.5rem;
   height: 9.5625rem;
@@ -583,7 +602,25 @@ justify-content: center;
     box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.15);
     transform: scale(0.95);
   }
+ &:nth-child(1) {
+    transform: rotateY(-30deg) translateZ(-30px);
+  }
 
+  &:nth-child(2) {
+    transform: rotateY(-15deg) translateZ(-20px);
+  }
+
+  &:nth-child(3) {
+    transform: rotateY(0deg) translateZ(0px);
+  }
+
+  &:nth-child(4) {
+    transform: rotateY(15deg) translateZ(-20px);
+  }
+
+  &:nth-child(5) {
+    transform: rotateY(30deg) translateZ(-30px);
+  }
 `;
   const RoomName = styled.div `
   font-weight: 700; 
@@ -591,6 +628,7 @@ justify-content: center;
    color: #444444; 
    margin-top: 0.87rem; 
    margin-left: 0.63rem;
+   margin-right: 0.63rem;
   `;
   const RoomLocation = styled.div `
   font-weight: 700; 
@@ -636,46 +674,59 @@ justify-content: center;
   text-align: center;
   margin-top: 1rem;
 `;
-const CreateRoomButton = styled.button`
-box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.15);
-  background-color: #4caf50;
+
+const OptionButtonsContainer = styled.div`
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+height: 25px;
+margin-left: 268px;
+margin-right: 35px;
+margin-top: 25px;
+`;
+const CreateRoomButton = styled.img`
   color: #fff;
-  font-size: 24px;
   border: none;
-  border-radius: 50%;
-  width:2rem;
-  height:2rem;
+  width:22px;
+  height:22px;
   cursor: pointer;
-  z-index: 9999;
   display: flex;
-  justify-content: center;
+  margin-right: 18px;
   align-items: center;
   &:active {
-    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(2px);
   }
   
 `;
-const DeleteButton = styled.button`
-box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.15);
-background-color: #ff6666;
+const SearchButton = styled.img`
 color: #fff;
-font-size:2rem;
-border: none;
-border-radius: 50%;
-width:2rem;
-height:2rem;
-cursor: pointer;
-z-index: 1;
-display: flex;
-margin-left: -4rem;
-justify-content: center;
-text-align: center;
-align-items: flex-end;
-&:active {
-  box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2);
-  transform: translateY(2px);
-}
+  border: none;
+  width:22.86px;
+  height:24.18px;
+  cursor: pointer;
+  display: flex;
+  margin-right: 18px;
+  align-items: center;
+  &:active {
+    transform: translateY(2px);
+  }
+  
+`;
+
+
+const DeleteButton = styled.img`
+  color: #fff;
+  border: none;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  transform: rotate(45deg);
+  &:active {
+    transform: translateY(2px);
+  }
 `;
 
 const NoneMessage = styled.div`
