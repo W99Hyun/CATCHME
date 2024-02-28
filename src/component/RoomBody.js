@@ -38,6 +38,10 @@ const RectangleTable = styled.div`
 
 const RoomBody = ({roomId}) => {
 
+  //이렇게 kid 가져와짐
+  const kid = localStorage.getItem("kid");
+  console.log(kid)
+
   const [user, setUser] = useState(null);
   const [roomName, setRoomName] = useState("");
   const [location, setLocation] = useState("");
@@ -52,7 +56,7 @@ const RoomBody = ({roomId}) => {
   const fetchData = async () => {
     try {
       const [roomResponse, userResponse] = await Promise.all([
-        fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/room/api/room_info/${roomId}/`, {
+        fetch(`https://api.catchmenow.co.kr/room/api/room_info/${roomId}/`, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -64,7 +68,7 @@ const RoomBody = ({roomId}) => {
           throw error; 
         }),
         fetch(
-          `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
+          `https://api.catchmenow.co.kr/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
             method: "GET",
             mode: "cors",
             headers: {
@@ -107,7 +111,7 @@ useEffect(() => {
     setIsReady(!isReady);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
       dataSocket.current = new WebSocket(`ws://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
@@ -166,7 +170,7 @@ useEffect(() => {
         dataSocket.current.close();
       }
     };
-  }, []);
+  }, []); */
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -193,7 +197,7 @@ useEffect(() => {
         if(/*day2*/ true) {
           try {
             const response = await fetch(
-              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}`,
+              `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
               {
                 method: "GET",
                 mode: "cors",
@@ -214,7 +218,7 @@ useEffect(() => {
             }
 
             const crushResponse = await fetch(
-              `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${crushKid}`,
+              `https://api.catchmenow.co.kr/main/api/user_info/${crushKid}`,
               {
                 method: "GET",
                 mode: "cors",

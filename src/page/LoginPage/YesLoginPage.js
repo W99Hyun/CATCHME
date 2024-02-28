@@ -61,6 +61,8 @@ function YesLogin() {
     setShowModal(!showModal);
   };
 
+  const kid = localStorage.getItem("kid"); // 로컬스토리지에 있는 kid 빼오기
+
   return (
     <>
       {code && <KakaoLoginComponent code={code} />}

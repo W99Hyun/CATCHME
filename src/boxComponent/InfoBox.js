@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 
-const globeImage = `${process.env.PUBLIC_URL}/image/gps.png`;
-const clockImage = `${process.env.PUBLIC_URL}/image/time.png`;
-const humanImage = `${process.env.PUBLIC_URL}/image/human.png`;
-
 const InfoBoxContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -32,52 +28,46 @@ const customModalStyles = {
       backgroundColor: "rgba(0, 0, 0, 0)",
     },
   content: {
-    top: "40%",
+    backgroundColor: "rgba(222, 237, 234, 0.98)",
+    top: "45%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "80%", 
-    height: "30%", 
+    height: "47%", 
     borderRadius: "10%",
     opacity: 1,
-    padding: "20px",
+    boxShadow: "4px 4px 11px 0px rgba(0, 0, 0, 0.22)",
+    border: "2px solid",
   },
 };
 
 const ModalTitle = styled.h3`
   color: #000;
   text-align: left;
-  font-size: 24px;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0;
+  span {
+    font-size: 11px;
+    color: #444444;
+  }
 `;
 
-const ModalText = styled.div`
-  color: #000;
+const ModalText = styled.p`
+  color: #444444;
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 900;
   display: flex;
   align-items: center;
   margin-top: 5px;
-
-  img.globe {
-    width: 15px;
-    height: 24px;
-    margin-left: 5px;
-    margin-right: 10px;
+  span {
+    font-size: 9px;
+    color: #999999;
   }
-
-  img.clock {
-    width: 24px;
-    height: 24px;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-
-  img.human {
-    width: 24px;
-    height: 30px;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
+  flex-direction: column;
+  align-items: flex-start; 
 `;
 
 const InfoBox = ({ roomName, location, time, meetingnum }) => {
@@ -96,7 +86,8 @@ const InfoBox = ({ roomName, location, time, meetingnum }) => {
   const day = dateTime.getDate();
   const hour = dateTime.getHours();
   const minute = dateTime.getMinutes();
-  const formattedDateTime = `${year}/${month}/${day+3}/${hour}:${minute}`;
+  const formattedOpenTime = `${year}/${month}/${day}/${hour}:${minute}`;
+  const formattedCloseTime = `${year}/${month}/${day+3}/${hour}:${minute}`;
 
   return (
     <InfoBoxContainer>
@@ -106,10 +97,22 @@ const InfoBox = ({ roomName, location, time, meetingnum }) => {
         onRequestClose={closeModal}
         style={customModalStyles}
       >
-        <ModalTitle>"{roomName}"의 정보</ModalTitle>
-        <ModalText><img className="globe" src={globeImage} alt="globe" /> {location} </ModalText>
-        <ModalText><img className="clock" src={clockImage} alt="clock" /> 방 파기 날짜: {formattedDateTime}</ModalText>
-        <ModalText><img className="human" src={humanImage} alt="human" /> 인원수 : {meetingnum}대{meetingnum}</ModalText>
+        <ModalTitle>
+          <span> CLOSE {formattedCloseTime} </span> <br />
+          {roomName}
+        </ModalTitle>
+        <br /><br /><br />
+        <ModalText> 
+          {location}
+          <br />
+          <span> 위치 인증 완료 </span>
+        </ModalText>
+        <br />
+        <ModalText> 방 개설 시간: {formattedOpenTime}</ModalText>
+        <br />
+        <ModalText> 인원수 : {meetingnum}대{meetingnum}</ModalText>
+        <br />
+        <ModalText> 회원님의 이상형이 2명 있는 방이에요.</ModalText>
       </Modal>
     </InfoBoxContainer>
   );

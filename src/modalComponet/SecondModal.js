@@ -11,7 +11,7 @@ const customStyles = {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "85%", 
-      height: "60%",
+      height: "75%",
       display: "grid",
       borderRadius: "18px",
       border: "none",
@@ -215,7 +215,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
       try {
         if (recommendation) {
           const Response = await fetch(
-            `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${recommendation}`, // 배열의 첫 번째 요소 사용
+            `https://api.catchmenow.co.kr/main/api/user_info/${recommendation}`, // 배열의 첫 번째 요소 사용
             {
               method: "GET",
               mode: "cors",
@@ -248,7 +248,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
       const fieldName = gender === 'male' ? 'm_match_kid' : 'w_crush_kid';
 
       const response = 
-      await fetch(`http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/api/user_info/${1001}/`, {
+      await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/`, {
         method: "PUT",
         mode: 'cors',
         headers: {

@@ -5,24 +5,24 @@ import { useNavigate } from "react-router";
 const KakaoLoginComponent = ({ code }) => {
 
   const navigate = useNavigate();
-  console.log(code)
 
   useEffect(() => {
     const KakaoClick = async () => {
       try {
         const response = await axios({
           method: "POST",
-          url: `http://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8080/main/kakaoLogin/
+          url: `https://api.catchmenow.co.kr/main/kakaoLogin/
           `,
           data: { code: code }
         });
 
-        const token = response.tokens;
+        const token = response.data.tokens;
 
+        // 하나씩 저장해야 저장됨
+        localStorage.setItem("accessToken", token.access);
+        localStorage.setItem("refreshToken", token.refresh);
         localStorage.setItem("kid", token.kid);
-        localStorage.setItem("token", token);
 
-        navigate("/login");
       } catch (error) {
         console.log("소셜로그인 에러", error);
         window.alert("로그인에 실패하였습니다.");
