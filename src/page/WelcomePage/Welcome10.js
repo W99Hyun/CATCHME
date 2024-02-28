@@ -90,7 +90,7 @@ background-size: contain;
   };
 
   return (
-    <div className="home2">
+    <div className="home3">
     <BackgroundImage />
     <div className="header">
     <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
@@ -102,8 +102,8 @@ background-size: contain;
      <div className='received'>
     <SplitMessage message={message} splitIndex={fullMessage1.length} />
     </div></div></div>
-    <div className="typing-container">
-      <div className="message typing9">
+    <div className="typing-container09">
+      <div className="message typing09">
         <span>{currentText}</span>
         </div>
       
