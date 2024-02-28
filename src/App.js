@@ -142,7 +142,7 @@ function App() {
                 <Route path="/login/alarm" element={<Alarm />} />
                 <Route path="/login/withfriends" element={<WithFriends />} />
                 <Route path="/login/matchhistory" element={<MatchHistory />} />
-                <Route path="/MeetingRoomMain" element={<MeetingRoomMain />} />
+                <Route path="/meetingroommain" element={<MeetingRoomMain />} />
                 <Route path="/room/:roomId" element={<Room />} />
                 <Route path="/PayComplete" element={<PayComplete />} />
                 <Route path="/login/mypage/myprofile" element={<MyProfile />} />
