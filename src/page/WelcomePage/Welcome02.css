@@ -24,17 +24,23 @@ justify-content: center;
 }
 
 
-
+.header1 {
+  width: 100%;
+  height: 100%;
+}
 
 .header1 img {
   display:flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  
 }
 
 .image-with-typing {
   position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
+  width: 100%;
+  height: 70%;
 }
 
 .message {
@@ -63,6 +69,7 @@ justify-content: center;
   
   
 }
+
 .typingwrap {
   position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
 }
@@ -83,8 +90,6 @@ justify-content: center;
  position: relative;
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
-
-  margin-top: 15%;
   margin-right: 20%;
 }
 
@@ -615,12 +620,19 @@ justify-content: center;
   }
 
 
+ .hobby-container::before {
+  content:"";
+  width: 100%;
+  height: 8vh;
+ }
+
   .hobby-container {
-    margin-top: 15%;
+    margin-top: 0%;
     display: flex;
   justify-content: center;
   flex-wrap: wrap;
   align-content: flex-start; /* 여러 줄 사이의 간격 최소화 */
+  z-index: 5;
   
   }
 
@@ -638,8 +650,8 @@ justify-content: center;
     color: white; /* 어두운 글자색 */
     border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
     border-radius: 20px; /* 둥근 모서리 */
-    margin: 5px; /* 버튼 사이의 간격 */
-    font-size: 3vw; /* 글자 크기 */
+    margin: 2px; /* 버튼 사이의 간격 */
+    font-size: 2.5vw; /* 글자 크기 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
    

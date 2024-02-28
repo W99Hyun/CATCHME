@@ -105,12 +105,14 @@ function Welcome05() {
       />
        <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div></div>
+    </div></div>
     <div className="typing-container">
       <div className="message typing">
         <div className="message-content">{currentText}</div>
       </div>
       </div>
+    </div>
+    
       
 
       <div className="JobSelectionButton">

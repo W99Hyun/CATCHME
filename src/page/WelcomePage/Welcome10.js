@@ -101,13 +101,15 @@ background-size: contain;
     />
      <div className='received'>
     <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div></div>
+    </div></div>
     <div className="typing-container09">
       <div className="message typing09">
         <span>{currentText}</span>
         </div>
       
       </div>
+    </div>
+    
       <div className="unlockslider-container">
       <div className="unlockslider-text">밀어서 동의하기</div>
       <input

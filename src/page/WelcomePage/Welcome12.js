@@ -92,12 +92,12 @@ function Welcome012() {
       />
        <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div> </div>
-    <div className="typing-container">
+    </div></div> <div className="typing-container">
       <div className="message typing">
         <div className="message-content">{displayedText}</div>
       </div>
-      </div>
+      </div></div>
+    
      <div></div>
       
 

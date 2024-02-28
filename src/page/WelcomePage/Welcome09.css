@@ -1,13 +1,13 @@
 .home2 {
     display: grid; 
-    grid-template-rows: 0.54fr 1.6fr 0.85fr 1.8fr 0.95fr ;
+    grid-template-rows: 0.515fr 2.45fr 1.8fr 0.95fr ;
     
     height: 100vh; /* 전체 뷰포트 높이 */
   }
 
   .home3 {
     display: grid; 
-    grid-template-rows: 0.54fr 1.6fr 0.85fr 1.8fr 0.95fr ;
+    grid-template-rows: 0.515fr 2.45fr 1.8fr 0.95fr ;
     
     height: 100vh; /* 전체 뷰포트 높이 */
   }
@@ -124,6 +124,6 @@
    display: flex;
    justify-content: flex-end; /* 오른쪽 정렬 */
    z-index: 2;
-   margin-top: 1.5%;
+   margin-top: -1.75%;
    margin-right: 20%;
  }

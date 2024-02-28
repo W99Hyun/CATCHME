@@ -146,13 +146,15 @@ useEffect(() => {
       />
        <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div></div>
+      </div></div>
       <div className="typing-container07">
       <div className="message typing07">
         <span>{currentText}</span>
         </div>
       
       </div>
+      </div>
+      
       <div className="hobby-container">
         {interests.slice(0, 11).map((interest, index) => (
           <button

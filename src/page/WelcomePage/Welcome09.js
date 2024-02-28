@@ -200,13 +200,15 @@ useEffect(() => {
       />
        <div className='received'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div></div>
+      </div></div>
       <div className="typing-container09">
       <div className="message typing09">
         <span>{currentText}</span>
         </div>
       
       </div>
+      </div>
+      
       <div className="character-selector">
        {/* 왼쪽 화살표 버튼 */}<CharacterContainer>
        <button onClick={() => handleArrowClick('left')}>{"<"}</button>
