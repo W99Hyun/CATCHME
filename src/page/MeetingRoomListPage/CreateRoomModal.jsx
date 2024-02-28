@@ -90,7 +90,7 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
       name="eachMatch"
       value="1"
       checked={eachMatch === 1}
-      onChange={(e) => setEachMatch(e.target.value)}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     1:1
   </label>
@@ -100,7 +100,7 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
       name="eachMatch"
       value="2"
       checked={eachMatch === 2}
-      onChange={(e) => setEachMatch(e.target.value)}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     2:2
   </label>
@@ -110,7 +110,7 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
       name="eachMatch"
       value="3"
       checked={eachMatch === 3}
-      onChange={(e) => setEachMatch(e.target.value)}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     3:3
   </label>
@@ -120,7 +120,7 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
       name="eachMatch"
       value="4"
       checked={eachMatch === 4}
-      onChange={(e) => setEachMatch(e.target.value)}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     4:4
   </label>
