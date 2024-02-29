@@ -29,12 +29,10 @@ import Welcome13M from "./page/WelcomePage/Welcome13M";
 import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
-
 import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
 import MyProfile2 from "./page/PersonalPage/MyProfile2";
-
 const AppContainer = styled.div`
   overflow: hidden; /* 스크롤을 숨기고 */
 `;
@@ -142,7 +140,7 @@ function App() {
                 <Route path="/login/alarm" element={<Alarm />} />
                 <Route path="/login/withfriends" element={<WithFriends />} />
                 <Route path="/login/matchhistory" element={<MatchHistory />} />
-                <Route path="/MeetingRoomMain" element={<MeetingRoomMain />} />
+                <Route path="/meetingroommain" element={<MeetingRoomMain />} />
                 <Route path="/room/:roomId" element={<Room />} />
                 <Route path="/PayComplete" element={<PayComplete />} />
                 <Route path="/login/mypage/myprofile" element={<MyProfile />} />
