@@ -24,23 +24,29 @@ justify-content: center;
 }
 
 
-
+.header1 {
+  width: 100%;
+  height: 100%;
+}
 
 .header1 img {
   display:flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  
 }
 
 .image-with-typing {
   position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
+  width: 100%;
+  height: 100%;
 }
 
 .message {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   width: fit-content;
-  margin-bottom: 1vh;
+  margin-bottom: 6px;
   flex-direction: column; /* 각 메시지 말풍선 하단에 10px 간격을 추가 */
   padding: 1% 2%;
   border-radius: 15px;
@@ -49,21 +55,28 @@ justify-content: center;
   
 }
 
+.rcontainer {
+  height: 107px;
+}
+
 .message.received {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   background: #F9F9F9;
   justify-content: flex-start; /* 수신 메시지 정렬 */
   width: fit-content;
-  height: fit-content;
+  
   position: relative;
   margin-top: -59%;
   margin-left: 19%;
-  z-index: 2;
+  
   max-width: 46vw;
   
   
 }
 
+.typingwrap {
+  position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
+}
 
 .message.received2 {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
@@ -78,16 +91,14 @@ justify-content: center;
 }
 
 .typing-container {
- 
+ position: relative;
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
-  z-index: 2;
-  margin-top: 0%;
   margin-right: 20%;
 }
 
 .message.typing {
-  margin-top: 2%;
+  
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   background: #F9F9F9;
   border: none;
@@ -312,7 +323,7 @@ justify-content: center;
    }
 
   .job-selection {
-    margin-top: -55%;
+    margin-top: -40%;
     position: absolute;
     width: 40%;
     height: 3%;
@@ -455,6 +466,7 @@ justify-content: center;
   }
 
   .mbti-selection-container1{
+    margin-top: 10%;
     margin-right: 7%;
     display: flex; /* Flex 컨테이너를 설정합니다. */
   justify-content: center; /* 가로축을 기준으로 중앙 정렬합니다. */
@@ -472,7 +484,7 @@ justify-content: center;
 
    .mbti-selection-container3{
     margin-right: 7%;
-    margin-top: -37%;
+    margin-top: -8%;
     display: flex; /* Flex 컨테이너를 설정합니다. */
   justify-content: center; /* 가로축을 기준으로 중앙 정렬합니다. */
   flex-wrap: wrap; /* 버튼들이 너무 많아 한 줄에 다 안 들어갈 때 다음 줄로 넘어가도록 합니다. */
@@ -499,7 +511,7 @@ justify-content: center;
    .heightslider-container {
     position: relative;
     width: 100%;
-    margin-top: 13%;
+    margin-top: 17%;
     margin-left: auto;
     margin-right: auto;
    
@@ -611,12 +623,13 @@ justify-content: center;
 
   }
 
-
   .hobby-container {
+    margin-top: 0%;
     display: flex;
   justify-content: center;
   flex-wrap: wrap;
   align-content: flex-start; /* 여러 줄 사이의 간격 최소화 */
+  z-index: 5;
   
   }
 
@@ -628,14 +641,15 @@ justify-content: center;
 
   }
 
+
   .hobby-btn{
     font-family: 'Noto Sans KR', sans-serif;
     background-color: transparent; 
     color: white; /* 어두운 글자색 */
     border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
     border-radius: 20px; /* 둥근 모서리 */
-    margin: 5px; /* 버튼 사이의 간격 */
-    font-size: 3vw; /* 글자 크기 */
+    margin: 2px; /* 버튼 사이의 간격 */
+    font-size: 2.5vw; /* 글자 크기 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
    
@@ -653,14 +667,9 @@ justify-content: center;
 }
 
 
-.faceSelectionButton::before {
-  content: ""; /* 가상 요소에는 내용이 필요하지만, 여기서는 비워둡니다. */
-  width: 100%; /* 컨테이너의 전체 너비를 차지하도록 설정 */
-  height: 6vh; /* 높이는 0으로 설정 */
-}
-
 
 .faceSelectionButton{
+  margin-top: 15%;
   font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   flex-direction: column;
@@ -669,7 +678,7 @@ justify-content: center;
  }
 
  .faceTypecontainer{
-  margin-top: -3.75%;
+ 
   margin-left: 15%;
  }
  .toneSelectionButton{
@@ -690,7 +699,7 @@ justify-content: center;
   color: white; /* 어두운 글자색 */
   border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
   border-radius: 20px; /* 둥근 모서리 */
-  margin: 3vw; /* 버튼 사이의 간격 */
+  margin: 1vw; /* 버튼 사이의 간격 */
   font-size: 3vw; /* 글자 크기 */
   cursor: pointer; /* 마우스 오버 시 커서 변경 */
   transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */

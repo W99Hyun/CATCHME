@@ -22,7 +22,7 @@ function Welcome08() {
   const fullMessage1 = "얼굴이 뚜렷한 편이야?";
   const fullMessage2 = "피부톤도 골라줘!"
   const typingSpeed = 75;
-  const currentStep = 4;
+  const currentStep = 7;
     const totalSteps = 14;
   
     useEffect(() => {
@@ -116,14 +116,18 @@ function Welcome08() {
       <div className="image-with-typing">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-       <div className='received'>
+       <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div></div>
+    </div>
     <div className="typing-container">
       <div className="message typing">
         <div className="message-content">{currentText}</div>
       </div>
       </div>
+    </div>
+    
+    </div>
+    
       
 
       <div className="faceSelectionButton">
@@ -143,7 +147,7 @@ function Welcome08() {
     height: '1.5px', // 막대의 높이
     backgroundColor: 'white', // 막대의 색상
     width: '60%', // 막대의 너비
-    margin: '30px auto', // 막대의 상하 마진 (자동으로 좌우 중앙 정렬)
+    margin: '8px auto', // 막대의 상하 마진 (자동으로 좌우 중앙 정렬)
   }} />
       
     </div>

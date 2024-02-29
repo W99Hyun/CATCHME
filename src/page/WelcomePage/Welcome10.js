@@ -22,7 +22,7 @@ background-size: contain;
     const fullMessage1 = "알려줘서 고마워!";
     const fullMessage2 = "이제 너의 이상형을 알려줘!!"
     const typingSpeed = 75;
-    const currentStep = 8;
+    const currentStep = 9;
       const totalSteps = 14;
 
       useEffect(() => {
@@ -90,7 +90,7 @@ background-size: contain;
   };
 
   return (
-    <div className="home2">
+    <div className="home3">
     <BackgroundImage />
     <div className="header">
     <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
@@ -99,15 +99,19 @@ background-size: contain;
     <div className="image-with-typing">
     <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
     />
-     <div className='received'>
+     <div className='rcontainer'>
     <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div></div>
-    <div className="typing-container">
-      <div className="message typing">
+    </div>
+    <div className="typing-container09">
+      <div className="message typing09">
         <span>{currentText}</span>
         </div>
       
       </div>
+    </div>
+    
+    </div>
+    
       <div className="unlockslider-container">
       <div className="unlockslider-text">밀어서 동의하기</div>
       <input
