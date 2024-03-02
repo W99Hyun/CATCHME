@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import RoomBody from "../component/RoomBody";
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const BackgroundImage = styled.div`
 
@@ -23,6 +24,27 @@ const BackgroundImage = styled.div`
 
 function Room() {
   const { roomId } = useParams(); // URL로부터 roomId를 가져옴
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const kid = localStorage.getItem('kid');
+
+     const headers = {
+      'Authorization': accessToken, 
+      'Refresh-Token': refreshToken, 
+      'Kid': kid,
+    };
+
+    // 서버로 정보 전송
+    axios.post(`https://api.catchmenow.co.kr/room/api/room_info/${roomId}/`, { headers })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [roomId]);
 
   return (
         <div>
