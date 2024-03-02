@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ const Text1 = styled.div`
   width: 100%;
   height: 40%;
   margin: auto;
-`
+`;
 
 const Text2 = styled.div`
   color: #E296B6;
@@ -49,7 +49,7 @@ const Text2 = styled.div`
   width: 100%;
   height: 40%;
   margin: auto;
-`
+`;
 
 const Button = styled.button`
   font-family: 'Noto Sans KR', sans-serif;
@@ -70,46 +70,16 @@ const Button = styled.button`
 `;
 
 const EnterRoomModal = ({ isOpen, onClose }) => {
-
   const [selectedPeople, setSelectedPeople] = useState(null);
-  const [roomCount, setRoomCount] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (selectedPeople !== null) {
-      const fetchData = async () => {
-        try {
-          const roomResponse = 
-          await fetch('https://api.catchmenow.co.kr/room/api/room_info/', { //뒤에 ${selectedPeople} 붙이기 
-            method: "GET",
-            mode: 'cors'
-          })
-
-          const roomNumberdata = await roomResponse.json();
-          
-          setRoomCount(roomNumberdata);
-        } catch (error) {
-          console.error('Error fetching room info:', error);
-        }
-      };
-  
-      fetchData();
-    }
-  }, [selectedPeople]);
-
   const handleButtonClick = (people) => {
-    setSelectedPeople(people);
-    onClose();
+    setSelectedPeople(people); // 선택된 인원 수를 상태로 저장
+    onClose(); // 모달 닫기
 
-    //navigate(`/meetingroommain`, { state: { selectedPeople: people } }); // 이건 임시
-    navigate(`/meetingroommain`); // 이건 임시
+    // 선택된 인원 수만 /meetingroommain 페이지의 상태로 넘겨줍니다.
+    navigate(`/meetingroommain`,  { state: { selectedPeople: people } });
   };
-
-  useEffect(() => {
-    if (roomCount.count) {
-      navigate(`/meetingroommain/${roomCount.count}`);
-    }
-  }, [roomCount, navigate]);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -123,19 +93,17 @@ const EnterRoomModal = ({ isOpen, onClose }) => {
         <>
           <Backdrop onClick={handleBackdropClick} />
           <CloudModalContainer>
-            <Text1> 
-              몇 명이서 참여하시나요?
-            </Text1>
+            <Text1>몇 명이서 참여하시나요?</Text1>
             <Button backgroundColor="#E296B6" onClick={() => handleButtonClick(1)}>1 : 1</Button>
             <Button backgroundColor="#4AC4AD" onClick={() => handleButtonClick(2)}>2 : 2</Button>
             <Button backgroundColor="#EFC53B" onClick={() => handleButtonClick(3)}>3 : 3</Button>
             <Button backgroundColor="#476EBB" onClick={() => handleButtonClick(4)}>4 : 4</Button>
-            <Text2> 
+            <Text2>
               Tip. 매칭이 되면 미팅의 대표자로서의 
               <br />
               역할을 하게 됩니다.
               <br />
-              몇 명의 친구와 미팅을 나갈지 선택하세요 !
+              몇 명의 친구와 미팅을 나갈지 선택하세요!
             </Text2>
           </CloudModalContainer>
         </>

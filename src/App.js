@@ -29,12 +29,10 @@ import Welcome13 from "./page/WelcomePage/Welcome13";
 import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
-
 import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
 import MyProfile2 from "./page/PersonalPage/MyProfile2";
-
 const AppContainer = styled.div`
   overflow: hidden; /* 스크롤을 숨기고 */
 `;
