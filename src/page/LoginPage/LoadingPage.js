@@ -1,10 +1,13 @@
+/*
+이제 필요없는 페이지
+*/
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 import "./LoadingPage.css";
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

@@ -1,3 +1,6 @@
+/*
+이제 필요없는 페이지
+*/
 import { useState } from "react";
 import "./Loading.css";
 import styled from "styled-components";

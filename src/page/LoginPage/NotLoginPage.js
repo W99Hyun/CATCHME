@@ -11,7 +11,7 @@ const kakaoParams = new URLSearchParams({
 const kParams = new URLSearchParams(kakaoParams).toString();
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -61,36 +61,39 @@ const KakaoLoginButton = styled.button.attrs((props) => ({
 `;
 
 function NotLogin({ onLogin }) {
+  const [time, setTime] = useState(false);
+  const timer = setTimeout(() => {
+    setTime(true);
+  }, 2000);
+
   return (
     <div>
       <BackgroundImage />
       <PlanetImage />
-      <div className="notlogin-container">
-        <div></div>
-        <div></div>
-        <div>
-          <p className="notlogin-text">
-            간편하게 로그인하고
-            <br />
-            지금바로 시작하세요.
-          </p>
-          <p>
-            수정할거 있음!수정할거 있음!수정할거 있음!수정할거 있음!수정할거
-            있음!
-          </p>
-        </div>
-        <div></div>
-        <div>
+      {time ? (
+        <div className="notlogin-container">
+          <div></div>
+          <div></div>
+          <div>
+            <p className="notlogin-text">
+              간편하게 로그인하고
+              <br />
+              지금바로 시작하세요.
+            </p>
+          </div>
+          <div></div>
           <div className="notlogin-kakao-image">
-            <KakaoLoginButton>
-              <img
-                src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
-                alt="Kakao Login Button"
-              />
-            </KakaoLoginButton>
+            <div>
+              <KakaoLoginButton>
+                <img
+                  src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
+                  alt="Kakao Login Button"
+                />
+              </KakaoLoginButton>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

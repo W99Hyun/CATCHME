@@ -22,7 +22,7 @@
 }
 .yeslogin-container {
   display: grid;
-  grid-template-rows: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1.5fr 1fr 1fr 1fr 1.5fr 2fr 0.5fr 1fr;
   height: 93vh;
   gap: 5px;
 }

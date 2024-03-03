@@ -69,12 +69,9 @@ function App() {
           <GenderProvider>
             <ContentContainer>
               <Routes>
-                <Route path="/" element={<Loading />} />
-                <Route path="/r" element={<Loading2 />} />
-                <Route
-                  path="/notlogin"
-                  element={<NotLogin onLogin={handleLogin} />}
-                />
+                {/* <Route path="/" element={<Loading />} />
+                <Route path="/r" element={<Loading2 />} /> */}
+                <Route path="/" element={<NotLogin onLogin={handleLogin} />} />
                 <Route path="/login" element={<YesLogin />} />
                 <Route path="/login/information" element={<Information />} />
                 <Route
