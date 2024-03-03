@@ -47,7 +47,7 @@
       width: fit-content;
       
       position: relative;
-      margin-top: -105%;
+      margin-top: -410px;
       margin-left: 19%;
       
       max-width: 46vw;
@@ -101,5 +101,5 @@
         /* 좌우 패딩을 추가하여 버튼이 화면 끝에 닿지 않도록 합니다 */
        /* 버튼들과 상단 컨텐츠 사이에 여백을 추가합니다 */
         width: 100%; /* 너비를 100%로 설정하여 전체 화면을 사용합니다 */
-        margin-top: 20px;
+        margin-top: 55px;
       }
