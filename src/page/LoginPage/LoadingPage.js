@@ -20,6 +20,28 @@ const BackgroundImage = styled.div`
   }
 `;
 
+const PlanetImage = styled.div`
+  background-image: url(${process.env.PUBLIC_URL}/image/planet.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  animation: rotateClockwise 30s linear infinite;
+  position: fixed;
+  margin: auto;
+  z-index: 1;
+
+  @keyframes rotateClockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 function Loading() {
   const [time, setTime] = useState(false);
   const timer = setTimeout(() => {
@@ -32,10 +54,7 @@ function Loading() {
         <Navigate to="/notlogin" />
       ) : (
         <div>
-          <img
-            src={`${process.env.PUBLIC_URL}/image/planet.png`}
-            className="planet-img"
-          />
+          <PlanetImage />
           <BackgroundImage />
         </div>
       )}

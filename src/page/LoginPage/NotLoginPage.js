@@ -20,10 +20,32 @@ const BackgroundImage = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -5;
 
   @media screen and (min-width: 320px) and (max-width: 1439px) {
     background-size: contain;
+  }
+`;
+
+const PlanetImage = styled.div`
+  background-image: url(${process.env.PUBLIC_URL}/image/planet.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  animation: rotateClockwise 30s linear infinite;
+  position: fixed;
+  margin: auto;
+  z-index: -1;
+
+  @keyframes rotateClockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -42,7 +64,7 @@ function NotLogin({ onLogin }) {
   return (
     <div>
       <BackgroundImage />
-
+      <PlanetImage />
       <div className="notlogin-container">
         <div></div>
         <div></div>
@@ -51,6 +73,10 @@ function NotLogin({ onLogin }) {
             간편하게 로그인하고
             <br />
             지금바로 시작하세요.
+          </p>
+          <p>
+            수정할거 있음!수정할거 있음!수정할거 있음!수정할거 있음!수정할거
+            있음!
           </p>
         </div>
         <div></div>
