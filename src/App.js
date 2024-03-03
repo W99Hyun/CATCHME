@@ -5,6 +5,7 @@ import MeetingRoomMain from "./page/MeetingRoomListPage/MeetingRoomMain";
 import Room from "./page/Room";
 import PayComplete from "./page/PayCompletePage";
 import Loading from "./page/LoginPage/LoadingPage";
+import Loading2 from "./page/LoginPage/Loading";
 import NotLogin from "./page/LoginPage/NotLoginPage";
 import YesLogin from "./page/LoginPage/YesLoginPage";
 import MyPage from "./page/PersonalPage/MyPage";
@@ -71,6 +72,7 @@ function App() {
             <ContentContainer>
               <Routes>
                 <Route path="/" element={<Loading />} />
+                <Route path="/r" element={<Loading2 />} />
                 <Route
                   path="/notlogin"
                   element={<NotLogin onLogin={handleLogin} />}
