@@ -1,181 +1,113 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Welcome02.css'; // CSS 파일을 임포트하세요
-import './Welcome08.css';
+import { useNavigate } from 'react-router-dom'; // 
+import './Welcome.css';
+import './Welcome02.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
-import { useGender } from './GenderContext';
-
 
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #565656;
+    background-color: #83A98B;;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: -1;
+    z-index: -2;
+`
 
-` 
-
-  function Welcome08() {
-    const [message, setMessage] = useState('');
-const fullMessage1 = "종아! 이제 너가 사용할 캐릭터를 골라봐!";
-const fullMessage2 = "너와 닮은 동물이면 더 좋겠지?"
-const typingSpeed = 75;
-const currentStep = 7;
-  const totalSteps = 14;
-
-  const { gender } = useGender();
-
-  const characters = gender === '남자' ? [
-    { name: 'Mrabbit', message: ' 토끼 캐릭터로 할래!' },
-    { name: 'Mmonkey', message: ' 원숭이 캐릭터로 할래!' },
-    { name: 'Mbear', message: ' 곰 캐릭터로 할래!' },
-    { name: 'Mcat', message: ' 고양이 캐릭터로 할래!' },
-    { name: 'Mdino', message: ' 공룡 캐릭터로 할래!' },
-    { name: 'Mdog', message: ' 강아지 캐릭터로 할래!' },
-    { name: 'Mduck', message: ' 오리 캐릭터로 할래!' },
-    { name: 'Mfox', message: ' 여우 캐릭터로 할래!' },
-    { name: 'Mgiraffe', message: ' 기린 캐릭터로 할래!' },
-    { name: 'Mmouse', message: ' 쥐 캐릭터로 할래!' },
-    { name: 'Motter', message: ' 수달 캐릭터로 할래!' },
-    { name: 'Mpanda', message: ' 팬더 캐릭터로 할래!' },
-    { name: 'Mquokka', message: ' 쿼카 캐릭터로 할래!' },
-    { name: 'Msheep', message: ' 양 캐릭터로 할래!' },
-    { name: 'Msnake', message: ' 뱀 캐릭터로 할래!' },
-    { name: 'Mtiger', message: ' 호랑이 캐릭터로 할래!' },
-    { name: 'Mturtle', message: ' 거북이 캐릭터로 할래!' }
-    // 남자 캐릭터 목록...
-  ] : [
-    { name: 'Wrabbit', message: ' 토끼 캐릭터로 할래!' },
-    { name: 'Wmonkey', message: ' 원숭이 캐릭터로 할래!' },
-    { name: 'Wbear', message: ' 곰 캐릭터로 할래!' },
-    { name: 'Wcat', message: ' 고양이 캐릭터로 할래!' },
-    { name: 'Wdino', message: ' 공룡 캐릭터로 할래!' },
-    { name: 'Wdog', message: ' 강아지 캐릭터로 할래!' },
-    { name: 'Wduck', message: ' 오리 캐릭터로 할래!' },
-    { name: 'Wfox', message: ' 여우 캐릭터로 할래!' },
-    { name: 'Wgiraffe', message: ' 기린 캐릭터로 할래!' },
-    { name: 'Wmouse', message: ' 쥐 캐릭터로 할래!' },
-    { name: 'Wotter', message: ' 수달 캐릭터로 할래!' },
-    { name: 'Wpanda', message: ' 팬더 캐릭터로 할래!' },
-    { name: 'Wquokka', message: ' 쿼카 캐릭터로 할래!' },
-    { name: 'Wsheep', message: ' 양 캐릭터로 할래!' },
-    { name: 'Wsnake', message: ' 뱀 캐릭터로 할래!' },
-    { name: 'Wtiger', message: ' 호랑이 캐릭터로 할래!' },
-    { name: 'Wturtle', message: ' 거북이 캐릭터로 할래!' },
-
-    // 여자 캐릭터 목록...
-  ];
-
- 
- 
+function Welcome08() {
+  const [message, setMessage] = useState('');
+  const fullMessage1 = "얼굴이 뚜렷한 편이야?";
+  const fullMessage2 = "피부톤도 골라줘!"
+  const typingSpeed = 75;
+  const currentStep = 7;
+    const totalSteps = 14;
   
-  
-  const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [hasClicked, setHasClicked] = useState(false);
-  
-  const handleArrowClick = (direction) => {
-    setHasClicked(true);
-
-    // 이전 타이핑 애니메이션을 중지합니다.
-    clearInterval(typingIntervalRef.current);
-    setCurrentText(''); // 타이핑 텍스트를 초기화합니다.
-
-    setCurrentIndex((prevIndex) => {
-      let newIndex = direction === 'left' ? prevIndex - 1 : prevIndex + 1;
-      if (newIndex < 0) {
-        newIndex = characters.length - 1;
-      } else if (newIndex >= characters.length) {
-        newIndex = 0;
-      }
-
-      // 새 인덱스에 해당하는 캐릭터 메시지로 타이핑 애니메이션을 시작합니다.
-      typeMessage(characters[newIndex].message);
-
-      return newIndex;
-    });
-  };
-
-
-  const typeMessage = (message) => {
-    let index = 0;
-    let typedMessage = ''; // 메시지를 누적시킬 변수
-
-    // 이전 타이핑 애니메이션을 중지합니다.
-    clearInterval(typingIntervalRef.current);
-
-    typingIntervalRef.current = setInterval(() => {
-      typedMessage += message.charAt(index); // 현재 문자를 누적시킴
-      setCurrentText(typedMessage); // 누적된 메시지로 상태 업데이트
-      index++;
-      if (index === message.length) {
-        clearInterval(typingIntervalRef.current); // 메시지의 끝에 도달하면 인터벌 정지
-      }
-    }, typingSpeed);
-  };
-
-  // useRef를 사용하여 typingInterval의 참조를 저장합니다.
-  const typingIntervalRef = useRef(null);
-
-  // 캐릭터 인덱스가 바뀔 때마다 타이핑 애니메이션을 시작
-  
-
-  
-  useEffect(() => {
-    if (hasClicked) { // 사용자가 화살표 버튼을 클릭한 경우에만 타이핑 애니메이션 시작
-        let index = 0;
-        setCurrentText(''); // 시작 전에 텍스트를 초기화
-
-        const typingInterval = setInterval(() => {
-            setCurrentText((prev) => prev + characters[currentIndex].message.charAt(index));
-            index++;
-            if (index === characters[currentIndex].message.length) {
-                clearInterval(typingInterval);
-            }
-        }, typingSpeed);
-    }
-}, [currentIndex, hasClicked]);
-  
-  
-
-useEffect(() => {
-  if (message.length < fullMessage1.length + fullMessage2.length) {
-    setTimeout(() => {
-      setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
-                 fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
-    }, typingSpeed);
-  }
-}, [message, fullMessage1, fullMessage2]);
+    useEffect(() => {
+        if (message.length < fullMessage1.length + fullMessage2.length) {
+          setTimeout(() => {
+            setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
+                       fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
+          }, typingSpeed);
+        }
+      }, [message, fullMessage1, fullMessage2]);
 
   const navigate = useNavigate();
 
-      
- 
   
- 
- 
+  const [currentText, setCurrentText] = useState('...');
+  const [typingText, setTypingText] = useState('');
+  const [selectedfaceType, setSelectedfaceType] = useState('');
+  const [selectedtoneType, setSelectedtoneType] = useState('');
+  const typingIntervalRef = useRef(); // 타이핑 인터벌을 위한 ref
+
+  const faceTypes = [
+    '뚜렷상', '두부상'
+  ];
+
+  const toneTypes = [
+    '밝은', '보통', '어두운'
+  ];
+
+  const handlefaceTypeButtonClick = (faceType) => {
+    setSelectedfaceType(faceType);
+    // 피부톤 선택 상태가 이미 있다면 타이핑 텍스트를 업데이트합니다.
+    if (selectedtoneType && faceType !== selectedfaceType) {
+      setCurrentText('');
+      setTypingText(`  나는 ${faceType}이고 ${selectedtoneType} 피부톤이야!`);
+    }
+  };
+  
+  const handletoneTypeButtonClick = (toneType) => {
+    setSelectedtoneType(toneType);
+    // 얼굴상 선택 상태가 이미 있다면 타이핑 텍스트를 업데이트합니다.
+    if (selectedfaceType && toneType !== selectedtoneType) {
+      setCurrentText('');
+      setTypingText(`  나는 ${selectedfaceType}이고 ${toneType} 피부톤이야!`);
+    }
+  };
+
+  useEffect(() => {
+    if (typingText) {
+      setCurrentText(''); // 기존 텍스트를 지우고
+      clearInterval(typingIntervalRef.current); // 이전 인터벌을 클리어합니다.
+      let index = 0;
+      typingIntervalRef.current = setInterval(() => {
+        if (index < typingText.length) {
+          setCurrentText((prev) => prev + typingText.charAt(index));
+          index++;
+        } else {
+          clearInterval(typingIntervalRef.current); // 타이핑이 끝나면 인터벌을 클리어합니다.
+        }
+      }, typingSpeed);
+    }
+    // 컴포넌트가 언마운트되거나 typingText가 변경될 때 타이머를 정리합니다.
+    return () => clearInterval(typingIntervalRef.current);
+  }, [typingText, typingSpeed]);
+  
+  
+
+  
 
 
   const handlePreviousClick = () => {
     // "이전" 버튼 로직
-    navigate(-1); // 이전 페이지로 돌아갑니다.
+    navigate(-1);
   };
 
   const handleNextClick = () => {
-    navigate('/login/information/Welcome09');
+    if (selectedfaceType && selectedtoneType) {
+      navigate('/login/information/Welcome09');
+    } else {
+      alert('얼굴상과 피부톤을 선택해주세요!');
+    }
   };
-
  
- 
-
 
   return (
-    <div className="home2">
+    <div className="home">
       <BackgroundImage />
       <div className="header">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
@@ -184,35 +116,65 @@ useEffect(() => {
       <div className="image-with-typing">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-       <div className='received'>
+       <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div></div>
-      <div className="typing-container">
+    </div>
+    <div className="typing-container">
       <div className="message typing">
-        <span>{currentText}</span>
-        </div>
-      
+        <div className="message-content">{currentText}</div>
       </div>
-      <div className="character-selector">
-       {/* 왼쪽 화살표 버튼 */}
-       <button onClick={() => handleArrowClick('left')}>{"<"}</button>
-      {/* 현재 캐릭터 이미지 */}
-      <img key={currentIndex} src={`${process.env.PUBLIC_URL}/image/welcome/${characters[currentIndex].name}.png`} alt={characters[currentIndex].name} />
-      {/* 오른쪽 화살표 버튼 */}
-      
-      <button onClick={() => handleArrowClick('right')}>{">"}</button>
-        
       </div>
+    </div>
+    
+    </div>
+    
       
+
+      <div className="faceSelectionButton">
+     
+      <div className="faceTypecontainer">
+        {faceTypes.map(faceType => ( // 첫 8개의 MBTI 유형
+          <button
+            key={faceType}
+            className={`face-button ${selectedfaceType === faceType ? 'selected' : ''}`}
+            onClick={() => handlefaceTypeButtonClick(faceType)}
+          >
+            {faceType}
+          </button>
+        ))}
+      </div>
+      <div style={{
+    height: '1.5px', // 막대의 높이
+    backgroundColor: 'white', // 막대의 색상
+    width: '60%', // 막대의 너비
+    margin: '8px auto', // 막대의 상하 마진 (자동으로 좌우 중앙 정렬)
+  }} />
+      
+    </div>
+    <div className="toneSelectionButton">
+    <div className="toneTypecontainer">
+    {toneTypes.map(toneType => (
+      <button
+        key={toneType}
+        className={`face-button ${selectedtoneType === toneType ? 'selected' : ''}`}
+        onClick={() => handletoneTypeButtonClick(toneType)}
+      >
+        {toneType}
+      </button>
+    ))}
+  </div>
+      
+    </div>
       
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
-    
-    </div>
-    </div>
-    
+      </div>
+      <div></div>
+      
+      </div>
+   
   );
 }
 
-export default Welcome08 ;
+export default Welcome08;

@@ -9,7 +9,7 @@ import ProgressBar from './ProgressBar';
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #565656;
+    background-color: #83A98B;;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -85,7 +85,7 @@ function Welcome04() {
       "화신사이버대학교", "서울여자간호대학교", "유한대학교", "신구대학교", "세경대학교","거제대학교", "한국외국어대학교 용인캠퍼스", "국제대학교", "동원대학교", "한국관광대학교",
       "추계예술대학교", "신성대학교", "디지털서울문화예술대학교", "마산대학교", "대구미래대학교","경북도립대학교", "계명문화대학교", "부천대학교", "김천과학대학교", "동양미래대학교",
       "경복대학교", "제주관광대학교", "전남과학대학교", "강릉영동대학교", "영진사이버대학교","송곡대학교", "부산정보대학교", "부산외국어대학교", "한국재활복지대학교", "서울예술대학교",
-      "전북과학대학교", "우송정보대학교", "한국과학기술원", "동서울대학교", "안동과학대학교","용인송담대학교", "영진전문대학교", "전주비전대학교", "한영대학교", "대구교육대학교",
+      "전북과학대학교", "우송정보대학교", "한국과학기술원(KAIST)", "동서울대학교", "안동과학대학교","용인송담대학교", "영진전문대학교", "전주비전대학교", "한영대학교", "대구교육대학교",
       "제주대학교 사라캠퍼스", "경북전문대학교", "혜천대학교", "경남정보대학교", "청강문화산업대학교","아주자동차대학교", "백제예술대학교", "춘천교육대학교", "창원전문대학교", "경인교육대학교 안양캠퍼스",
       "재능대학교", "경북외국어대학교", "한국사이버대학교", "청양대학교", "경산1대학교", "오산대학교", "적십자간호대학교", "서강정보대학교", "한국방송통신대학교", "사이버한국외국어대학교",
       "진주교육대학교", "서해대학교", "신흥대학교", "강원관광대학교", "계원디자인예술대학교",  "서정대학교", "동남보건대학교", "금오공과대학교", "동부산대학교", "동주대학교",
@@ -168,14 +168,18 @@ function Welcome04() {
       <div className="image-with-typing">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-       <div className='received'>
+       <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div></div> </div>
+    </div>
     <div className="typing-container">
       <div className="message typing">
         <div className="message-content">{typingText}</div>
       </div>
       </div>
+    </div>
+    
+     </div>
+   
      
       
 

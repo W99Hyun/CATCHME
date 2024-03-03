@@ -1,185 +1,138 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Welcome02.css'; // CSS 파일을 임포트하세요
-import './Welcome.css';
+import './Welcome09.css';
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
-import { useGender } from './GenderContext';
-
 
 const BackgroundImage = styled.div `
-    background-size: contain;
+background-size: contain;
     background-repeat: no-repeat;
-    background-color: #565656;
+    background-color: #92B3BD;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
     position: fixed;
     z-index: -1;
-
 ` 
 
-  function Welcome03() {
-  const [message, setMessage] = useState('');
-  const fullMessage1 = "너는 몇살이야?";
-  const fullMessage2 = "성별도 알려줘!"
-  const typingSpeed = 75;
-  const currentStep = 2;
-  const totalSteps = 14;
+  function Welcome10() {
+    const [message, setMessage] = useState('');
+    const fullMessage1 = "알려줘서 고마워!";
+    const fullMessage2 = "이제 너의 이상형을 알려줘!!"
+    const typingSpeed = 75;
+    const currentStep = 9;
+      const totalSteps = 14;
 
-  const [currentText, setCurrentText] = useState('...'); 
-  const [typingText, setTypingText] = useState(''); 
-  const [typing, setTyping] = useState(false); 
-  const typingIntervalRef = useRef(null);
-  
-  
-  const resetTyping = () => {
-    clearInterval(typingIntervalRef.current);
-    setCurrentText('');
-  };
-
-  const { gender, setGender: setSelectedGender } = useGender();
-  const handleGenderSelect = (selectedGender) => {
-    setSelectedGender(selectedGender);
-    resetTyping();
-    setTypingText(` 나는 ${sliderValueMin}살에서 ${sliderValueMax}살이고 ${selectedGender}야!`);
-    setTyping(true);
-  };
-
-  useEffect(() => {
-  if (message.length < fullMessage1.length + fullMessage2.length) {
-    setTimeout(() => {
-      setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
-                 fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
-    }, typingSpeed);
-  }
-}, [message, fullMessage1, fullMessage2]);
-
-  const navigate = useNavigate();
+      useEffect(() => {
+        if (message.length < fullMessage1.length + fullMessage2.length) {
+          setTimeout(() => {
+            setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
+                       fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
+          }, typingSpeed);
+        }
+      }, [message, fullMessage1, fullMessage2]);
+      
+        const navigate = useNavigate();
 
       
-  const [sliderValueMin, setSliderValueMin] = useState(20); // 최소값 슬라이더의 상태
-  const [sliderValueMax, setSliderValueMax] = useState(30); // 최대값 슬라이더의 상태
-  const handleSliderChangeMin = (e) => {
-    setSliderValueMin(e.target.value);
+        const [unlocksliderValue, setunlockSliderValue] = useState(2);
+  const [currentText, setCurrentText] = useState('...');
+  const typingIntervalRef = useRef(null);
+
+  const typeMessage = (newMessage) => {
+    clearInterval(typingIntervalRef.current);
+    setCurrentText('');
+
+    let index = 0;
+    typingIntervalRef.current = setInterval(() => {
+      if (index < newMessage.length) {
+        setCurrentText((prev) => prev + newMessage.charAt(index));
+        index++;
+      } else {
+        clearInterval(typingIntervalRef.current);
+      }
+    }, typingSpeed);
   };
 
-  const handleSliderChangeMax = (e) => {
-    setSliderValueMax(e.target.value);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setunlockSliderValue(value);
   };
-  useEffect(() => {
-    const percentage = ((sliderValueMax - 20) / (30 - 20)) * 100; 
-    document.documentElement.style.setProperty('--slider-percentage', `${percentage}%`);
-  }, [sliderValueMax]);
 
+  const handleMouseUp = () => {
+    if (unlocksliderValue >= 60) {
+      setunlockSliderValue(100);
+      typeMessage(" 알겠어!");
+    } else {
+      setunlockSliderValue(2);
+      typeMessage(" ...");
+    }
+  };
+
+  
+  
 
   const handlePreviousClick = () => {
-    navigate(-1); 
+    // "이전" 버튼 로직
+    navigate(-1); // 이전 페이지로 돌아갑니다.
   };
 
   const handleNextClick = () => {
-    if (gender) {
-      navigate('/login/information/Welcome04'); 
+    // 슬라이더 값이 100일 경우에만 다음 페이지로 이동
+    if (unlocksliderValue === 100) {
+      navigate('/login/information/Welcome11');
     } else {
-      alert("성별을 선택해주세요."); 
+      // 100이 아니라면 경고 메시지 표시
+      alert("이상형 정보 입력에 동의해주세요!");
     }
   };
-
- 
-  const handleSliderStop = () => {
-    resetTyping();
-  
-    if (gender) {
-      
-      setTypingText(` 나는 ${sliderValueMin}살이고 ${gender}야!`);
-      setTyping(true); // 새로운 타이핑 시작
-    } else {
-      
-    }
-  };
-
-  useEffect(() => {
-    if (typing && typingText) {
-      let index = 0;
-      // 이전 인터벌을 취소합니다.
-      clearInterval(typingIntervalRef.current);
-      typingIntervalRef.current = setInterval(() => {
-        if (index < typingText.length) {
-          setCurrentText((prev) => prev + typingText.charAt(index));
-          index++;
-        } else {
-          clearInterval(typingIntervalRef.current);
-          setTyping(false);
-        }
-      }, typingSpeed);
-    }
-    // useEffect 정리 함수에서 인터벌을 정리합니다.
-    return () => clearInterval(typingIntervalRef.current);
-  }, [typing, typingText, typingSpeed]);
-
-
 
   return (
-    <div className="home">
-      <BackgroundImage />
-      <div className="header">
-      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      </div>
-      <div className="header1">
-      <div className="image-with-typing">
-      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
-      />
-       <div className='received'>
-      <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div></div>
-      <div className="typing-container">
-      <div className="message typing">
-        <span>{currentText}</span>
-        
-      </div>
-      </div>
-      
-    <div className="slider-container">
-    <input
-          type="range"
-          min="20"
-          max="30"
-          value={sliderValueMin}
-          onChange={handleSliderChangeMin}
-          onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
-          onTouchEnd={handleSliderStop} // 터치가 끝날 때 이벤트 (모바일 대응)
-          className="slider"
-        />
-        <input
-          type="range"
-          min="20"
-          max="30"
-          value={sliderValueMax}
-          onChange={handleSliderChangeMax}
-          onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
-          onTouchEnd={handleSliderStop} // 터치가 끝날 때 이벤트 (모바일 대응)
-          className="slider"
-        />
-      <div className="slider-labels">
-      <div className="slider-label-left">20</div>
-      <div className="slider-label-right">30</div>
+    <div className="home3">
+    <BackgroundImage />
+    <div className="header">
+    <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
     </div>
-    <div className="slider-instruction">스크롤을 좌우로 이동하여 조절하세요</div>
+    <div className="header1">
+    <div className="image-with-typing">
+    <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+    />
+     <div className='rcontainer'>
+    <SplitMessage message={message} splitIndex={fullMessage1.length} />
+    </div>
+    <div className="typing-container09">
+      <div className="message typing09">
+        <span>{currentText}</span>
+        </div>
+      
       </div>
-      <div className="gender-container">
-        {/* 성별 선택 버튼 */}
-        <button onClick={() => handleGenderSelect('남자')} className="gender-buttons">남자!</button>
-        <button onClick={() => handleGenderSelect('여자')} className="gender-buttons">여자!</button>
-      </div>
+    </div>
+    
+    </div>
+    
+      <div className="unlockslider-container">
+      <div className="unlockslider-text">밀어서 동의하기</div>
+      <input
+  type="range"
+  min="0"
+  max="100"
+  value={unlocksliderValue}
+  onChange={handleChange}
+  onMouseUp={handleMouseUp}
+  onTouchEnd={handleMouseUp}
+  className={`unlockslider ${unlocksliderValue >= 100 ? 'active' : ''}`}
+/>
+<div className={`unlockslider-thumb ${unlocksliderValue >= 60 ? 'active' : ''}`}></div>  
+    </div>
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
-    
-    </div>
+      </div>
     </div>
     
   );
 }
 
-export default Welcome03 ;
+export default Welcome10 ;

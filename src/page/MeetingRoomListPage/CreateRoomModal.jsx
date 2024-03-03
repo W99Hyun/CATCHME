@@ -7,25 +7,41 @@ import axios from 'axios';
 const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
   const [roomTitle, setRoomTitle] = useState("");
   const [roomLocation, setRoomLocation] = useState("");
-  const [eachMatch, setEachMatch] = useState("1:1"); //디폴트 1:1임
+  const [eachMatch, setEachMatch] = useState(1); //디폴트 1:1임
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const roomData = { rname: roomTitle, location: roomLocation, each_match: eachMatch};
+  
+    axios.get('https://api.catchmenow.co.kr/main/csrf')
+      .then(response => {
+        const csrfToken = response.data.csrfToken; 
+  
+        const roomData = { rname: roomTitle, location: roomLocation, each_match: eachMatch };
+        console.log(roomData);
+        axios.post('https://api.catchmenow.co.kr/room/api/room_info/', roomData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+        })
 
-    axios.post('https://api.catchmenow.co.kr/room/api/room_info/', roomData)
-      .then((response) => {
-        console.log('Room created:', response.data);
-        onCreateRoom(response.data);
-        onClose();
-        setRoomTitle("");
-        setRoomLocation("");
-        setEachMatch("1:1");
+        .then(response => {
+          console.log('Room created:', response.data);
+          onCreateRoom(response.data); 
+          onClose();                  
+          setRoomTitle("");           
+          setRoomLocation("");
+          setEachMatch(1);
+        })
+        .catch(error => {
+          console.error('Error creating room:', error);
+          alert('방 생성이 제대로 안되네옹');
+        });
       })
-      .catch((error) => {
-        console.error('Error creating room:', error);
-        alert('방 생성이 제대로 안되네옹');
+      .catch(error => {
+        console.error('CSRF 토큰 가져오기 실패:', error);
+        alert('CSRF 토큰을 가져오는데 실패했습니다.');
       });
   };
 
@@ -72,9 +88,9 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
     <input
       type="radio"
       name="eachMatch"
-      value="1:1"
-      checked={eachMatch === "1:1"}
-      onChange={(e) => setEachMatch(e.target.value)}
+      value="1"
+      checked={eachMatch === 1}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     1:1
   </label>
@@ -82,9 +98,9 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
     <input
       type="radio"
       name="eachMatch"
-      value="2:2"
-      checked={eachMatch === "2:2"}
-      onChange={(e) => setEachMatch(e.target.value)}
+      value="2"
+      checked={eachMatch === 2}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     2:2
   </label>
@@ -92,9 +108,9 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
     <input
       type="radio"
       name="eachMatch"
-      value="3:3"
-      checked={eachMatch === "3:3"}
-      onChange={(e) => setEachMatch(e.target.value)}
+      value="3"
+      checked={eachMatch === 3}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     3:3
   </label>
@@ -102,9 +118,9 @@ const CreateRoomModal = ({ isOpen, onClose, onCreateRoom }) => {
     <input
       type="radio"
       name="eachMatch"
-      value="4:4"
-      checked={eachMatch === "4:4"}
-      onChange={(e) => setEachMatch(e.target.value)}
+      value="4"
+      checked={eachMatch === 4}
+      onChange={(e) => setEachMatch(parseInt(e.target.value, 10))}
     />
     4:4
   </label>

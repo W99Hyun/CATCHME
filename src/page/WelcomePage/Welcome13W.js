@@ -9,7 +9,7 @@ import ProgressBar from './ProgressBar';
 const BackgroundImage = styled.div `
 background-size: contain;
 background-repeat: no-repeat;
-background-color: #B591D1;
+background-color: #83A98B;
 background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
 width: 100vw;
 height: 100vh;

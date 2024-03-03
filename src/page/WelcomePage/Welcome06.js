@@ -10,7 +10,7 @@ import ProgressBar from './ProgressBar';
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #565656;
+    background-color: #83A98B;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -121,14 +121,18 @@ const navigate = useNavigate();
       <div className="image-with-typing">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
       />
-       <div className='received'>
+       <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div></div></div>
+      </div>
       <div className="typing-container">
       <div className="message typing">
         <span>{currentText}</span>
         </div>
       </div>
+      </div>
+      
+      </div>
+      
       
       <div className="heightslider-container">
       <div className="heightlocation-container"> 

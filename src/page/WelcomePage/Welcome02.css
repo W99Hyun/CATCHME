@@ -24,29 +24,39 @@ justify-content: center;
 }
 
 
-
+.header1 {
+  width: 100%;
+  height: 100%;
+}
 
 .header1 img {
   display:flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  
 }
 
 .image-with-typing {
   position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
+  width: 100%;
+  height: 100%;
 }
 
 .message {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   width: fit-content;
-  margin-bottom: 1vh;
+  margin-bottom: 6px;
   flex-direction: column; /* 각 메시지 말풍선 하단에 10px 간격을 추가 */
-  padding: 1%;
+  padding: 1% 2%;
   border-radius: 15px;
   font-size: 3.25vw;
   background: #F9F9F9
   
+}
+
+.rcontainer {
+  height: 107px;
 }
 
 .message.received {
@@ -54,16 +64,19 @@ justify-content: center;
   background: #F9F9F9;
   justify-content: flex-start; /* 수신 메시지 정렬 */
   width: fit-content;
-  height: fit-content;
+  
   position: relative;
   margin-top: -59%;
   margin-left: 19%;
-  z-index: 2;
+  
   max-width: 46vw;
   
   
 }
 
+.typingwrap {
+  position: relative; /* 타이핑 메시지를 위한 상대 위치 설정 */
+}
 
 .message.received2 {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
@@ -78,27 +91,25 @@ justify-content: center;
 }
 
 .typing-container {
- 
+ position: relative;
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
-  z-index: 2;
-  margin-top: 0%;
   margin-right: 20%;
 }
 
 .message.typing {
-  margin-top: 3%;
+  
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
   background: #F9F9F9;
   border: none;
-  padding: 5px 10px; /* 내부 패딩 조정 */
+  padding: 1% 3%; /* 내부 패딩 조정 */
   width: fit-content;
   height: fit-content;
   max-width: 40vw;
 }
 
 .footer {
-  margin-top: 10%;
+  
   top: 80%; /* 상단에서 80% 위치 */
   left: 50%; /* 왼쪽에서 50% 위치 */
   text-align: center;
@@ -107,7 +118,7 @@ justify-content: center;
 }
 
 .button {
-  
+  font-family: 'Noto Sans KR', sans-serif;
   padding: 10px 20px;
   border-radius: 20px;
   background-color: transparent;; /* 버튼의 배경색 */
@@ -120,7 +131,7 @@ justify-content: center;
 }
 
 .button.secondary {
- 
+  font-family: 'Noto Sans KR', sans-serif;
   padding: 10px 20px;
   border-radius: 20px;
   background-color: transparent;; /* 버튼의 배경색 */
@@ -139,6 +150,7 @@ justify-content: center;
   width: 100%; /* 슬라이더의 너비를 지정합니다 */
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
+  
   
   }
 
@@ -281,12 +293,13 @@ justify-content: center;
   }
    
   .gender-container {
-    margin-top: 5%;
+   
     text-align: center;
   justify-content: center; /* 버튼들을 가운데 정렬합니다 */
   }
 
   .gender-buttons{
+    font-family: 'Noto Sans KR', sans-serif;
     padding: 10px 20px;
     border-radius: 20px;
     background-color: transparent;; /* 버튼의 배경색 */
@@ -301,6 +314,7 @@ justify-content: center;
   
 
   .JobSelectionButton{
+    font-family: 'Noto Sans KR', sans-serif;
     position: relative;
     flex-direction: column;
     display: flex;
@@ -309,7 +323,7 @@ justify-content: center;
    }
 
   .job-selection {
-    margin-top: -60%;
+    margin-top: -40%;
     position: absolute;
     width: 40%;
     height: 3%;
@@ -318,7 +332,7 @@ justify-content: center;
     border: 0.6vw solid white; /* 흰색 테두리 설정 */
     border-radius: 25px; /* 버튼의 둥근 모서리 */
     padding: 10px 30px; /* 내부 여백을 설정합니다. */
-    font-size: 3vw; /* 폰트 사이즈를 설정합니다. */
+    font-size: 3.5vw; /* 폰트 사이즈를 설정합니다. */
     cursor: pointer; /* 마우스 오버 시 커서를 포인터로 변경합니다. */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 효과를 추가합니다. */
     outline: none; /* 포커스 아웃라인을 제거합니다. */
@@ -353,6 +367,7 @@ justify-content: center;
 
  
   .SchoolSelectionButton {
+    font-family: 'Noto Sans KR', sans-serif;
     position: relative;
     flex-direction: column;
     display: flex;
@@ -361,6 +376,7 @@ justify-content: center;
   }
 
   .input-wrapper {
+    font-family: 'Noto Sans KR', sans-serif;
     position: absolute;
     width: 40%;
     height: 3%;
@@ -378,8 +394,28 @@ justify-content: center;
     align-items: center; /* 텍스트를 세로 중앙 정렬합니다. */
     text-align: center;
   }
+
+  .region-selection {
+    position: absolute;
+    width: 40%;
+    height: 3%;
+    background-color: transparent; 
+    color: white;
+    border: 0.6vw solid white; /* 흰색 테두리 설정 */
+    border-radius: 25px; /* 버튼의 둥근 모서리 */
+    padding: 10px 30px; /* 내부 여백을 설정합니다. */
+    font-size: 3.5vw; /* 폰트 사이즈를 설정합니다. */
+    cursor: pointer; /* 마우스 오버 시 커서를 포인터로 변경합니다. */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 효과를 추가합니다. */
+    outline: none; /* 포커스 아웃라인을 제거합니다. */
+    display: flex; /* 내부 내용을 flex로 정렬합니다. */
+    justify-content: center; /* 텍스트를 가운데 정렬합니다. */
+    align-items: center; /* 텍스트를 세로 중앙 정렬합니다. */
+    text-align: center;
+  }
   
   .school-selection {
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: transparent;
     color: white;
     border: none; /* 테두리 제거 */
@@ -388,16 +424,24 @@ justify-content: center;
     justify-content: center; /* 텍스트를 가운데 정렬합니다. */
     align-items: center; /* 텍스트를 세로 중앙 정렬합니다. */
     text-align: center;
-   
+    font-size: 3.5vw; /* 폰트 사이즈를 설정합니다. */
   }
 
   .school-selection::placeholder {
+    font-family: 'Noto Sans KR', sans-serif;
     color: white; /* 원하는 색상 코드로 변경 */
-    font-size: 3vw; /* 폰트 사이즈를 설정합니다. */
+    font-size: 3.5vw; /* 폰트 사이즈를 설정합니다. */
     
+  }
+
+  .region button {
+   border: none;
+   outline: none;
+
   }
   
   .schooloptions {
+    font-family: 'Noto Sans KR', sans-serif;
     -webkit-overflow-scrolling: touch;
     position: absolute;
     background-color: white;
@@ -416,6 +460,8 @@ justify-content: center;
   }
   
   .schoolselectoptions {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     border: 1px solid #C0C0C0;
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     border-bottom: 1px solid #eee; /* 항목 간 구분선 */
@@ -424,11 +470,11 @@ justify-content: center;
   
   
   
-  .schoolselectoptions:hover {
-    background-color: #f0f0f0; /* 항목에 마우스 오버 시 배경색 변경 */
-  }
+ 
 
   .mbti-button {
+    font-weight: bold;
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: transparent; 
     color: white; /* 어두운 글자색 */
     border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
@@ -443,6 +489,7 @@ justify-content: center;
   }
 
   .mbti-selection-container1{
+    margin-top: 10%;
     margin-right: 7%;
     display: flex; /* Flex 컨테이너를 설정합니다. */
   justify-content: center; /* 가로축을 기준으로 중앙 정렬합니다. */
@@ -460,7 +507,7 @@ justify-content: center;
 
    .mbti-selection-container3{
     margin-right: 7%;
-    margin-top: -45%;
+    margin-top: -8%;
     display: flex; /* Flex 컨테이너를 설정합니다. */
   justify-content: center; /* 가로축을 기준으로 중앙 정렬합니다. */
   flex-wrap: wrap; /* 버튼들이 너무 많아 한 줄에 다 안 들어갈 때 다음 줄로 넘어가도록 합니다. */
@@ -476,6 +523,7 @@ justify-content: center;
    }
 
    .mbti-button.selected {
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #FFFFFF; /* 선택된 버튼의 배경색 변경 */
     color: #565656; /* 선택된 버튼의 텍스트 색상을 흰색으로 변경 */
     border: 2px solid #FFFFFF; /* 선택된 버튼의 테두리 색상 변경 */
@@ -486,7 +534,7 @@ justify-content: center;
    .heightslider-container {
     position: relative;
     width: 100%;
-    margin-top: 13%;
+    margin-top: 17%;
     margin-left: auto;
     margin-right: auto;
    
@@ -509,7 +557,7 @@ justify-content: center;
     width: 0;
     height: 0;
     border-style: solid;
-    border-color: pink transparent transparent transparent;
+    border-color: white transparent transparent transparent;
     border-width: 3vw 1.5vw 0 1.5vw;
     cursor: pointer;
     position: relative;
@@ -570,6 +618,7 @@ justify-content: center;
   }
 
   .physicalbutton-container{
+    
     flex-direction: column;
     display: flex; /* Flex 컨테이너를 설정합니다. */
   align-items: center;
@@ -578,6 +627,8 @@ justify-content: center;
   }
 
   .physicalbutton-container button{
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
     transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
     background-color: transparent; /* 연한 하늘색 */
     color: white; /* 어두운 글자색 */
@@ -595,17 +646,13 @@ justify-content: center;
 
   }
 
-  .hobby-container::before {
-    content: ""; /* 가상 요소에는 내용이 필요하지만, 여기서는 비워둡니다. */
-    width: 100%; /* 컨테이너의 전체 너비를 차지하도록 설정 */
-    height: 20%; /* 높이는 0으로 설정 */
-  }
-
   .hobby-container {
+    margin-top: 0%;
     display: flex;
   justify-content: center;
   flex-wrap: wrap;
   align-content: flex-start; /* 여러 줄 사이의 간격 최소화 */
+  z-index: 5;
   
   }
 
@@ -617,16 +664,147 @@ justify-content: center;
 
   }
 
+
   .hobby-btn{
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: transparent; 
     color: white; /* 어두운 글자색 */
     border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
     border-radius: 20px; /* 둥근 모서리 */
-    margin: 5px; /* 버튼 사이의 간격 */
-    font-size: 3vw; /* 글자 크기 */
+    margin: 2px; /* 버튼 사이의 간격 */
+    font-size: 2.5vw; /* 글자 크기 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
    
-    height: 7vw;
-    width: 18vw
+    height: 6vw;
+    width: 27vw
   }
+
+  .hobby-btn.selected {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #FFFFFF; /* 선택된 버튼의 배경색 변경 */
+    color: #565656; /* 선택된 버튼의 텍스트 색상을 흰색으로 변경 */
+    border: 2px solid #FFFFFF; /* 선택된 버튼의 테두리 색상 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 선택된 버튼에 그림자 효과 추가 */
+    transform: scale(1.05); /* 선택된 버튼을 약간 확대하여 강조 */
+}
+
+
+
+.faceSelectionButton{
+  margin-top: 15%;
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start; /* 수신 메시지 정렬 */
+ }
+
+ .faceTypecontainer{
+ 
+  margin-left: 15%;
+ }
+ .toneSelectionButton{
+  
+  
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  flex-direction: column;
+  display: flex;
+  margin-left: 30%;
+ }
+
+ .face-button{
+  
+  font-weight: bold;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: transparent; 
+  color: white; /* 어두운 글자색 */
+  border: 2px solid #f0f8ff; /* 연한 하늘색 테두리 */
+  border-radius: 20px; /* 둥근 모서리 */
+  margin: 1vw; /* 버튼 사이의 간격 */
+  font-size: 3vw; /* 글자 크기 */
+  cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
+  height: 7vw;
+  width: 17vw
+ }
+
+ .face-button.selected {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #FFFFFF; /* 선택된 버튼의 배경색 변경 */
+  color: #565656; /* 선택된 버튼의 텍스트 색상을 흰색으로 변경 */
+  border: 2px solid #FFFFFF; /* 선택된 버튼의 테두리 색상 변경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 선택된 버튼에 그림자 효과 추가 */
+  transform: scale(1.05); /* 선택된 버튼을 약간 확대하여 강조 */
+}
+
+
+.slider3 {
+  pointer-events: none;
+  position: absolute;
+  margin-top: 15%;
+  height:fit-content;
+  -webkit-appearance: none;
+  width: 90%;
+  background: none;
+  outline: none;
+}
+
+.slider3::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  background: white;
+  border-radius: 4px;
+}
+
+.slider3::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  margin-top: -10px; /* thumb의 높이의 절반에서 트랙의 높이의 절반을 뺀 값 */
+  width: 26px; /* thumb의 너비 */
+  height: 26px; /* thumb의 높이 */
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: solid 2px #FFFFFF;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.slider3::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: solid 2px #FFFFFF;
+}
+
+.slider3::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: white;
+  border-radius: 4px;
+}
+
+.slider3value-container {
+  font-size: 5vw;
+  font-weight: 500;
+  margin-top: 5%;
+ display: flex;
+ justify-content: center;
+ color: #fff;
+ gap: 5vw
+}
+
+.value-box {
+  font-size: 5vw;
+  font-weight: 500;
+  width: 8vw;
+  height: 3.5vh;
+  text-align: center;
+  display: flex; /* flexbox를 사용하여 아이템들을 정렬합니다. */
+  justify-content: center; /* 수평 정렬을 중앙으로 설정합니다. */
+  border: 2px solid #fff; /* 테두리 */
+}

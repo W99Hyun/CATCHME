@@ -60,20 +60,26 @@ const MeetingRoomMain = () => {
   const roomsPerPage = 4;
 
 
-  // useState를 사용하여 selectedRno 상태를 정의합니다.
+
+  
   useEffect(() => {
     const fetchRooms = async () => {
       setIsLoading(true);
       try {
         const [top5Response, allRoomsResponse] = await Promise.all([
-          axios.get('https://api.catchmenow.co.kr/room/api/room_info/'),
+          axios.get('https://api.catchmenow.co.kr/room/api/room_info/idealroom/'),
           axios.get('https://api.catchmenow.co.kr/room/api/room_info/')
         ]);
-
-        // selectedPeople과 meetingNum이 일치하는 방만 필터링
-        const filteredRooms = allRoomsResponse.data.filter(room => room.meetingnum === selectedPeople);
   
-        // 방에 랜덤 색상 입히기
+        console.log("Top 5 방 응답:", top5Response.data);
+        console.log("전체 방 응답:", allRoomsResponse.data);
+
+        const effectiveSelectedPeople = selectedPeople || 3;
+        // selectedPeople과 each_match가 일치하는 방만 필터링
+        const filteredRooms = allRoomsResponse.data.filter(room => room.each_match === effectiveSelectedPeople);
+        console.log(`선택된 인원(${effectiveSelectedPeople})에 대한 필터링된 방 목록:`, filteredRooms);
+  
+        // 방에 랜덤 색상 입히기(두 목록 다)
         const top5RoomsWithColors = top5Response.data.map(room => ({
           ...room,
           bgColor: getRandomColor()
@@ -82,12 +88,17 @@ const MeetingRoomMain = () => {
           ...room,
           bgColor: getRandomColor()
         }));
+  
+        console.log("색상이 지정된 Top 5 방 목록:", top5RoomsWithColors);
+        console.log("색상이 지정된 필터링된 전체 방 목록:", allFilteredRoomsWithColors);
+  
         const totalPages = Math.ceil(allFilteredRoomsWithColors.length / roomsPerPage);
         setAllTotalPage(totalPages);
+  
+        // 전체 방 목록 정렬 (여기서는 'whole' 옵션에 따라 정렬)
         const sortedAllRooms = sortRooms(allFilteredRoomsWithColors, 'whole');  
-        setTopRooms(top5RoomsWithColors);
+        setTopRooms(top5RoomsWithColors); // 정렬된 Top 5 방 목록을 상태에 저장
         setAllRooms(sortedAllRooms); // 정렬된 전체 방 목록을 상태에 저장
-        setFilteredRooms(sortedAllRooms); // 화면에 표시될 방 목록도 업데이트
       } catch (error) {
         console.error('Failed to fetch rooms:', error);
         setError('Failed to fetch rooms');
@@ -223,7 +234,7 @@ const handleAllRoomsPrevPage = () => {
   }
 };
 
-
+//여기수정하기!!
 //입장제한 사용자의 개인정보 api 필요합니다
 const enterRoom = (roomId, gender) => {
   const selectedRoom = allRooms.find(room => room.rno === roomId);
@@ -286,13 +297,12 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
             <RoomsWrapper>
             {top5Rooms.map((room, index) => (
               room ? ( // room이 undefined가 아닐 때만 렌더링
-                    <RecommendRoom 
-                        key={room.rno} 
-                        bgColor={room.bgColor} 
-                        isMultipleOf3={(index + 1) % 3 === 0}
-                        onClick={() => enterRoom(room.rno)}
-                      //onClick={() => enterRoom(room.rno, userGender)} api에서 성별 정보 알려주면 변수명 바꾸기
-             >
+                     <RecommendRoom 
+                         key={room.rno}
+                          bgColor={room.bgColor}
+                         index={index} // index prop 추가
+                         onClick={() => enterRoom(room.rno)}
+                     >
                         <RoomName>{room.rname}</RoomName>
                         <RoomLocation>{room.location}</RoomLocation>
                         <SexContainer>
@@ -580,48 +590,50 @@ left: 12px;
   height: 100%;
   
 `;
+
 const RecommendRoom = styled.div`
-  position: relative;
-  border: 2px solid #444444;
-  justify-content: center;
-  align-items: center;
-  width: 19.5rem;
-  height: 9.5625rem;
-  font-size: 1.125rem;
-  border-radius: 0.75rem;
-  background-color: ${(props) => props.bgColor};
-  padding: 10px;
-  margin-top: -11rem;
-  box-shadow: 4px 4px 22px 0px rgba(0, 0, 0, 0.09);
-  position: relative;
-  transform: ${(props) => props.isMultipleOf3 ? 'rotate(-5deg)' : 'none'};
-  transition: transform 0.5s ease, margin-top 0.5s ease;
-  z-index: ${(props) => props.index};
-  cursor: pointer;
-  &:active {
-    box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.15);
-    transform: scale(0.95);
-  }
- &:nth-child(1) {
-    transform: rotateY(-30deg) translateZ(-30px);
-  }
+position: relative;
+border: 2px solid #444444;
+justify-content: center;
+align-items: center;
+width: 19.5rem;
+height: 9.5625rem;
+font-size: 1.125rem;
+border-radius: 0.75rem;
+background-color: ${(props) => props.bgColor};
+padding: 10px;
+margin-top: -11rem;
+box-shadow: 4px 4px 22px 0px rgba(0, 0, 0, 0.09);
+position: relative;
+transform: ${(props) => props.isMultipleOf3 ? 'rotate(-5deg)' : 'none'};
+transition: transform 0.5s ease, margin-top 0.5s ease;
+z-index: ${(props) => props.index};
+cursor: pointer;
+&:active {
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.15);
+  transform: scale(0.95);
+}
+&:nth-child(1) {
+  transform: rotate(4deg) translateZ(-30px);
+}
 
-  &:nth-child(2) {
-    transform: rotateY(-15deg) translateZ(-20px);
-  }
+&:nth-child(2) {
+  transform: rotate(-2deg) translateZ(-20px);
+}
 
-  &:nth-child(3) {
-    transform: rotateY(0deg) translateZ(0px);
-  }
+&:nth-child(3) {
+  transform: rotate(2deg) translateZ(0px);
+}
 
-  &:nth-child(4) {
-    transform: rotateY(15deg) translateZ(-20px);
-  }
+&:nth-child(4) {
+  transform: rotate(-4deg) translateZ(-20px);
+}
 
-  &:nth-child(5) {
-    transform: rotateY(30deg) translateZ(-30px);
-  }
+&:nth-child(5) {
+  transform: rotate(0deg) translateZ(-30px);
+}
 `;
+
   const RoomName = styled.div `
   font-weight: 700; 
   font-size: 1.125rem;
