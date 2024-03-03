@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import styled from "styled-components";
+import "./LoadingPage.css";
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/background2.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -12,7 +13,7 @@ const BackgroundImage = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: -1;
 
   @media screen and (min-width: 320px) and (max-width: 1439px) {
     background-size: contain;
@@ -25,7 +26,21 @@ function Loading() {
     setTime(true);
   }, 2000);
 
-  return <div>{time ? <Navigate to="/notlogin" /> : <BackgroundImage />}</div>;
+  return (
+    <div>
+      {time ? (
+        <Navigate to="/notlogin" />
+      ) : (
+        <div>
+          <img
+            src={`${process.env.PUBLIC_URL}/image/planet.png`}
+            className="planet-img"
+          />
+          <BackgroundImage />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Loading;

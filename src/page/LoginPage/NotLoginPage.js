@@ -11,7 +11,7 @@ const kakaoParams = new URLSearchParams({
 const kParams = new URLSearchParams(kakaoParams).toString();
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/background2.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -27,9 +27,9 @@ const BackgroundImage = styled.div`
   }
 `;
 
-const KakaoLoginButton = styled.button.attrs(props => ({
+const KakaoLoginButton = styled.button.attrs((props) => ({
   as: "a",
-  href: `https://kauth.kakao.com/oauth/authorize?${kParams}`
+  href: `https://kauth.kakao.com/oauth/authorize?${kParams}`,
 }))`
   background-color: transparent;
   border: none;
@@ -39,10 +39,10 @@ const KakaoLoginButton = styled.button.attrs(props => ({
 `;
 
 function NotLogin({ onLogin }) {
-
   return (
     <div>
       <BackgroundImage />
+
       <div className="notlogin-container">
         <div></div>
         <div></div>
@@ -56,12 +56,12 @@ function NotLogin({ onLogin }) {
         <div></div>
         <div>
           <div className="notlogin-kakao-image">
-          <KakaoLoginButton>
-            <img
-              src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
-              alt="Kakao Login Button"
-            />
-          </KakaoLoginButton>
+            <KakaoLoginButton>
+              <img
+                src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
+                alt="Kakao Login Button"
+              />
+            </KakaoLoginButton>
           </div>
         </div>
       </div>
