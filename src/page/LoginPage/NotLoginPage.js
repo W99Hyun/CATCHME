@@ -11,7 +11,7 @@ const kakaoParams = new URLSearchParams({
 const kParams = new URLSearchParams(kakaoParams).toString();
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/background2.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -20,16 +20,38 @@ const BackgroundImage = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -5;
 
   @media screen and (min-width: 320px) and (max-width: 1439px) {
     background-size: contain;
   }
 `;
 
-const KakaoLoginButton = styled.button.attrs(props => ({
+const PlanetImage = styled.div`
+  background-image: url(${process.env.PUBLIC_URL}/image/planet2.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  animation: rotateClockwise 30s linear infinite;
+  position: fixed;
+  margin: auto;
+  z-index: -1;
+
+  @keyframes rotateClockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const KakaoLoginButton = styled.button.attrs((props) => ({
   as: "a",
-  href: `https://kauth.kakao.com/oauth/authorize?${kParams}`
+  href: `https://kauth.kakao.com/oauth/authorize?${kParams}`,
 }))`
   background-color: transparent;
   border: none;
@@ -39,32 +61,39 @@ const KakaoLoginButton = styled.button.attrs(props => ({
 `;
 
 function NotLogin({ onLogin }) {
+  const [time, setTime] = useState(false);
+  const timer = setTimeout(() => {
+    setTime(true);
+  }, 2000);
 
   return (
     <div>
       <BackgroundImage />
-      <div className="notlogin-container">
-        <div></div>
-        <div></div>
-        <div>
-          <p className="notlogin-text">
-            간편하게 로그인하고
-            <br />
-            지금바로 시작하세요.
-          </p>
-        </div>
-        <div></div>
-        <div>
+      <PlanetImage />
+      {time ? (
+        <div className="notlogin-container">
+          <div></div>
+          <div></div>
+          <div>
+            <p className="notlogin-text">
+              간편하게 로그인하고
+              <br />
+              지금바로 시작하세요.
+            </p>
+          </div>
+          <div></div>
           <div className="notlogin-kakao-image">
-          <KakaoLoginButton>
-            <img
-              src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
-              alt="Kakao Login Button"
-            />
-          </KakaoLoginButton>
+            <div>
+              <KakaoLoginButton>
+                <img
+                  src={`${process.env.PUBLIC_URL}/image/kakao/kakaoLogin.png`}
+                  alt="Kakao Login Button"
+                />
+              </KakaoLoginButton>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

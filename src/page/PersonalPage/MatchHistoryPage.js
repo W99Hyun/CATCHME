@@ -78,7 +78,12 @@ function MatchHistory() {
       >
         <div className="history-modal-container">
           <div>
-            <p className="history-modal-text">모든 기록을 삭제할까요?</p>
+            <p className="history-modal-text-big">
+              모든 기록을 삭제하시겠습니까?
+            </p>
+            <p className="history-modal-text-small">
+              삭제하시면 다시 되돌릴 수 없습니다!
+            </p>
           </div>
           <div>
             <button

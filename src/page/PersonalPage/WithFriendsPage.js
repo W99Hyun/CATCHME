@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./WithFriendsPage.css";
@@ -74,7 +74,7 @@ const styles = {
   friendDetails: {
     marginLeft: "5px",
     color: "#313131",
-    fontSize: "12px",
+    fontSize: "11px",
   },
   gogo: {
     fontSize: "30px",
@@ -131,6 +131,81 @@ function WithFriends() {
   const [univ, setUniv] = useState("");
   const [body, setBody] = useState("");
 
+  const [render, setRender] = useState(false);
+  const [csrfToken, setCsrfToken] = useState("");
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch(
+          "https://api.catchmenow.co.kr/main/csrf/",
+          {
+            method: "GET",
+            credentials: "include", // 필요에 따라 설정하세요. 예: 쿠키를 전송하기 위해 include를 사용합니다.
+          }
+        );
+
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
+
+  const [friends, setFriends] = useState([]);
+  const [gender, setGender] = useState("");
+  useEffect(() => {
+    // 데이터를 가져오는 함수를 정의합니다.
+    const fetchData = async () => {
+      try {
+        // fetch를 사용하여 데이터를 가져옵니다.
+        const response = await fetch(
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/"
+        );
+
+        // response에서 JSON 데이터를 추출합니다.
+        const jsonData = await response.json();
+
+        // 가져온 데이터를 상태에 설정합니다.
+        setFriends(jsonData.extra_info[0].menPartys);
+        setGender(jsonData.ismale);
+        console.log(friends);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트되었을 때 데이터를 가져옵니다.
+    fetchData();
+    // clean-up 함수를 반환하여 컴포넌트가 언마운트될 때 이전에 설정한 데이터 요청을 취소합니다.
+    return () => {
+      // clean-up 작업을 수행합니다.
+    };
+  }, [render]);
+
+  const deleteFriend = (idsToUpdate) => {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ ids: idsToUpdate }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("수정 요청이 실패했습니다.");
+        }
+        console.log("삭제 요청이 성공했습니다.");
+        setRender((prevRender) => !prevRender);
+      })
+      .catch((error) => {
+        console.error("수정 요청이 실패했습니다:", error);
+      });
+  };
+
   let index = friends.length;
   const handleRegister = () => {
     // 콘솔에 값들을 출력
@@ -167,28 +242,27 @@ function WithFriends() {
     if (selectedItems.includes(id)) {
       // 이미 선택된 아이템인 경우 선택 해제
       setSelectedItems(selectedItems.filter((item) => item !== id));
+      console.log(selectedItems);
     } else {
       // 선택되지 않은 아이템인 경우 선택
       setSelectedItems([...selectedItems, id]);
+      console.log(selectedItems);
     }
   };
 
   const deleteSelectedItems = () => {
-    const remainingFriends = friends.filter(
-      (friend) => !selectedItems.includes(friend.id)
-    );
+    const remainingFriends = friends
+      .filter((friend) => !selectedItems.includes(friend.id))
+      .map((friend) => friend.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
-    friends = remainingFriends;
+    deleteFriend(remainingFriends);
     setSelectedItems([]); // 선택된 아이템 초기화
     setChoice(false);
   };
   const deleteAllItems = () => {
-    setSelectedItems([]);
-    const remainingFriends = friends.filter((friend) =>
-      selectedItems.includes(friend.id)
-    );
+    const remainingFriends = friends.map((friend) => friend.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
-    friends = remainingFriends;
+    deleteFriend(remainingFriends);
     setSelectedItems([]); // 선택된 아이템 초기화
   };
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경
@@ -203,9 +277,14 @@ function WithFriends() {
       >
         <div className="history-modal-container">
           <div>
-            <p className="history-modal-text">모든 친구를 삭제할까요?</p>
+            <p className="history-modal-text-big">
+              모든 친구를 삭제하시겠습니까?
+            </p>
+            <p className="history-modal-text-small">
+              친구를 삭제해도 다시 등록할 수 있어요!
+            </p>
           </div>
-          <div>
+          <div className="history-modal-buttons-container">
             <button
               onClick={() => {
                 deleteAllItems();
@@ -335,7 +414,7 @@ function WithFriends() {
         ) : (
           <button
             className="delete-all-button"
-            onClick={() => setAllDeleteModal(true)}
+            onClick={() => setAllDeleteModal(true)} //deleteAllItems
           >
             전체 삭제
           </button>
@@ -372,9 +451,10 @@ function WithFriends() {
                     <span style={styles.friendNickname}>
                       {friend.nickname}님<br />
                     </span>
-                    <span style={styles.friendLevel}>Lv. 2 </span>&nbsp;
+
                     <span style={styles.friendDetails}>
-                      {friend.gender}/{friend.age}/{friend.locate}
+                      {gender ? "남" : "여"} / {friend.age} / {friend.school}{" "}
+                      {friend.major}
                     </span>
                   </span>
                 </div>

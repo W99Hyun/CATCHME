@@ -5,6 +5,7 @@ import MeetingRoomMain from "./page/MeetingRoomListPage/MeetingRoomMain";
 import Room from "./page/Room";
 import PayComplete from "./page/PayCompletePage";
 import Loading from "./page/LoginPage/LoadingPage";
+import Loading2 from "./page/LoginPage/Loading";
 import NotLogin from "./page/LoginPage/NotLoginPage";
 import YesLogin from "./page/LoginPage/YesLoginPage";
 import MyPage from "./page/PersonalPage/MyPage";
@@ -69,11 +70,9 @@ function App() {
           <GenderProvider>
             <ContentContainer>
               <Routes>
-                <Route path="/" element={<Loading />} />
-                <Route
-                  path="/notlogin"
-                  element={<NotLogin onLogin={handleLogin} />}
-                />
+                {/* <Route path="/" element={<Loading />} />
+                <Route path="/r" element={<Loading2 />} /> */}
+                <Route path="/" element={<NotLogin onLogin={handleLogin} />} />
                 <Route path="/login" element={<YesLogin />} />
                 <Route path="/login/information" element={<Information />} />
                 <Route
