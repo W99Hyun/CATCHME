@@ -22,12 +22,12 @@ position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center; // 버튼들을 가운데 정렬합니다.
-  bottom: 10px;
+  
   gap: 3px; // 버튼들 사이의 간격
   padding: 10px 3px; // 안쪽 여백
   background-color: rgba(217, 217, 217, 0.4); // #D9D9D9의 투명도 50%
   border-radius: 20px; // 모서리를 둥글게
-  margin: 28px 24px; // 주변 여백
+  margin: 5px 24px; // 주변 여백
   z-index: 1;
   
   right: 5px; 
@@ -47,7 +47,7 @@ const StyledButton = styled.button`
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 11px; /* 폰트 사이즈를 16픽셀로 설정합니다. */
   font-weight: 500;
-  font-color: black;
+  color: black;
   &:hover {
     background-color: #f0f0f0;
   
@@ -139,7 +139,7 @@ function Welcome10() {
       ))}
     </RectangleContainer>
     
-      <div className="buttons-container">
+      <div className="buttons-container10">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
       </div>
