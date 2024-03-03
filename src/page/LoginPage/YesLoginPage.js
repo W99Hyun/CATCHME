@@ -24,7 +24,7 @@ const BackgroundImage = styled.div`
 `;
 
 const PlanetImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/planet.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/planet2.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
