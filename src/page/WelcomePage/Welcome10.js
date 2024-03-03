@@ -22,19 +22,19 @@ position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center; // 버튼들을 가운데 정렬합니다.
-  
-  gap: 5px; // 버튼들 사이의 간격
-  padding: 5px 3px; // 안쪽 여백
+  bottom: 10px;
+  gap: 3px; // 버튼들 사이의 간격
+  padding: 10px 3px; // 안쪽 여백
   background-color: rgba(217, 217, 217, 0.4); // #D9D9D9의 투명도 50%
   border-radius: 20px; // 모서리를 둥글게
-  margin: 22px 24px; // 주변 여백
+  margin: 28px 24px; // 주변 여백
   z-index: 1;
   
   right: 5px; 
   // 필요하다면 여기에 더 많은 스타일을 추가할 수 있습니다.
 `;
 
-const getRandomMargin = () => `${Math.floor(Math.random() * 15) + 5}px`;
+const getRandomMargin = () => `${Math.floor(Math.random() * 13) + 5}px`;
 
 const StyledButton = styled.button`
   background-color: white;
@@ -47,6 +47,7 @@ const StyledButton = styled.button`
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 11px; /* 폰트 사이즈를 16픽셀로 설정합니다. */
   font-weight: 500;
+  font-color: black;
   &:hover {
     background-color: #f0f0f0;
   
