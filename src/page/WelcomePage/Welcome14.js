@@ -1,54 +1,134 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Welcome.css';
+import './Welcome02.css';
+import styled from "styled-components"
+import SplitMessage from './SplitMessagesingle';
+import ProgressBar from './ProgressBar';
 
-function DualRangeSlider() {
-  const minDistance = 1;
-  const [range, setRange] = useState({ min: 20, max: 30 });
+const BackgroundImage = styled.div`
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #92B3BD;
+    background-position: center top;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -2;
+`;
 
-  const onMinChange = (event) => {
-    const value = Math.min(Number(event.target.value), range.max - minDistance);
-    setRange((prevRange) => ({ ...prevRange, min: value }));
+function Welcome12() {
+  const [message, setMessage] = useState('');
+  const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
+  const typingSpeed = 75;
+  const currentStep = 11;
+  const totalSteps = 14;
+  const navigate = useNavigate();
+  const [typingText, setTypingText] = useState('');
+  const [displayedText, setDisplayedText] = useState('...'); // 화면에 표시되는 타이핑 텍스트
+
+  const jobs = ['상경대', '문과대', '이과대', '자연대', '법대', '공과대', '교대', '인문대', '의과대', '약학대', '예술대', '체대', '항공대', '경찰대', '사관학교'];
+  const [selectedJob, setSelectedJob] = useState('');
+  const [showJobOptions, setShowJobOptions] = useState(false);
+
+  useEffect(() => {
+    if (message.length < fullMessage1.length) {
+      setTimeout(() => {
+        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+      }, typingSpeed);
+    }
+  }, [message, fullMessage1]);
+
+  useEffect(() => {
+    if (selectedJob) {
+      // 선택된 학과가 바뀔 때마다 displayedText를 초기화하고 새 메시지를 설정
+      setDisplayedText('');
+      const newMessage = ` 나는 ${selectedJob} 학생이랑 잘 맞을 것 같아!`;
+      setTypingText(newMessage);
+    }
+  }, [selectedJob]);
+
+  useEffect(() => {
+    let i = 0;
+    if (typingText) {
+      const intervalId = setInterval(() => {
+        if (i < typingText.length) {
+          setDisplayedText((prev) => prev + typingText.charAt(i));
+          i++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, typingSpeed);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [typingText]);
+
+  const handleJobSelect = (job) => {
+    setSelectedJob(job);
+    setShowJobOptions(false);
   };
 
-  const onMaxChange = (event) => {
-    const value = Math.max(Number(event.target.value), range.min + minDistance);
-    setRange((prevRange) => ({ ...prevRange, max: value }));
-  };
+ 
 
-  const trackStyle = {
-    left: `${(range.min - 20) / (30 - 20) * 100}%`,
-    right: `${100 - (range.max - 20) / (30 - 20) * 100}%`
+
+  const handlePreviousClick = () => navigate(-1);
+
+  const handleNextClick = () => {
+    if (selectedJob) navigate('/login/information/Welcome13');
+    else alert("학과를 선택해주세요.");
   };
 
   return (
-    <div className="slider-container">
-      <div className="slider-track" />
-      <div className="slider-range" style={trackStyle} />
-      <input
-        type="range"
-        min="20"
-        max="30"
-        value={range.min}
-        onChange={onMinChange}
-        className="slider3"
-        id="min-slider"
-      />
-      <input
-        type="range"
-        min="20"
-        max="30"
-        value={range.max}
-        onChange={onMaxChange}
-        className="slider3"
-        id="max-slider"
-      />
-      {/* Display for the min and max values */}
-      <div className="values-display">
-        <div className="min-value-display">{range.min}</div>
-        <span> ~ </span>
-        <div className="max-value-display">{range.max}</div>
+    <div className="home">
+      <BackgroundImage />
+      <div className="header">
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
+      <div className="header1">
+      
+      <div className="image-with-typing">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+      />
+       <div className='rcontainer'>
+      <SplitMessage message={message} splitIndex={fullMessage1.length} />
     </div>
+    <div className="typing-container">
+      <div className="message typing">
+        <div className="message-content">{displayedText}</div>
+      </div>
+      </div>
+    </div> </div>
+    
+     <div></div>
+      
+
+      
+      <div className="JobSelectionButton">
+      <div className="job-selection" onClick={() => setShowJobOptions(!showJobOptions)}>
+        {selectedJob || "학과를 선택해주세요."}
+      
+      {showJobOptions && (
+        <div className="joboptions">
+          {jobs.map((job) => (
+            <div key={job} onClick={() => handleJobSelect(job)} className="jobselectoptions">
+              {job}
+            </div>
+          ))}
+        </div>
+      )}
+      </div>
+      </div>
+      
+      <div className="buttons-container">
+        <button onClick={handlePreviousClick} className="previous-button">이전</button>
+        <button onClick={handleNextClick} className="next-button">다음</button>
+      </div>
+      <div></div>
+      
+      </div>
+   
   );
 }
 
-export default DualRangeSlider;
+export default Welcome12;

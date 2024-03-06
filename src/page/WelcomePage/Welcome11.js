@@ -1,112 +1,83 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Welcome02.css'; // CSS 파일을 임포트하세요
 import './Welcome.css';
+import './Welcome02.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessagedouble';
+import SplitMessage from './SplitMessagesingle';
 import ProgressBar from './ProgressBar';
 
-
-
-const BackgroundImage = styled.div `
+const BackgroundImage = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #92B3BD;
-    background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
+    background-color: #83A98B;
+    background-position: center top;
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: -1;
+    z-index: -2;
+`;
 
-` 
-
-  function Welcome11() {
+function Welcome11() {
   const [message, setMessage] = useState('');
-  const fullMessage1 = "상대에게 선호하는 나이가 있으면 알려줘!";
-  const fullMessage2 = "두개의 스크롤을 움직여봐!"
+  const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
   const typingSpeed = 75;
-  const currentStep = 10;
+  const currentStep = 11;
   const totalSteps = 14;
-
-  const [currentText, setCurrentText] = useState('...'); 
-  const [typingText, setTypingText] = useState(''); 
-  const [typing, setTyping] = useState(false); 
-  const typingIntervalRef = useRef(null);
-  
-  
-  const resetTyping = () => {
-    clearInterval(typingIntervalRef.current);
-    setCurrentText('');
-  };
-
-  
-
-  useEffect(() => {
-  if (message.length < fullMessage1.length + fullMessage2.length) {
-    setTimeout(() => {
-      setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
-                 fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
-    }, typingSpeed);
-  }
-}, [message, fullMessage1, fullMessage2]);
-
   const navigate = useNavigate();
+  const [typingText, setTypingText] = useState('');
+  const [displayedText, setDisplayedText] = useState('...'); // 화면에 표시되는 타이핑 텍스트
 
-      
-  const [sliderValueMin, setSliderValueMin] = useState(20); // 최소값 슬라이더의 상태
-  const [sliderValueMax, setSliderValueMax] = useState(30); // 최대값 슬라이더의 상태
-  const handleSliderChangeMin = (e) => {
-    const newMinValue = Math.min(e.target.value, sliderValueMax - 1);
-    setSliderValueMin(newMinValue);
-  };
+  const jobs = ['상경대', '문과대', '이과대', '자연대', '법대', '공과대', '교대', '인문대', '의과대', '약학대', '예술대', '체대', '항공대', '경찰대', '사관학교'];
+  const [selectedJob, setSelectedJob] = useState('');
+  const [showJobOptions, setShowJobOptions] = useState(false);
 
-  const handleSliderChangeMax = (e) => {
-    const newMaxValue = Math.max(e.target.value, sliderValueMin + 1);
-    setSliderValueMax(newMaxValue);
-  };
   useEffect(() => {
-    const percentage = ((sliderValueMax - 20) / (30 - 20)) * 100; 
-    document.documentElement.style.setProperty('--slider-percentage', `${percentage}%`);
-  }, [sliderValueMax]);
+    if (message.length < fullMessage1.length) {
+      setTimeout(() => {
+        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+      }, typingSpeed);
+    }
+  }, [message, fullMessage1]);
 
+  useEffect(() => {
+    if (selectedJob) {
+      // 선택된 학과가 바뀔 때마다 displayedText를 초기화하고 새 메시지를 설정
+      setDisplayedText('');
+      const newMessage = ` 나는 ${selectedJob} 학생이랑 잘 맞을 것 같아!`;
+      setTypingText(newMessage);
+    }
+  }, [selectedJob]);
 
-  const handlePreviousClick = () => {
-    navigate(-1); 
-  };
+  useEffect(() => {
+    let i = 0;
+    if (typingText) {
+      const intervalId = setInterval(() => {
+        if (i < typingText.length) {
+          setDisplayedText((prev) => prev + typingText.charAt(i));
+          i++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, typingSpeed);
 
-  const handleNextClick = () => {
-    
-      navigate('/login/information/Welcome12'); 
+      return () => clearInterval(intervalId);
+    }
+  }, [typingText]);
 
+  const handleJobSelect = (job) => {
+    setSelectedJob(job);
+    setShowJobOptions(false);
   };
 
  
-  const handleSliderStop = () => {
-    resetTyping();
-      setTypingText(` 나는 ${sliderValueMin}살부터 ${sliderValueMax}살이 좋아!`);
-      setTyping(true); // 새로운 타이핑 시작
+
+
+  const handlePreviousClick = () => navigate(-1);
+
+  const handleNextClick = () => {
+    if (selectedJob) navigate('/login/information/Welcome13');
+    else alert("학과를 선택해주세요.");
   };
-
-  useEffect(() => {
-    if (typing && typingText) {
-      let index = 0;
-      // 이전 인터벌을 취소합니다.
-      clearInterval(typingIntervalRef.current);
-      typingIntervalRef.current = setInterval(() => {
-        if (index < typingText.length) {
-          setCurrentText((prev) => prev + typingText.charAt(index));
-          index++;
-        } else {
-          clearInterval(typingIntervalRef.current);
-          setTyping(false);
-        }
-      }, typingSpeed);
-    }
-    // useEffect 정리 함수에서 인터벌을 정리합니다.
-    return () => clearInterval(typingIntervalRef.current);
-  }, [typing, typingText, typingSpeed]);
-
-
 
   return (
     <div className="home">
@@ -115,70 +86,49 @@ const BackgroundImage = styled.div `
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
       <div className="header1">
+      
       <div className="image-with-typing">
-      <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/backgroundlong.png`} alt = "back"
       />
        <div className='rcontainer'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
-      </div>
-      <div className="typing-container">
-      <div className="message typing">
-        <span>{currentText}</span>
-        
-      </div>
-      </div>
-      </div>
-      
-      </div>
-      
-      
-    <div className="slider-container">
-      
-    <input
-          type="range"
-          min="20"
-          max="30"
-          value={sliderValueMin}
-          onChange={handleSliderChangeMin}
-          onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
-          onTouchEnd={handleSliderStop} // 터치가 끝날 때 이벤트 (모바일 대응)
-          className="slider3"
-        />
-        <input
-          type="range"
-          min="20"
-          max="30"
-          value={sliderValueMax}
-          onChange={handleSliderChangeMax}
-          onMouseUp={handleSliderStop} // 마우스 버튼을 놓을 때 이벤트
-          onTouchEnd={handleSliderStop} // 터치가 끝날 때 이벤트 (모바일 대응)
-          className="slider3"
-        />
-      <div className="slider-labels">
-      <div className="slider-label-left">20</div>
-      <div className="slider-label-right">30</div>
     </div>
-    <div className="slider-instruction">스크롤을 좌우로 이동하여 조절하세요</div>
+    <div className="typing-container">
+      <div className="message typing">
+        <div className="message-content">{displayedText}</div>
       </div>
-      <div className="slider3value-container">
-      <div class="value-box">
-  {sliderValueMin}
-</div>
-<span> ~ </span>
-<div class="value-box">
-  {sliderValueMax}
-</div>
+      </div>
+    </div> </div>
+    
+     <div></div>
       
-       
+
+      
+      <div className="JobSelectionButton">
+      <div className="job-selection" onClick={() => setShowJobOptions(!showJobOptions)}>
+        {selectedJob || "학과를 선택해주세요."}
+      
+      {showJobOptions && (
+        <div className="joboptions">
+          {jobs.map((job) => (
+            <div key={job} onClick={() => handleJobSelect(job)} className="jobselectoptions">
+              {job}
+            </div>
+          ))}
+        </div>
+      )}
       </div>
+      </div>
+      
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
-    
-    </div>
-    </div>
-    
+      </div>
+      <div></div>
+      
+      </div>
+   
   );
 }
 
-export default Welcome11 ;
+export default Welcome11;

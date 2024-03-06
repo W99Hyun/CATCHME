@@ -1,138 +1,153 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Welcome02.css'; // CSS 파일을 임포트하세요
-import './Welcome09.css';
+import './Welcome10.css';
+import './Welcome02.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessagedouble';
+import SplitMessage from './SplitMessagesingle10';
 import ProgressBar from './ProgressBar';
 
-const BackgroundImage = styled.div `
-background-size: contain;
+const BackgroundImage = styled.div`
+    background-size: contain;
     background-repeat: no-repeat;
-    background-color: #92B3BD;
-    background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
+    background-color: #83A98B;
+    background-position: center top;
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: -1;
-` 
+    z-index: -2;
+`;
 
-  function Welcome10() {
-    const [message, setMessage] = useState('');
-    const fullMessage1 = "알려줘서 고마워!";
-    const fullMessage2 = "이제 너의 이상형을 알려줘!!"
-    const typingSpeed = 75;
-    const currentStep = 9;
-      const totalSteps = 14;
+const RectangleContainer = styled.div`
+position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // 버튼들을 가운데 정렬합니다.
+  
+  gap: 3px; // 버튼들 사이의 간격
+  padding: 10px 3px; // 안쪽 여백
+  background-color: rgba(217, 217, 217, 0.4); // #D9D9D9의 투명도 50%
+  border-radius: 20px; // 모서리를 둥글게
+  margin: 5px 24px; // 주변 여백
+  z-index: 1;
+  
+  right: 5px; 
+  // 필요하다면 여기에 더 많은 스타일을 추가할 수 있습니다.
+`;
 
-      useEffect(() => {
-        if (message.length < fullMessage1.length + fullMessage2.length) {
-          setTimeout(() => {
-            setMessage(fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)) + 
-                       fullMessage2.slice(0, Math.max(message.length - fullMessage1.length + 1, 0)));
-          }, typingSpeed);
-        }
-      }, [message, fullMessage1, fullMessage2]);
-      
-        const navigate = useNavigate();
+const getRandomMargin = () => `${Math.floor(Math.random() * 13) + 5}px`;
 
-      
-        const [unlocksliderValue, setunlockSliderValue] = useState(2);
-  const [currentText, setCurrentText] = useState('...');
-  const typingIntervalRef = useRef(null);
+const StyledButton = styled.button`
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 1px 15px;
+  margin: ${getRandomMargin()}; // 랜덤 마진 적용
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative; // Relative to the parent's flow
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px; /* 폰트 사이즈를 16픽셀로 설정합니다. */
+  font-weight: 500;
+  color: black;
+  &:hover {
+    background-color: #f0f0f0;
+  
+  }
+`;
 
-  const typeMessage = (newMessage) => {
-    clearInterval(typingIntervalRef.current);
-    setCurrentText('');
+function Welcome10() {
+  const [message, setMessage] = useState('');
+  const fullMessage1 = "너에게 맞는 키워드를 모두 골라줘!";
+  const typingSpeed = 75;
+  const currentStep = 11;
+  const totalSteps = 14;
+  const navigate = useNavigate();
+  
+  
 
-    let index = 0;
-    typingIntervalRef.current = setInterval(() => {
-      if (index < newMessage.length) {
-        setCurrentText((prev) => prev + newMessage.charAt(index));
-        index++;
-      } else {
-        clearInterval(typingIntervalRef.current);
-      }
-    }, typingSpeed);
-  };
+  const buttons = ['군필', '미필', '섹시함', '귀여움', '호기심많은', '열정적', '리드하는 편', '따라가는 편', '긍정적', '우울', '진중한', '차분함', '감성적', '이성적'];
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setunlockSliderValue(value);
-  };
+  const [buttonMargins] = useState(
+    buttons.map(() => ({
+      margin: `${getRandomMargin()} ${getRandomMargin()} ${getRandomMargin()} ${getRandomMargin()}`,
+    }))
+  );
 
-  const handleMouseUp = () => {
-    if (unlocksliderValue >= 60) {
-      setunlockSliderValue(100);
-      typeMessage(" 알겠어!");
-    } else {
-      setunlockSliderValue(2);
-      typeMessage(" ...");
+  useEffect(() => {
+    if (message.length < fullMessage1.length) {
+      setTimeout(() => {
+        setMessage (fullMessage1.slice(0, Math.min(message.length + 1, fullMessage1.length)))
+      }, typingSpeed);
     }
-  };
+  }, [message, fullMessage1]);
 
   
+
+
+  const [selectedButtons, setSelectedButtons] = useState({});
+
+  // Function to handle button click
+  const handleButtonClick = (index) => {
+    setSelectedButtons(prevSelectedButtons => ({
+      ...prevSelectedButtons,
+      [index]: !prevSelectedButtons[index]
+    }));
+  };
+
+  // Buttons data could also come from props or a different state
   
 
-  const handlePreviousClick = () => {
-    // "이전" 버튼 로직
-    navigate(-1); // 이전 페이지로 돌아갑니다.
-  };
+ 
+ 
+
+
+  const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
-    // 슬라이더 값이 100일 경우에만 다음 페이지로 이동
-    if (unlocksliderValue === 100) {
-      navigate('/login/information/Welcome11');
-    } else {
-      // 100이 아니라면 경고 메시지 표시
-      alert("이상형 정보 입력에 동의해주세요!");
-    }
+    navigate('/login/information/Welcome11');
   };
 
   return (
-    <div className="home3">
-    <BackgroundImage />
-    <div className="header">
-    <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-    </div>
-    <div className="header1">
-    <div className="image-with-typing">
-    <img src={`${process.env.PUBLIC_URL}/image/welcome/background3.png`} alt = "back"
-    />
-     <div className='rcontainer'>
-    <SplitMessage message={message} splitIndex={fullMessage1.length} />
-    </div>
-    <div className="typing-container09">
-      <div className="message typing09">
-        <span>{currentText}</span>
-        </div>
-      
+    <div className="home10">
+      <BackgroundImage />
+      <div className="header">
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
+      <div className="header10">
+      
+      <div className="image-with-typing10">
+      <img src={`${process.env.PUBLIC_URL}/image/welcome/backgroundlong.png`} alt = "back"
+      />
+       <div className='rcontainer10'>
+      <SplitMessage message={message} splitIndex={fullMessage1.length} />
     </div>
     
-    </div>
+    </div> </div>
     
-      <div className="unlockslider-container">
-      <div className="unlockslider-text">밀어서 동의하기</div>
-      <input
-  type="range"
-  min="0"
-  max="100"
-  value={unlocksliderValue}
-  onChange={handleChange}
-  onMouseUp={handleMouseUp}
-  onTouchEnd={handleMouseUp}
-  className={`unlockslider ${unlocksliderValue >= 100 ? 'active' : ''}`}
-/>
-<div className={`unlockslider-thumb ${unlocksliderValue >= 60 ? 'active' : ''}`}></div>  
-    </div>
-      <div className="buttons-container">
+    <RectangleContainer>
+      {buttons.map((text, index) => (
+        <StyledButton
+          key={index}
+          onClick={() => handleButtonClick(index)}
+          style={{
+            backgroundColor: selectedButtons[index] ? '#D9D9D9' : 'white',
+            // 버튼 상태에 저장된 마진 값을 사용합니다.
+            margin: buttonMargins[index].margin,
+          }}
+        >
+          {text}
+        </StyledButton>
+      ))}
+    </RectangleContainer>
+    
+      <div className="buttons-container10">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
       </div>
-    </div>
-    
+      <div></div>
+      
+      </div>
+   
   );
 }
 
-export default Welcome10 ;
+export default Welcome10;

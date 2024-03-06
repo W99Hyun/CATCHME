@@ -5,6 +5,7 @@ import MeetingRoomMain from "./page/MeetingRoomListPage/MeetingRoomMain";
 import Room from "./page/Room";
 import PayComplete from "./page/PayCompletePage";
 import Loading from "./page/LoginPage/LoadingPage";
+import Loading2 from "./page/LoginPage/Loading";
 import NotLogin from "./page/LoginPage/NotLoginPage";
 import YesLogin from "./page/LoginPage/YesLoginPage";
 import MyPage from "./page/PersonalPage/MyPage";
@@ -26,9 +27,10 @@ import Welcome10 from "./page/WelcomePage/Welcome10";
 import Welcome11 from "./page/WelcomePage/Welcome11";
 import Welcome12 from "./page/WelcomePage/Welcome12";
 import Welcome13 from "./page/WelcomePage/Welcome13";
-import Welcome13W from "./page/WelcomePage/Welcome13W";
 import Welcome14 from "./page/WelcomePage/Welcome14";
 import Welcome15 from "./page/WelcomePage/Welcome15";
+import Welcome16 from "./page/WelcomePage/Welcome16";
+import Welcome17 from "./page/WelcomePage/Welcome17";
 import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
@@ -68,11 +70,9 @@ function App() {
           <GenderProvider>
             <ContentContainer>
               <Routes>
-                <Route path="/" element={<Loading />} />
-                <Route
-                  path="/notlogin"
-                  element={<NotLogin onLogin={handleLogin} />}
-                />
+                {/* <Route path="/" element={<Loading />} />
+                <Route path="/r" element={<Loading2 />} /> */}
+                <Route path="/" element={<NotLogin onLogin={handleLogin} />} />
                 <Route path="/login" element={<YesLogin />} />
                 <Route path="/login/information" element={<Information />} />
                 <Route
@@ -124,16 +124,20 @@ function App() {
                   element={<Welcome13 />}
                 />
                 <Route
-                  path="/login/information/Welcome13W"
-                  element={<Welcome13W />}
-                />
-                <Route
                   path="/login/information/Welcome14"
                   element={<Welcome14 />}
                 />
                 <Route
                   path="/login/information/Welcome15"
                   element={<Welcome15 />}
+                />
+                <Route
+                  path="/login/information/Welcome16"
+                  element={<Welcome16 />}
+                />
+                <Route
+                  path="/login/information/Welcome17"
+                  element={<Welcome17 />}
                 />
                 <Route path="/login/mypage" element={<MyPage />} />
                 <Route path="/login/help" element={<Help />} />

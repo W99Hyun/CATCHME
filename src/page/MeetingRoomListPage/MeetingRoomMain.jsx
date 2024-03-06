@@ -6,35 +6,37 @@ import DeleteRoomModal from "./DeleteRoomModal";
 import axios from "axios"; // npm install axios
 
 const allColors = 
-  ["#BEE7E8", 
-  "#FED3E2", 
-  "#FFD5A9", 
-  "#9EC4EA", 
-  "#FEFFBA", 
-  "#A9FBBB", 
-  "#ECDE62", 
-  "#E5FFC5", 
-  "#D9D9D9", 
-  "#A9FBBB", 
-  "#B2D3FB", 
-  "#ADE998", 
-  "#7AB6C3", 
-  "#D3E0DC", 
-  "#FFC8DD", 
-  "#ECD4C0", 
-  "#BFD8D2"];
+  ["#CCD1FF", 
+  "#FCD4FF", 
+  "#CFF4FF", 
+  "#CCD1FF", 
+  "#CFF4FF", 
+  "#FFDBCF",
+  "#F6FFBE",
+  "#BFE8FF",
+  "#D9C2FF",
+  "#C2FFC0",
+
+
+  
+  ];
 const usedColors = new Set();
 
 
-const getRandomColor = () => { 
-  let availableColors = allColors.filter(color => !usedColors.has(color)); 
-   if (availableColors.length === 0) {
-     usedColors.clear(); 
-     availableColors = allColors; } 
-     const randomIndex = Math.floor(Math.random() * availableColors.length); 
-     const color = availableColors[randomIndex]; 
-     usedColors.add(color); return color; 
-    };
+
+
+const getRandomColor = () => {
+  let availableColors = allColors.filter(color => !usedColors.has(color));
+  if (availableColors.length === 0) {
+    usedColors.clear();
+    availableColors = [...allColors];
+  }
+  const randomIndex = Math.floor(Math.random() * availableColors.length);
+  const color = availableColors[randomIndex];
+  usedColors.add(color); 
+  return color;
+};
+
 
 const MeetingRoomMain = () => {
   const navigate = useNavigate();
@@ -137,7 +139,7 @@ const handleCreateRoom = async (roomTitle, meetingPlace, userId, meetingNum) => 
   }
 };
 
-
+{/*
 //방 삭제하기
 const handleDeleteRoom = async(roomId) => {
   setIsLoading(true);
@@ -161,6 +163,8 @@ const handleDeleteRoom = async(roomId) => {
     setIsLoading(false);
   }
 };
+*/
+}
 // 전체 방 목록 정렬하는 로직
 // 정렬 옵션 변경 핸들러
 const handleSortOptionChange = (option) => {
@@ -289,6 +293,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
               alt="Back Button"
               onClick={handleTop5Prev}
               isVisible={showTop5PrevButton}
+              style={{marginRight: "15px"}}
              />
             
             
@@ -327,6 +332,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
               alt="Next Button"
               onClick={handleTop5Next}
               isVisible={showTop5NextButton}
+              style={{marginLeft: "15px"}}
              />
       
         </RecommendRoomContainer>
@@ -371,6 +377,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
         onClose={() => setCreateRoomModalOpen(false)}
         onCreateRoom={handleCreateRoom}
       />
+      {/*
       <DeleteButton src="./image/MeetingRoomList/+.png"
           onClick={() => setDeleteRoomModalOpen(true)}/>
        <DeleteRoomModal
@@ -378,7 +385,8 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
           rooms={allRooms}
           onDeleteRoom={handleDeleteRoom}
          onClose={() => setDeleteRoomModalOpen(false)}
-         />
+            />*/
+            }
          </OptionButtonsContainer>
 
         <PopularMeetingBox>
@@ -388,6 +396,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
              alt="Back Button"
              onClick={handleAllRoomsPrevPage}
              isVisible={showAllPrevButton}
+             style={{marginRight: "7px"}}
            />
       
         {noMatchingRooms ? (
@@ -426,6 +435,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
              alt="Next Button"
              onClick={handleAllRoomsNextPage}
              isVisible={showAllNextButton}
+             style={{marginLeft: "7px"}}
             />
           </PopularMeetingBox>
     </MainContainer>
@@ -438,8 +448,8 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 100%;
-  height: 100%;
+  width: 312px;
+  height: auto; /* 높이 자동 조절 */
   margin-top: 12px;
 
 `;
@@ -453,11 +463,9 @@ margin-left: 7px;
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
   grid-template-rows: repeat(2, 1fr); 
-  gap: 28px;
+  gap: 13px; 
   justify-content: center; 
   align-content: center; 
-  width: 100%;
-  margin: auto;
 
 @media (max-width: 1200px) {
 justify-content: space-around;
@@ -466,13 +474,12 @@ justify-content: space-around;
   const MeetingRoom=styled.div`
   position: relative;
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
-  background-color: ${props => props.bgColor};
-  border-radius: 0.75rem;
-  border: 2px solid #444444;
-  width: 9.5625rem;
-  height: 9.1875rem;
+  background-color: ${(props) => (props.bgColor)}; 
+   border-radius: 0.75rem;
+  border: 2px solid rgba(51, 51, 51, 0.5);
+  width: 143px; 
+  height: 143.35px;
   box-shadow: 4px 4px 22px 0px rgba(0, 0, 0, 0.09);
   cursor: pointer;
   padding: 0.3rem;
@@ -486,15 +493,13 @@ justify-content: space-around;
 
   
   const SortStateContainer = styled.div`
-  width: 100%;
+  width: 375px;
   height: 3.75rem;
   background: #F9F9F9;
   display: flex;
   flex-direction: row; 
-  justify-content: center;
   align-items: center;
   justify-content: space-between;
-  padding-left: 1.81rem;
   position: relative;
   top:0.87rem;
 `;
@@ -505,7 +510,7 @@ justify-content: space-around;
   flex-direction: column;
   align-items: center;
   margin-top: 0.87rem;
-  width: 24.375rem;
+  width: 375px;
 `;
 
 const SortingButton = styled.button`
@@ -519,7 +524,7 @@ const SortingButton = styled.button`
   margin-right: 10px;
   border: none;
   background-color: ${props => props.isActive ? 'black' : 'white'};
-  color: ${props => props.isActive ? 'white' : 'black'};
+  color: ${props => props.isActive ? 'white' : '#444444'};
   cursor: pointer;
   font-family: 'SUITE';
   &:active {
@@ -533,7 +538,7 @@ const SortingButtonWrapper = styled.div`
   display: flex;
   justify-content: center; 
   align-items: center;
-  padding-right: 1.37rem; 
+  margin-right: 10px;
 `;
 
 
@@ -546,38 +551,41 @@ const SortingButtonWrapper = styled.div`
 
 
   const Arrow = styled.img`
-  width: 0.5rem;
-  height: 1.41169rem;
+ height: 1.41169rem;
   margin-top:-10rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
   cursor: pointer;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
 `;
-  const MainContainer = styled.div`
+const MainContainer = styled.div`
   display: flex; 
   flex-direction: column; 
   align-items: center; 
-
+  justify-content: center; 
   width: 100%;
-  `;
+  max-width: 375px; 
+  margin: 0 auto; 
+  box-sizing: border-box; 
+`;
+
+
   
 const HeaderText = styled.div`
-color: #414141;
+color: #444444;
+;
   font-size: 1.125rem;
   font-weight: 700;
   position: relative;
-  left: -7.8rem;
+  left: -5.8rem;
   top:2rem;
   height: 5rem;
 `;
 const SortStateText = styled.div`
-color: #414141;
+color: #444444;
   font-size: 1.125rem;
   font-weight: 700;
   position: relative;
-left: 12px;
+margin-left: 30px;
   `;
 
   const RecommendRoomContainer = styled.div`
@@ -593,11 +601,11 @@ left: 12px;
 
 const RecommendRoom = styled.div`
 position: relative;
-border: 2px solid #444444;
+border: 2px solid rgba(51, 51, 51, 0.5);
 justify-content: center;
 align-items: center;
-width: 19.5rem;
-height: 9.5625rem;
+width: 280px;
+height: 153px;
 font-size: 1.125rem;
 border-radius: 0.75rem;
 background-color: ${(props) => props.bgColor};
@@ -656,7 +664,7 @@ cursor: pointer;
   align-items: center;
   font-size: 0.6875rem;
   font-weight: 700;
-
+color: #444444;
    
    `;
    const MaleNumber = styled.div`
@@ -664,6 +672,8 @@ cursor: pointer;
   align-items: center;
    font-size: 0.6875rem;
    font-weight: 700;
+   color: #444444;
+
 
    `;
    const IconImage=styled.img`
@@ -686,18 +696,16 @@ cursor: pointer;
   text-align: center;
   margin-top: 1rem;
 `;
-
 const OptionButtonsContainer = styled.div`
-width: 100%;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-height: 25px;
-margin-left: 268px;
-margin-right: 35px;
-margin-top: 25px;
+  width: 375px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; 
+  align-items: center;
+  height: 25px;
+  margin-top: 25px;
 `;
+
 const CreateRoomButton = styled.img`
   color: #fff;
   border: none;
@@ -705,7 +713,7 @@ const CreateRoomButton = styled.img`
   height:22px;
   cursor: pointer;
   display: flex;
-  margin-right: 18px;
+  margin-right: 30px;
   align-items: center;
   &:active {
     transform: translateY(2px);
@@ -727,7 +735,7 @@ color: #fff;
   
 `;
 
-
+/*
 const DeleteButton = styled.img`
   color: #fff;
   border: none;
@@ -739,7 +747,7 @@ const DeleteButton = styled.img`
   &:active {
     transform: translateY(2px);
   }
-`;
+`;*/
 
 const NoneMessage = styled.div`
   color: #414141;

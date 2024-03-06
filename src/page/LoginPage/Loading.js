@@ -2,12 +2,12 @@
 이제 필요없는 페이지
 */
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import "./Loading.css";
 import styled from "styled-components";
-import "./LoadingPage.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const BackgroundImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground2.png);
+  background-image: url(${process.env.PUBLIC_URL}/image/spaceBackground.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -23,30 +23,9 @@ const BackgroundImage = styled.div`
   }
 `;
 
-const PlanetImage = styled.div`
-  background-image: url(${process.env.PUBLIC_URL}/image/planet.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  animation: rotateClockwise 30s linear infinite;
-  position: fixed;
-  margin: auto;
-  z-index: 1;
-
-  @keyframes rotateClockwise {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
 function Loading() {
   const [time, setTime] = useState(false);
+
   const timer = setTimeout(() => {
     setTime(true);
   }, 2000);
@@ -57,7 +36,10 @@ function Loading() {
         <Navigate to="/notlogin" />
       ) : (
         <div>
-          <PlanetImage />
+          <img
+            src={`${process.env.PUBLIC_URL}/image/planet.png`}
+            className="planet-img"
+          />
           <BackgroundImage />
         </div>
       )}
