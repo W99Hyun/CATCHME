@@ -41,13 +41,13 @@ function Room() {
   */
 
   const accessToken = localStorage.getItem('accessToken');
-  console.log('Access Token:', accessToken);
+  console.log('1. Access Token:', accessToken);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     //const refreshToken = localStorage.getItem('refreshToken');
 
-    console.log('Access Token:', accessToken);
+    console.log('2. Access Token:', accessToken);
 
      const headers = {
       //'X-CSRFToken': csrftoken,
