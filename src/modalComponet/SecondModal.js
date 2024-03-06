@@ -166,7 +166,7 @@ font-family: 'Noto Sans KR', sans-serif;
   cursor: pointer;
 `;
 
-const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
+const SecondModal = ({ isOpen, onClose, recommendation, gender, totalConditions }) => {
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [timer, setTimer] = useState(1800);
@@ -305,7 +305,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender }) => {
             {recommendationData?.extra_info[0]?.height} {recommendationData?.extra_info[0]?.body} {recommendationData?.extra_info[0]?.mbti}
           </SubGridItem3>
           <SubGridItem4>
-            회원님의 <span>이상형</span>과 <span>78%</span> 부합해요!
+            회원님의 <span>이상형</span>과 <span>{totalConditions}%</span> 부합해요!
           </SubGridItem4>
           <SubGridItem5>
           </SubGridItem5>

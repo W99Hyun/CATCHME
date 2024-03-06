@@ -84,7 +84,7 @@ const UserBox = ({ users, dataSocket }) => {
   };
 
   const handleSpeechBubbleClick = async (text) => {
-      dataSocket.current.send(JSON.stringify({ type: 'selected_bubble', chat: text }));
+    dataSocket.current.send(JSON.stringify({ type: 'selected_bubble', chat: text, kid: 1001 }));
   };
 
   return (

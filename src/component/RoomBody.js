@@ -101,6 +101,56 @@ useEffect(() => {
   fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
 }, [roomId]);
 
+const [idealPercentages, setIdealPercentages] = useState([]);
+
+const fetchIdealPercentages = async () => {
+  try {
+    const idealPercentagesResponse = await fetch(
+      `https://api.catchmenow.co.kr/room/api/room_info/room/percentage/`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      }
+    );
+
+    if (!idealPercentagesResponse.ok) {
+      throw new Error("Failed to fetch ideal percentages");
+    }
+
+    const idealPercentagesData = await idealPercentagesResponse.json();
+    setIdealPercentages(idealPercentagesData);
+  } catch (error) {
+    console.error("Error fetching ideal percentages:", error);
+  }
+};
+
+useEffect(() => {
+  fetchIdealPercentages();
+}, [roomId]);
+
+useEffect(() => {
+  // 각 사용자에게 해당하는 이상형 퍼센트를 사용자 정보에 추가
+  const updatedMaleUsers = maleusers.map((user) => {
+    const matchingInfo = idealPercentages.find((info) => info.id === user.user);
+    return { ...user, matching_count: matchingInfo?.matching_count, total_conditions: matchingInfo?.total_conditions };
+  });
+
+  const updatedFemaleUsers = femaleusers.map((user) => {
+    const matchingInfo = idealPercentages.find((info) => info.id === user.user);
+    return { ...user, matching_count: matchingInfo?.matching_count, total_conditions: matchingInfo?.total_conditions };
+  });
+
+  setMaleusers(updatedMaleUsers);
+  setFemaleusers(updatedFemaleUsers);
+
+}, [idealPercentages]);
+
+const [totalCondition, setTotalCondition] = useState(null);
+
   const handleReadyButtonClick = () => {
     // 사용자 정보 상태에 저장
     if (!user) {
@@ -161,7 +211,7 @@ useEffect(() => {
 
     }
   }, [user, isReady]);
-  
+
   useEffect(() => {
     return () => {
       if (dataSocket.current) {
@@ -172,11 +222,12 @@ useEffect(() => {
     };
   }, []);
 
+
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const [showSecondModal, setShowSecondModal] = useState(false);
-  const [secondRecommendation, setSecondRecommendation] = useState();
+  const [secondRecommendation, setSecondRecommendation] = useState([]);
 
   const [showFinalModal, setShowFinalModal] = useState(false);
   const [myAnimal, setMyAnimal] = useState();
@@ -235,8 +286,23 @@ useEffect(() => {
             const isMutualSelected = mutualCrushKid === 1001;
 
             if (!isMutualSelected) {
-              setSecondRecommendation(mydata.extra_info[0].w_crush_kid); // 상호 선택안됐을 시 이런식으로 두번째 추천사람 받기
+              const secondRecommendationResponse = await fetch(
+                `https://api.catchmenow.co.kr/room/api/room_info/second`,
+                {
+                  method: "GET",
+                  mode: "cors",
+                }
+              );
+    
+              if (!secondRecommendationResponse.ok) {
+                throw new Error("Failed to fetch second recommendation information");
+              }
+    
+              const secondRecommendationData = await secondRecommendationResponse.json();
+    
+              setSecondRecommendation(secondRecommendationData.id);
               setShowSecondModal(true);
+              setTotalCondition(secondRecommendationData.total_conditions);
             } else {
               setMyAnimal(mydata.extra_info[0].animal)
               setYourAnimal(crushData.extra_info[0].animal)
@@ -331,6 +397,7 @@ useEffect(() => {
           onClose={() => setShowSecondModal(false)}
           recommendation={secondRecommendation}
           gender={isMale ? "Male" : "Female"}
+          totalConditions={totalCondition}
         />
       )}
       {showFinalModal && (
