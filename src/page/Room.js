@@ -40,8 +40,10 @@ function Room() {
   }, []); // 최초 렌더링 시에만 CSRF 토큰을 가져오도록 함
   */
 
+  /*
   const accessToken = localStorage.getItem('accessToken');
-  console.log('1. Access Token:', accessToken);
+  console.log('1. Access Token:', accessToken);\
+  */
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
