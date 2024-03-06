@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Welcome.css';
+import './Welcome10.css';
 import './Welcome02.css';
 import styled from "styled-components"
-import SplitMessage from './SplitMessagesingle';
+import SplitMessage from './SplitMessagesingle10';
 import ProgressBar from './ProgressBar';
 
 const BackgroundImage = styled.div`
@@ -17,19 +17,65 @@ const BackgroundImage = styled.div`
     z-index: -2;
 `;
 
+const RectangleContainer = styled.div`
+ height: 90%;
+ top:10px;
+position: relative;
+  display: flex;
+  top:10px;
+  gap: 3px; // 버튼들 사이의 간격
+  padding: 10px 3px; // 안쪽 여백
+  background-color: rgba(217, 217, 217, 0.4); // #D9D9D9의 투명도 50%
+  border-radius: 20px; // 모서리를 둥글게
+  margin: 5px 24px; // 주변 여백
+  z-index: 1;
+  
+  right: 5px; 
+  // 필요하다면 여기에 더 많은 스타일을 추가할 수 있습니다.
+`;
+
+
+const StyledTextArea = styled.textarea`
+  width: 100%;
+  
+  padding: 10px 3px;
+  border-radius: 20px;
+  font-weight: 500;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: black;
+  text-align: start;
+  resize: none; // 사용자가 크기를 조절하는 것을 방지합니다.
+  
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    line-height: 2; // 줄 간의 간격을 설정합니다.
+    color: rgba(0, 0, 0, 0.5);
+    font-style: 'Noto Sans KR', sans-serif;
+  }
+`;
+
 function Welcome11() {
   const [message, setMessage] = useState('');
-  const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
+  const fullMessage1 = "이제 너에 대하여 자유롭게 소개해줘!";
   const typingSpeed = 75;
   const currentStep = 11;
   const totalSteps = 14;
   const navigate = useNavigate();
-  const [typingText, setTypingText] = useState('');
-  const [displayedText, setDisplayedText] = useState('...'); // 화면에 표시되는 타이핑 텍스트
+  
+  
 
-  const jobs = ['상경대', '문과대', '이과대', '자연대', '법대', '공과대', '교대', '인문대', '의과대', '약학대', '예술대', '체대', '항공대', '경찰대', '사관학교'];
-  const [selectedJob, setSelectedJob] = useState('');
-  const [showJobOptions, setShowJobOptions] = useState(false);
+
+  const [inputValue, setInputValue] = useState(''); // 입력값을 관리할 상태를 추가합니다.
+
+  // 입력값 변경 핸들러
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
   useEffect(() => {
     if (message.length < fullMessage1.length) {
@@ -39,88 +85,61 @@ function Welcome11() {
     }
   }, [message, fullMessage1]);
 
-  useEffect(() => {
-    if (selectedJob) {
-      // 선택된 학과가 바뀔 때마다 displayedText를 초기화하고 새 메시지를 설정
-      setDisplayedText('');
-      const newMessage = ` 나는 ${selectedJob} 학생이랑 잘 맞을 것 같아!`;
-      setTypingText(newMessage);
-    }
-  }, [selectedJob]);
+  
 
-  useEffect(() => {
-    let i = 0;
-    if (typingText) {
-      const intervalId = setInterval(() => {
-        if (i < typingText.length) {
-          setDisplayedText((prev) => prev + typingText.charAt(i));
-          i++;
-        } else {
-          clearInterval(intervalId);
-        }
-      }, typingSpeed);
 
-      return () => clearInterval(intervalId);
-    }
-  }, [typingText]);
 
-  const handleJobSelect = (job) => {
-    setSelectedJob(job);
-    setShowJobOptions(false);
-  };
+  // Function to handle button click
+  
 
+  // Buttons data could also come from props or a different state
+  
+
+ 
  
 
 
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
-    if (selectedJob) navigate('/login/information/Welcome13');
-    else alert("학과를 선택해주세요.");
+    navigate('/login/information/Welcome11');
   };
 
   return (
-    <div className="home">
+    <div className="home10">
       <BackgroundImage />
       <div className="header">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       </div>
-      <div className="header1">
+      <div className="header10">
       
-      <div className="image-with-typing">
+      <div className="image-with-typing10">
       <img src={`${process.env.PUBLIC_URL}/image/welcome/backgroundlong.png`} alt = "back"
       />
-       <div className='rcontainer'>
+       <div className='rcontainer10'>
       <SplitMessage message={message} splitIndex={fullMessage1.length} />
     </div>
-    <div className="typing-container">
-      <div className="message typing">
-        <div className="message-content">{displayedText}</div>
-      </div>
-      </div>
+    
     </div> </div>
     
-     <div></div>
-      
-
-      
-      <div className="JobSelectionButton">
-      <div className="job-selection" onClick={() => setShowJobOptions(!showJobOptions)}>
-        {selectedJob || "학과를 선택해주세요."}
-      
-      {showJobOptions && (
-        <div className="joboptions">
-          {jobs.map((job) => (
-            <div key={job} onClick={() => handleJobSelect(job)} className="jobselectoptions">
-              {job}
-            </div>
-          ))}
-        </div>
-      )}
-      </div>
-      </div>
-      
-      <div className="buttons-container">
+    <RectangleContainer>
+      <StyledTextArea
+        placeholder="EX) 안녕하세요! 
+        저는 “루아”예요. 21살이고, 마포구에 살고 있어요. 
+        저는 현대미술을 전공하고 있고, 
+        패션에 관심이 많아요. 
+        영화보는걸 좋아하고, 
+        주변 사람들과 어울리는 걸 좋아해요. 
+        솔직하고 긍정적인 성격을 가진 분이 이상형이에요. 
+        함께 좋은 시간 보내면 좋겠어요!"
+        value={inputValue}
+        onChange={handleInputChange}
+        onFocus={(e) => e.target.placeholder = ''}
+        onBlur={(e) => e.target.placeholder = "EX) 안녕하세요! 저는 “루아”예요. 21살이고, 마포구에 살고 있어요. 저는 현대미술을 전공하고 있고, 패션에 관심이 많아요. 영화보는걸 좋아하고, 주변 사람들과 어울리는 걸 좋아해요. 솔직하고 긍정적인 성격을 가진 분이 이상형이에요. 함께 좋은 시간 보내면 좋겠어요!"}
+      />
+    </RectangleContainer>
+    
+      <div className="buttons-container10">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
         <button onClick={handleNextClick} className="next-button">다음</button>
       </div>
