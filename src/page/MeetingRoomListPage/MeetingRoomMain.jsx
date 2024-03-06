@@ -3,6 +3,7 @@ import styled  from "styled-components";
 import { useNavigate , useLocation} from 'react-router-dom';
 import CreateRoomModal from "./CreateRoomModal"; 
 import DeleteRoomModal from "./DeleteRoomModal";
+import SearchRoomModal from './SearchRoomModal';
 import axios from "axios"; // npm install axios
 
 const allColors = 
@@ -58,7 +59,9 @@ const MeetingRoomMain = () => {
   const [sortOption, setSortOption] = useState('whole'); // 'whole', 'downtown', 'participants'
   const [filteredRooms, setFilteredRooms] = useState([...allRooms]); // 필터링된 방 목록 초기화
   const [error, setError] = useState('');
-  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false); 
   const roomsPerPage = 4;
 
 
@@ -114,6 +117,20 @@ const MeetingRoomMain = () => {
   
 
 
+//검색모달
+const handleSearchModalOpen = () => {
+  setSearching(true);
+  setSearchModalOpen(true);
+};
+const handleSearchModalClose = () => {
+  setSearching(false);
+  setSearchModalOpen(false);
+};
+const handleSearchComplete = (results) => {
+  setSearchResults(results);
+  setSearching(false);
+  setSearchModalOpen(false);
+};
 //방만들기
 
 const handleCreateRoom = async (roomTitle, meetingPlace, userId, meetingNum) => {
@@ -366,9 +383,15 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
         </SortContainer>
 
         <OptionButtonsContainer>
-            <SearchButton
-            src="./image/MeetingRoomList/Group220.png"
-            onClick={() => setSearchModalOpen(true)}/>
+        <SearchButton
+          src="./image/MeetingRoomList/Group220.png"
+          onClick={handleSearchModalOpen} // 검색 모달 열기 이벤트 핸들러 추가
+        />
+        <SearchRoomModal
+        isOpen={searchModalOpen}
+        onClose={handleSearchModalClose}
+        setSearchResults={handleSearchComplete}
+      />
           <CreateRoomButton 
            src="./image/MeetingRoomList/+.png"
           onClick={() => setCreateRoomModalOpen(true)}/>
@@ -527,6 +550,7 @@ const SortingButton = styled.button`
   color: ${props => props.isActive ? 'white' : '#444444'};
   cursor: pointer;
   font-family: 'SUITE';
+  font-weight: 700;
   &:active {
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(2px);
@@ -630,7 +654,7 @@ cursor: pointer;
 }
 
 &:nth-child(3) {
-  transform: rotate(2deg) translateZ(0px);
+  transform: rotate(0deg) translateZ(0px);
 }
 
 &:nth-child(4) {
