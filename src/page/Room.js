@@ -31,7 +31,7 @@ function Room() {
 
      const headers = {
       'Authorization': accessToken, 
-      'Refresh-Token': refreshToken,
+      //'Refresh-Token': refreshToken,
     };
 
     // 서버로 정보 전송
