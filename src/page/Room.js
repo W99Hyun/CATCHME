@@ -24,35 +24,14 @@ const BackgroundImage = styled.div`
 
 function Room() {
   const { roomId } = useParams(); // URL로부터 roomId를 가져옴
-  /*const [csrftoken, setCsrfToken] = useState('');
-
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await axios.get('https://api.catchmenow.co.kr/main/csrf');
-        setCsrfToken(response.data.csrfToken);
-      } catch (error) {
-        console.error('Failed to fetch CSRF token', error);
-      }
-    };
-
-    fetchCsrfToken();
-  }, []); // 최초 렌더링 시에만 CSRF 토큰을 가져오도록 함
-  */
-
-  /*
-  const accessToken = localStorage.getItem('accessToken');
-  console.log('1. Access Token:', accessToken);\
-  */
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    //const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem('refreshToken');
 
     console.log('2. Access Token:', accessToken);
 
      const headers = {
-      //'X-CSRFToken': csrftoken,
       'Authorization': `Bearer ${accessToken}`, 
       //'Refresh-Token': refreshToken,
     };
