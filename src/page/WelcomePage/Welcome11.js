@@ -102,7 +102,7 @@ function Welcome11() {
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
-    navigate('/login/information/Welcome11');
+    navigate('/login/information/Welcome12');
   };
 
   return (
