@@ -148,6 +148,8 @@ useEffect(() => {
   setFemaleusers(updatedFemaleUsers);
 }, [idealPercentages, maleusers, femaleusers]);
 
+const [totalCondition, setTotalCondition] = useState(null);
+
   const handleReadyButtonClick = () => {
     // 사용자 정보 상태에 저장
     if (!user) {
@@ -225,7 +227,7 @@ useEffect(() => {
   const [showModal, setShowModal] = useState(false);
 
   const [showSecondModal, setShowSecondModal] = useState(false);
-  const [secondRecommendation, setSecondRecommendation] = useState();
+  const [secondRecommendation, setSecondRecommendation] = useState([]);
 
   const [showFinalModal, setShowFinalModal] = useState(false);
   const [myAnimal, setMyAnimal] = useState();
@@ -285,7 +287,7 @@ useEffect(() => {
 
             if (!isMutualSelected) {
               const secondRecommendationResponse = await fetch(
-                `https://api.catchmenow.co.kr/room/api/room_info/second/`,
+                `https://api.catchmenow.co.kr/room/api/room_info/second`,
                 {
                   method: "GET",
                   mode: "cors",
@@ -298,8 +300,9 @@ useEffect(() => {
     
               const secondRecommendationData = await secondRecommendationResponse.json();
     
-              setSecondRecommendation(secondRecommendationData.kid);
+              setSecondRecommendation(secondRecommendationData.id);
               setShowSecondModal(true);
+              setTotalCondition(secondRecommendationData.total_conditions);
             } else {
               setMyAnimal(mydata.extra_info[0].animal)
               setYourAnimal(crushData.extra_info[0].animal)
@@ -394,6 +397,7 @@ useEffect(() => {
           onClose={() => setShowSecondModal(false)}
           recommendation={secondRecommendation}
           gender={isMale ? "Male" : "Female"}
+          totalConditions={totalCondition}
         />
       )}
       {showFinalModal && (
