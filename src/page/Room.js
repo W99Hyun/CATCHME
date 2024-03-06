@@ -28,7 +28,6 @@ function Room() {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    const kid = localStorage.getItem('kid');
 
      const headers = {
       'Authorization': accessToken, 
