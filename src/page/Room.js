@@ -45,7 +45,7 @@ function Room() {
 
      const headers = {
       'X-CSRFToken': csrftoken,
-      'Authorization': accessToken, 
+      'Authorization': `Bearer ${accessToken}`, 
       //'Refresh-Token': refreshToken,
     };
 
