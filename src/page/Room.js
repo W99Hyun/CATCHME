@@ -24,7 +24,7 @@ const BackgroundImage = styled.div`
 
 function Room() {
   const { roomId } = useParams(); // URL로부터 roomId를 가져옴
-  const [csrftoken, setCsrfToken] = useState('');
+  /*const [csrftoken, setCsrfToken] = useState('');
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -38,10 +38,14 @@ function Room() {
 
     fetchCsrfToken();
   }, []); // 최초 렌더링 시에만 CSRF 토큰을 가져오도록 함
+  */
+
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('Access Token:', accessToken);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
+    //const refreshToken = localStorage.getItem('refreshToken');
 
     console.log('Access Token:', accessToken);
 
