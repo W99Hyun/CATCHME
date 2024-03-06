@@ -29,7 +29,7 @@ function Room() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
 
-    console.log('2. Access Token:', accessToken);
+    console.log('1. Access Token:', accessToken);
 
      const headers = {
       'Authorization': `Bearer ${accessToken}`, 
