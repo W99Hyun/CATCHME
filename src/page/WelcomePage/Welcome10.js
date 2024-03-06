@@ -15,9 +15,12 @@ const BackgroundImage = styled.div`
     height: 100vh;
     position: fixed;
     z-index: -2;
+    
 `;
 
 const RectangleContainer = styled.div`
+height: 90%;
+top: 10px;
 position: relative;
   display: flex;
   flex-wrap: wrap;

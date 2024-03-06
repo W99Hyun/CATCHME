@@ -75,7 +75,7 @@ function Welcome12() {
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
-    if (selectedJob) navigate('/login/information/Welcome13');
+    if (selectedJob) navigate('/login/information/Welcome15');
     else alert("학과를 선택해주세요.");
   };
 

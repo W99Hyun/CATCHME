@@ -82,7 +82,7 @@ background-size: contain;
   const handleNextClick = () => {
     // 슬라이더 값이 100일 경우에만 다음 페이지로 이동
     if (unlocksliderValue === 100) {
-      navigate('/login/information/Welcome11');
+      navigate('/login/information/Welcome13');
     } else {
       // 100이 아니라면 경고 메시지 표시
       alert("이상형 정보 입력에 동의해주세요!");
