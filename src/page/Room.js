@@ -44,7 +44,7 @@ function Room() {
     const refreshToken = localStorage.getItem('refreshToken');
 
      const headers = {
-      'X-CSRFToken': csrftoken,
+      //'X-CSRFToken': csrftoken,
       'Authorization': `Bearer ${accessToken}`, 
       //'Refresh-Token': refreshToken,
     };
