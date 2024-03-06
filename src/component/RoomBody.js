@@ -144,8 +144,13 @@ useEffect(() => {
     return { ...user, matching_count: matchingInfo?.matching_count, total_conditions: matchingInfo?.total_conditions };
   });
 
-  setMaleusers(updatedMaleUsers);
-  setFemaleusers(updatedFemaleUsers);
+  if (!isEqual(updatedMaleUsers, maleusers)) {
+    setMaleusers(updatedMaleUsers);
+  }
+
+  if (!isEqual(updatedFemaleUsers, femaleusers)) {
+    setFemaleusers(updatedFemaleUsers);
+  }
 }, [idealPercentages, maleusers, femaleusers]);
 
 const [totalCondition, setTotalCondition] = useState(null);
