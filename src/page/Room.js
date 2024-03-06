@@ -35,7 +35,7 @@ function Room() {
     };
 
     // 서버로 정보 전송
-    axios.get(`https://api.catchmenow.co.kr/main/api/jwttokentest`, { headers })
+    axios.get(`https://api.catchmenow.co.kr/main/api/jwttokentest/`, { headers })
       .then(response => {
         console.log(response.data);
       })
