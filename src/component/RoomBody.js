@@ -161,7 +161,6 @@ const [totalCondition, setTotalCondition] = useState(null);
     setIsReady(!isReady);
   };
 
-  /*
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
@@ -222,7 +221,6 @@ const [totalCondition, setTotalCondition] = useState(null);
       }
     };
   }, []);
-  */
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
