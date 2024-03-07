@@ -95,7 +95,7 @@ const UserBox = ({ users, dataSocket, isMale }) => {
 
   const getImagePath = (animal, gender, isHighestIdealPercentageUser) => {
     if (isHighestIdealPercentageUser) {
-      return `/image/special/${animal.toLowerCase()}${gender === "Male" ? "Male" : "Female"}Good.png`;
+      return `/image/profile/${animal.toLowerCase()}${gender === "Male" ? "Male" : "Female"}Good.png`;
     }
 
     return `/image/profile/${animal.toLowerCase()}${gender === "Male" ? "Male" : "Female"}.png`;
