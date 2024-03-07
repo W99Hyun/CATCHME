@@ -25,7 +25,6 @@ const KakaoLoginComponent = ({ code }) => {
 
       } catch (error) {
         console.log("소셜로그인 에러", error);
-        window.alert("로그인에 실패하였습니다.");
       }
     };
 
