@@ -94,21 +94,26 @@ const navigate = useNavigate();
   const marks = [150, 155, 160, 165, 170, 175, 180, 185, 190]; // 슬라이더의 눈금 값
   const [value, setValue] = useState(170); // 슬라이더의 현재 값
   const [selectedtype, setSelectedtype] = useState(''); // 선택된 버튼의 상태
-  const handleButtonClick = (type) => {
-    setSelectedtype(type); // 선택된 체형의 상태를 업데이트합니다.
-    if (value) { // 슬라이더의 값이 설정되어 있을 경우에만 타이핑을 시작합니다.
-      startTypingMessage(value, type); // 타이핑을 시작합니다.
-    }
-  };
-
-  const startTypingMessage = (height, type) => {
+  
+  const startTypingMessage = (height, type, eyeType) => {
+    if (type && eyeType) {
     resetTyping();
-    const newMessage = `나는 ${height}cm고 ${type} 체형을 가지고 있어!`;
+    const newMessage = `나는 ${height}cm고 ${type} 체형을 가지고 있어! 그리고 눈은 ${eyeType}이야!`;
     setTypingText(newMessage);
-    setTyping(true);
+    setTyping(true);}
   };
 
+  const [eyeType, setEyeType] = useState('');
 
+  const handleButtonClick = (type) => {
+    setSelectedtype(type);
+    startTypingMessage(value, type, eyeType);
+  };
+
+  const handleEyeTypeClick = (eyeType) => {
+    setEyeType(eyeType);
+    startTypingMessage(value, selectedtype, eyeType);
+  };
   
 
   return (
@@ -164,16 +169,12 @@ const navigate = useNavigate();
       onClick={() => handleButtonClick('슬림')}
       className={selectedtype === '슬림' ? 'selected' : ''}
     >슬림</button>
-    <button 
-      onClick={() => handleButtonClick('보통')}
-      className={selectedtype === '보통' ? 'selected' : ''}
-    >보통</button>
     <button
       onClick={() => handleButtonClick('통통')}
       className={selectedtype === '통통' ? 'selected' : ''}
     >통통</button>
-  </div>
-  <div className="physicalmusclebutton">
+  
+  
     <button
       onClick={() => handleButtonClick('슬림탄탄')}
       className={selectedtype === '슬림탄탄' ? 'selected' : ''}
@@ -182,7 +183,27 @@ const navigate = useNavigate();
       onClick={() => handleButtonClick('근육통통')}
       className={selectedtype === '근육통통' ? 'selected' : ''}
     >근육통통</button>
-  </div>
+    </div>
+    <div className="eyeType-container">
+        <button
+          onClick={() => handleEyeTypeClick('유쌍')}
+          className={eyeType === '유쌍' ? 'selected' : ''}
+        >
+          유쌍
+        </button>
+        <button
+          onClick={() => handleEyeTypeClick('속쌍')}
+          className={eyeType === '속쌍' ? 'selected' : ''}
+        >
+          속쌍
+        </button>
+        <button
+          onClick={() => handleEyeTypeClick('무쌍')}
+          className={eyeType === '무쌍' ? 'selected' : ''}
+        >
+          무쌍
+        </button>
+      </div>
       </div>
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
