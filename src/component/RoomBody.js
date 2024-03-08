@@ -164,7 +164,7 @@ const [totalCondition, setTotalCondition] = useState(null);
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
-      dataSocket.current = new WebSocket(`wss://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
+      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
@@ -191,7 +191,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current = null;
     } else if (!user && isReady && !dataSocket.current) {
       // 레디 상태일 때 웹소켓 연결
-      dataSocket.current = new WebSocket(`wss://ec2-54-180-82-92.ap-northeast-2.compute.amazonaws.com:8040/ws/room/${roomId}/`);
+      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
