@@ -54,19 +54,51 @@ const SpeechBubble = styled.img`
   cursor: pointer;
 `;
 
-const UserBox = ({ users, dataSocket }) => {
+const UserBox = ({ users, dataSocket, isMale }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [highestIdealPercentageUser, setHighestIdealPercentageUser] = useState(null);
 
-  const getImagePath = (animal, gender) => {
-    return `/image/profile/${animal.toLowerCase()}${
-      gender === "Male" ? "Male" : "Female"
-    }.png`;
-  };
+  useEffect(() => {
+    // 이상형 퍼센트 조회 및 가장 높은 퍼센트 사용자 설정
+    const fetchHighestIdealPercentageUser = async () => {
+      try {
+        const response = await fetch(
+          `https://api.catchmenow.co.kr/room/api/room_info/room/percentage/`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          }
+        );
 
-  const getIdealImagePath = (animal, gender) => {
-    return `/image/profile/${animal.toLowerCase()}${
-      gender === "Male" ? "Male" : "Female"
-    }Good.png`;
+        if (!response.ok) {
+          throw new Error("Failed to fetch ideal percentages");
+        }
+
+        const idealPercentagesData = await response.json();
+
+        // 여기서 가장 높은 이상형 퍼센트를 가진 사용자를 찾음
+        const highestPercentageUser = idealPercentagesData.reduce((prev, current) => {
+          return prev.matching_count > current.matching_count ? prev : current;
+        }, {});
+        setHighestIdealPercentageUser(highestPercentageUser);
+      } catch (error) {
+        console.error("Error fetching ideal percentages:", error);
+      }
+    };
+
+    fetchHighestIdealPercentageUser();
+  }, [isMale]);
+
+  const getImagePath = (animal, gender, isHighestIdealPercentageUser) => {
+    if (isHighestIdealPercentageUser) {
+      return `/image/profile/${animal.toLowerCase()}${gender === "Male" ? "Male" : "Female"}Good.png`;
+    }
+
+    return `/image/profile/${animal.toLowerCase()}${gender === "Male" ? "Male" : "Female"}.png`;
   };
 
   const handleUserClick = (user) => {
@@ -96,15 +128,11 @@ const UserBox = ({ users, dataSocket }) => {
           onClick={() => handleUserClick(user)}
         >
           <img
-            src={
-              /*user.idealScore > 50*/ false
-                ? getIdealImagePath(user.animal, user.gender)
-                : getImagePath(user.animal, user.gender)
-            }
+            src={ getImagePath(user.animal, user.gender, user.user === highestIdealPercentageUser?.id)}
             alt={`${user.animal} 이미지`}
             style={{
-              width: /*user.idealScore > 50 */ false ? "78px" : "62px",
-              height: /*user.idealScore > 50 */ false ? "78px" : "62px",
+              width: "62px",
+              height: "62px",
             }}
           />
         </UserItem>

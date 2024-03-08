@@ -3,41 +3,117 @@ import "./MatchHistoryPage.css"; // CSS 파일을 임포트합니다.
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 
-let historys = [
-  {
-    id: 1,
-    date: "2024-01-22 19:36분",
-    meeter: "w99_hyun_",
-    gender: "남",
-    age: 26,
-    location: "서울특별시 마포구",
-  },
-  {
-    id: 2,
-    date: "2024-01-16 13:36분",
-    meeter: "JIPDANJISUNG",
-    gender: "남",
-    age: 20,
-    location: "서울특별시 서초구",
-  },
-  {
-    id: 3,
-    date: "2024-01-10 19:11분",
-    meeter: "Woo_Wu_Uk",
-    gender: "남",
-    age: 23,
-    location: "서울특별시 구로구",
-  },
-];
+// let historys = [
+//   {
+//     id: 1,
+//     date: "2024-01-22 19:36분",
+//     meeter: "w99_hyun_",
+//     gender: "남",
+//     age: 26,
+//     location: "서울특별시 마포구",
+//   },
+//   {
+//     id: 2,
+//     date: "2024-01-16 13:36분",
+//     meeter: "JIPDANJISUNG",
+//     gender: "남",
+//     age: 20,
+//     location: "서울특별시 서초구",
+//   },
+//   {
+//     id: 3,
+//     date: "2024-01-10 19:11분",
+//     meeter: "Woo_Wu_Uk",
+//     gender: "남",
+//     age: 23,
+//     location: "서울특별시 구로구",
+//   },
+// ];
 
 function MatchHistory() {
   const navigate = useNavigate();
-  const isZero = historys.length === 0;
   const [choice, setChoice] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]); // 선택된 히스토리 아이템들의 ID를 추적
   const [allDeleteModal, setAllDeleteModal] = useState(false);
-  // 특정 아이템을 선택 또는 선택 해제하는 함수
 
+  const [historys, setHistorys] = useState([]);
+
+  const [csrfToken, setCsrfToken] = useState("");
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch(
+          "https://api.catchmenow.co.kr/main/csrf/",
+          {
+            method: "GET",
+            credentials: "include", // 필요에 따라 설정하세요. 예: 쿠키를 전송하기 위해 include를 사용합니다.
+          }
+        );
+
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
+
+  const [render, setRender] = useState(false);
+  useEffect(() => {
+    // 데이터를 가져오는 함수를 정의합니다.
+    const fetchData = async () => {
+      try {
+        // fetch를 사용하여 데이터를 가져옵니다.
+        const response = await fetch(
+          "https://api.catchmenow.co.kr/main/api/user_info/1003/matching_history/"
+        );
+
+        // response에서 JSON 데이터를 추출합니다.
+        const jsonData = await response.json();
+
+        // 가져온 데이터를 상태에 설정합니다.
+        setHistorys(jsonData.matching_history);
+        console.log(jsonData.matching_history);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트되었을 때 데이터를 가져옵니다.
+    fetchData();
+    // clean-up 함수를 반환하여 컴포넌트가 언마운트될 때 이전에 설정한 데이터 요청을 취소합니다.
+    return () => {
+      // clean-up 작업을 수행합니다.
+    };
+  }, [render]);
+
+  const deleteHistory = (idsToDelete) => {
+    fetch(
+      "https://api.catchmenow.co.kr/main/api/user_info/1003/matching_history/",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ ids: idsToDelete }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("수정 요청이 실패했습니다.");
+        }
+        console.log("삭제 요청이 성공했습니다.");
+        setRender((prevRender) => !prevRender);
+      })
+      .catch((error) => {
+        console.error("수정 요청이 실패했습니다:", error);
+      });
+  };
+
+  const isZero = historys.length === 0;
   const toggleSelectedItem = function (id) {
     if (selectedItems.includes(id)) {
       // 이미 선택된 아이템인 경우 선택 해제
@@ -49,21 +125,20 @@ function MatchHistory() {
   };
 
   const deleteSelectedItems = () => {
-    const remainingHistorys = historys.filter(
-      (history) => !selectedItems.includes(history.id)
-    );
+    const remainingHistorys = historys
+      .filter((history) => selectedItems.includes(history.id))
+      .map((history) => history.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
-    historys = remainingHistorys;
+    deleteHistory(remainingHistorys);
+    console.log(remainingHistorys);
     setSelectedItems([]); // 선택된 아이템 초기화
     setChoice(false);
   };
   const deleteAllItems = () => {
     setSelectedItems([]);
-    const remainingHistorys = historys.filter((history) =>
-      selectedItems.includes(history.id)
-    );
+    const remainingHistorys = historys.map((history) => history.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
-    historys = remainingHistorys;
+    deleteHistory(remainingHistorys);
     setSelectedItems([]); // 선택된 아이템 초기화
   };
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경

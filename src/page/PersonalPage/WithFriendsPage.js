@@ -162,7 +162,7 @@ function WithFriends() {
       try {
         // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1001/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1003/"
         );
 
         // response에서 JSON 데이터를 추출합니다.
@@ -186,14 +186,17 @@ function WithFriends() {
   }, [render]);
 
   const deleteFriend = (idsToUpdate) => {
-    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      },
-      body: JSON.stringify({ ids: idsToUpdate }),
-    })
+    fetch(
+      "https://api.catchmenow.co.kr/main/api/user_info/1003/delete_party/",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ ids: idsToUpdate }),
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("수정 요청이 실패했습니다.");
@@ -252,10 +255,11 @@ function WithFriends() {
 
   const deleteSelectedItems = () => {
     const remainingFriends = friends
-      .filter((friend) => !selectedItems.includes(friend.id))
+      .filter((friend) => selectedItems.includes(friend.id))
       .map((friend) => friend.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
     deleteFriend(remainingFriends);
+    console.log(remainingFriends);
     setSelectedItems([]); // 선택된 아이템 초기화
     setChoice(false);
   };
@@ -263,6 +267,7 @@ function WithFriends() {
     const remainingFriends = friends.map((friend) => friend.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
     deleteFriend(remainingFriends);
+
     setSelectedItems([]); // 선택된 아이템 초기화
   };
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경

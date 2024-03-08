@@ -28,16 +28,14 @@ function Room() {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    const kid = localStorage.getItem('kid');
 
      const headers = {
-      'Authorization': accessToken, 
-      'Refresh-Token': refreshToken, 
-      'Kid': kid,
+      'Authorization': `Bearer ${accessToken}`, 
+      //'Refresh-Token': refreshToken,
     };
 
     // 서버로 정보 전송
-    axios.post(`https://api.catchmenow.co.kr/room/api/room_info/${roomId}/`, { headers })
+    axios.get(`https://api.catchmenow.co.kr/main/api/jwttokentest/`, { headers })
       .then(response => {
         console.log(response.data);
       })
