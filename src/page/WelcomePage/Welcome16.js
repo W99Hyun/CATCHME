@@ -376,7 +376,7 @@ function Welcome16() {
 
   const handleNextClick = () => {
     
-      navigate('/login/information/Welcome17'); // '/welcome05' 경로로 이동
+      navigate('/login/information/Welcome07'); // '/welcome05' 경로로 이동
 
   };
  

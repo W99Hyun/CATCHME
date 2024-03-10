@@ -76,7 +76,7 @@ const BackgroundImage = styled.div `
 
   const handleNextClick = () => {
     
-      navigate('/login/information/Welcome16'); 
+      navigate('/login/information/Welcome17'); 
 
   };
 

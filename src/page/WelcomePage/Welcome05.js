@@ -85,7 +85,7 @@ function Welcome05() {
 
   const handleNextClick = () => {
     if (selectedMBTI) {
-      navigate('/login/information/Welcome06');
+      navigate('/login/information/Welcome16');
     } else {
       alert('MBTI 유형을 선택해주세요.');
     }
