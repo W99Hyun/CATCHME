@@ -229,7 +229,7 @@ function Alarm() {
       try {
         // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1002/notice/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/notice/"
         );
 
         // response에서 JSON 데이터를 추출합니다.
@@ -260,7 +260,7 @@ function Alarm() {
 
   // 알림을 삭제하는 함수
   const deleteNotification = (idsToUpdate) => {
-    fetch("https://api.catchmenow.co.kr/main/api/user_info/1002/notice/", {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -299,7 +299,7 @@ function Alarm() {
   };
 
   const updateNotices = (idsToUpdate) => {
-    fetch("https://api.catchmenow.co.kr/main/api/user_info/1002/notice/", {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

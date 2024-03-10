@@ -92,31 +92,30 @@ function YesLogin() {
 
   const kid = localStorage.getItem("kid"); // 로컬스토리지에 있는 kid 빼오기
 
-const fetchData = async () => {
-  try {
-    const userResponse = await fetch(
-      `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      }
-    );
+  const fetchData = async () => {
+    try {
+      const userResponse = await fetch(
+        `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
-    const userdata = await userResponse.json();
-    setWMbti(userdata.extra_info[0].w_mbti);
+      const userdata = await userResponse.json();
+      setWMbti(userdata.extra_info[0].w_mbti);
+    } catch (error) {
+      console.error("Error fetching ideal percentages:", error);
+    }
+  };
 
-  } catch (error) {
-    console.error("Error fetching ideal percentages:", error);
-  }
-};
-
-useEffect(() => {
-  fetchData();
-}, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -142,7 +141,7 @@ useEffect(() => {
               <EnterRoomModal isOpen={showModal} onClose={toggleModal} />
             </div>
             <div className="yeslogin-logout-text">
-              <Link to="/notlogin" className="yeslogin-logout-text">
+              <Link to="/" className="yeslogin-logout-text">
                 LOGOUT
               </Link>
             </div>
