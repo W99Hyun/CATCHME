@@ -162,7 +162,7 @@ function WithFriends() {
       try {
         // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1003/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/"
         );
 
         // response에서 JSON 데이터를 추출합니다.
@@ -187,7 +187,7 @@ function WithFriends() {
 
   const deleteFriend = (idsToUpdate) => {
     fetch(
-      "https://api.catchmenow.co.kr/main/api/user_info/1003/delete_party/",
+      "https://api.catchmenow.co.kr/main/api/user_info/1001/delete_party/",
       {
         method: "DELETE",
         headers: {

@@ -54,7 +54,7 @@ const FixedHeader = styled.div`
 `;
 
 function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const handleLogin = (loggedIn) => {
     setIsUserLoggedIn(loggedIn);
