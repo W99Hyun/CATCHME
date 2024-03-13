@@ -107,9 +107,8 @@ function Welcome19() {
       }
 
     const refreshToken = localStorage.getItem('refreshToken');
-
-    const decoded = jwtDecode(accessToken);
-    const kid = decoded.kid; // 'kid' 값을 디코드된 토큰에서 추출
+    const kid = localStorage.getItem('kid');
+    
 
     if (selectedfaceType && selectedtoneType) {
       // 기존의 userData 객체를 로컬 스토리지에서 불러옵니다.
