@@ -98,6 +98,10 @@ function Welcome19() {
   };
 
   const handleNextClick = async () => {
+
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
     if (selectedfaceType && selectedtoneType) {
       // 기존의 userData 객체를 로컬 스토리지에서 불러옵니다.
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
@@ -117,10 +121,12 @@ function Welcome19() {
       
       // 서버로 userData 전송
       try {
-        const response = await fetch('https://yourserver.com/api/userdata', {
+        const response = await fetch('https://api.catchmenow.co.kr/main/api/posttest/', {
           method: 'POST',
+          mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`, 
             // 필요하다면 여기에 추가 헤더를 삽입하세요 (예: 인증 토큰)
           },
           body: JSON.stringify(userData),
@@ -135,7 +141,7 @@ function Welcome19() {
         console.log('Server response:', responseData);
   
         // 여기서 다음 페이지로 리디렉션하거나 다른 작업을 수행하세요.
-        navigate('/login/information/Welcome21');
+        navigate('/login');
   
       } catch (error) {
         console.error('There was a problem with your fetch operation:', error);
