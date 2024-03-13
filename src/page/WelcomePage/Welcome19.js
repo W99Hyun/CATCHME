@@ -127,7 +127,7 @@ function Welcome19() {
           };
       }
 
-      userData.user = { kid };
+      userData.user = kid ;
       
       // 서버로 userData 전송
       try {
