@@ -128,10 +128,13 @@ function Welcome19() {
       }
 
       userData.user = kid ;
+
+      const url = `https://api.catchmenow.co.kr/main/api/user_info/${kid}/introduction/`;
+    console.log('Request URL:', url); // 최종 URL 확인
       
       // 서버로 userData 전송
       try {
-        const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${kid}/introduction/`, {
+        const response = await fetch(url, {
           method: 'POST',
           mode: 'cors',
           headers: {
