@@ -131,7 +131,7 @@ function Welcome19() {
       
       // 서버로 userData 전송
       try {
-        const response = await fetch('https://api.catchmenow.co.kr/main/api/posttest/', {
+        const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/{kid}/introduction/`, {
           method: 'POST',
           mode: 'cors',
           headers: {
