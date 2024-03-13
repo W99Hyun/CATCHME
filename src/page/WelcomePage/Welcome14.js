@@ -17,7 +17,7 @@ const BackgroundImage = styled.div`
     z-index: -2;
 `;
 
-function Welcome12() {
+function Welcome14() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
   const typingSpeed = 75;
@@ -75,8 +75,25 @@ function Welcome12() {
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
-    if (selectedJob) navigate('/login/information/Welcome15');
-    else alert("학과를 선택해주세요.");
+    if (selectedJob) {
+      // 로컬 스토리지에서 userData 객체를 가져옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 성별에 따라 해당하는 키에 학과 정보를 저장합니다.
+      if (userData.ismale === 1) {
+        userData.w_major = selectedJob; // 남자일 경우 m_major 키에 저장
+      } else if (userData.ismale === 0) {
+        userData.m_major = selectedJob; // 여자일 경우 w_major 키에 저장
+      }
+  
+      // 변경된 userData 객체를 로컬 스토리지에 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(userData));
+  
+      // 다음 페이지로 이동합니다.
+      navigate('/login/information/Welcome15');
+    } else {
+      alert("학과를 선택해주세요.");
+    }
   };
 
   return (
@@ -131,4 +148,4 @@ function Welcome12() {
   );
 }
 
-export default Welcome12;
+export default Welcome14;

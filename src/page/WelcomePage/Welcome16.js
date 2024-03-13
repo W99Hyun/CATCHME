@@ -89,7 +89,7 @@ function Welcome16() {
   ],
 },
 {
-  name: "경기도",
+  name: "경기",
   subArea: [
     "고양시",
     "과천시",
@@ -375,9 +375,27 @@ function Welcome16() {
   };
 
   const handleNextClick = () => {
-    
-      navigate('/login/information/Welcome07'); // '/welcome05' 경로로 이동
-
+    if (selectedRegion && selectedSubArea) {
+      // 로컬 스토리지에서 기존 userData 객체 불러오기
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 선택된 지역과 하위 지역을 합쳐서 새로운 location 값 생성
+      const location = `${selectedRegion} ${selectedSubArea}`;
+  
+      // 새로운 location 정보를 기존 userData 객체에 추가
+      const updatedUserData = {
+        ...userData,
+        location: location
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 저장
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 네비게이션
+      navigate('/login/information/Welcome06');
+    } else {
+      alert('지역과 상세 지역을 모두 선택해주세요.');
+    }
   };
  
 

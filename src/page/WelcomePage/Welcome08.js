@@ -99,12 +99,27 @@ function Welcome08() {
 
   const handleNextClick = () => {
     if (selectedfaceType && selectedtoneType) {
+      // 기존의 userData 객체를 로컬 스토리지에서 불러옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 새로운 얼굴상과 피부톤 정보를 userData 객체에 추가합니다.
+      const updatedUserData = {
+        ...userData,
+        face: {
+          type: selectedfaceType,
+          tone: selectedtoneType
+        }
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 이동합니다.
       navigate('/login/information/Welcome09');
     } else {
       alert('얼굴상과 피부톤을 선택해주세요!');
     }
   };
- 
 
   return (
     <div className="home">

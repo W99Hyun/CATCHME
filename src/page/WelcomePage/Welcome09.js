@@ -181,9 +181,24 @@ useEffect(() => {
   };
 
   const handleNextClick = () => {
+    // 로컬 스토리지에서 기존의 userData 객체를 가져옵니다.
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+    // 선택된 캐릭터 이름에서 첫 글자를 제거하여 animal 키에 저장할 값을 설정합니다.
+    const animal = characters[currentIndex].name.substring(1);
+  
+    // userData 객체에 animal 키와 값으로 선택된 캐릭터의 이름을 업데이트합니다.
+    const updatedUserData = {
+      ...userData,
+      animal: animal
+    };
+  
+    // 업데이트된 userData 객체를 로컬 스토리지에 다시 저장합니다.
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+    // 다음 페이지로 이동합니다.
     navigate('/login/information/Welcome10');
   };
-
  
  
 

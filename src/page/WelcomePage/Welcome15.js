@@ -20,7 +20,7 @@ const BackgroundImage = styled.div `
 
 ` 
 
-  function Welcome13() {
+  function Welcome15() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "선호하는 이상적인 키가 궁금해!";
   const fullMessage2 = "범위를 알려줘!"
@@ -75,9 +75,24 @@ const BackgroundImage = styled.div `
   };
 
   const handleNextClick = () => {
-    
-      navigate('/login/information/Welcome17'); 
-
+    // 로컬 스토리지에서 기존 userData 객체를 가져옵니다.
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+    // 선호하는 나이 범위를 문자열로 결합합니다.
+    const ageRange = `${sliderValueMin}-${sliderValueMax}`;
+  
+    // 성별에 따라 적절한 키를 사용하여 userData 객체를 업데이트합니다.
+    if (userData.ismale === 1) {
+      userData.w_height = ageRange;  // 남성 사용자의 경우
+    } else if (userData.ismale === 0) {
+      userData.m_height = ageRange;  // 여성 사용자의 경우
+    }
+  
+    // 변경된 userData 객체를 로컬 스토리지에 저장합니다.
+    localStorage.setItem('userData', JSON.stringify(userData));
+  
+    // 다음 페이지로 이동합니다.
+    navigate('/login/information/Welcome17');
   };
 
  
@@ -179,4 +194,4 @@ const BackgroundImage = styled.div `
   );
 }
 
-export default Welcome13 ;
+export default Welcome15 ;

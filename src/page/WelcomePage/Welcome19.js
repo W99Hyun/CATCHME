@@ -97,14 +97,54 @@ function Welcome19() {
     navigate(-1);
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     if (selectedfaceType && selectedtoneType) {
-      navigate('/login/information/Welcome21');
+      // 기존의 userData 객체를 로컬 스토리지에서 불러옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+      
+      // 새로운 얼굴상과 피부톤 정보를 userData 객체에 추가합니다.
+      if (userData.ismale === 1) {
+          userData.w_face = {
+              type: selectedfaceType,
+              tone: selectedtoneType
+          };
+      } else {
+          userData.m_face = {
+              type: selectedfaceType,
+              tone: selectedtoneType
+          };
+      }
+      
+      // 서버로 userData 전송
+      try {
+        const response = await fetch('https://yourserver.com/api/userdata', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 필요하다면 여기에 추가 헤더를 삽입하세요 (예: 인증 토큰)
+          },
+          body: JSON.stringify(userData),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        // 응답 처리
+        const responseData = await response.json();
+        console.log('Server response:', responseData);
+  
+        // 여기서 다음 페이지로 리디렉션하거나 다른 작업을 수행하세요.
+        navigate('/login/information/Welcome21');
+  
+      } catch (error) {
+        console.error('There was a problem with your fetch operation:', error);
+        // 에러 처리 로직
+      }
     } else {
-      alert('이상형의 얼굴상과 피부톤을 선택해주세요!');
+      alert('얼굴상과 피부톤을 선택해주세요!');
     }
   };
- 
 
   return (
     <div className="home">

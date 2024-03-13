@@ -76,13 +76,28 @@ const navigate = useNavigate();
   };
 
   const handleNextClick = () => {
-    if (selectedtype && eyeType ) { // 체형이 선택되었는지 확인
-      navigate('/login/information/Welcome18'); // 선택되었다면 해당 경로로 이동
+    if (selectedtype && eyeType) {
+      // userData 객체에 현재 사용자 데이터가 저장되어 있다고 가정
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // userData.ismale 값을 바로 사용하여 조건부 로직 실행
+      if (userData.ismale === 1) {
+        userData.w_body = selectedtype;
+        userData.w_eyes = eyeType;
+      } else {
+        userData.m_body = selectedtype;
+        userData.m_eyes = eyeType;
+      }
+  
+      // 변경된 userData 객체를 로컬 스토리지에 저장
+      localStorage.setItem('userData', JSON.stringify(userData));
+  
+      // 다음 페이지로 이동
+      navigate('/login/information/Welcome18');
     } else {
-      alert('체형, 쌍커풀을 선택해주세요.'); // 체형이 선택되지 않았다면 알림 표시
-    } 
+      alert('체형과 눈 모양을 모두 선택해주세요.');
+    }
   };
-
   
  
   const [selectedtype, setSelectedtype] = useState(''); // 선택된 버튼의 상태

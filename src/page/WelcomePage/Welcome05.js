@@ -85,12 +85,24 @@ function Welcome05() {
 
   const handleNextClick = () => {
     if (selectedMBTI) {
+      // 로컬 스토리지에서 기존의 userData 객체를 불러옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 새로운 MBTI 정보를 기존 userData 객체에 추가합니다.
+      const updatedUserData = {
+        ...userData,
+        mbti: selectedMBTI
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 네비게이션
       navigate('/login/information/Welcome16');
     } else {
       alert('MBTI 유형을 선택해주세요.');
     }
   };
-
  
 
   return (

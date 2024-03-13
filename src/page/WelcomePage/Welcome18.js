@@ -179,9 +179,25 @@ useEffect(() => {
   };
 
   const handleNextClick = () => {
+    // userData 객체 로드
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+
+    // 선택된 캐릭터의 이름에서 성별 접두사를 제거
+    const selectedAnimal = characters[currentIndex].name.slice(1).toLowerCase();
+
+    // ismale 값에 따라 적절한 키에 저장
+    if (userData.ismale === 1) {
+      userData.w_animal = selectedAnimal;
+    } else {
+      userData.m_animal = selectedAnimal;
+    }
+
+    // 변경된 userData를 로컬 스토리지에 저장
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    // 다음 페이지로 이동
     navigate('/login/information/Welcome20');
   };
-
  
  
 

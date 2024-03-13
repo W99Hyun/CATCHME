@@ -85,12 +85,25 @@ function Welcome20() {
 
   const handleNextClick = () => {
     if (selectedMBTI) {
+      // 로컬 스토리지에서 userData 객체를 가져옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 사용자의 성별에 따라 MBTI 값을 저장합니다.
+      if (userData.ismale === 1) {
+        userData.w_mbti = selectedMBTI;  // 남성일 경우
+      } else {
+        userData.m_mbti = selectedMBTI;  // 여성일 경우
+      }
+  
+      // 변경된 userData 객체를 로컬 스토리지에 다시 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(userData));
+  
+      // 다음 페이지로 이동
       navigate('/login/information/Welcome19');
     } else {
       alert('잘 맞는 MBTI 유형을 선택해주세요.');
     }
   };
-
  
 
   return (

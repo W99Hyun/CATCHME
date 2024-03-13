@@ -124,12 +124,24 @@ useEffect(() => {
 
   const handleNextClick = () => {
     if (selected.length === 3) {
+      // 로컬 스토리지에서 userData 객체를 가져옵니다.
+      const existingUserData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 사용자가 선택한 취미를 userData 객체에 추가합니다.
+      const updatedUserData = {
+        ...existingUserData,
+        hobby: selected
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 이동합니다.
       navigate('/login/information/Welcome08');
     } else {
       alert("최소 3개의 취미를 선택해주세요.");
     }
   };
-
  
  
 

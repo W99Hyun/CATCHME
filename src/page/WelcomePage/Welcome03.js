@@ -76,7 +76,19 @@ const BackgroundImage = styled.div `
 
   const handleNextClick = () => {
     if (gender) {
-      navigate('/login/information/Welcome04'); 
+      // 성별에 따라 1 또는 0을 저장합니다.
+      const genderValue = gender === '남자' ? 1 : 0;
+  
+      // 사용자의 나이와 성별(1 또는 0으로 표현)을 포함하는 객체를 생성합니다.
+      const userData = { age: sliderValue, ismale: genderValue };
+  
+      // 생성된 객체를 로컬 스토리지에 'userData'라는 키로 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(userData));
+
+      console.log('userData:', userData);
+  
+      // 다음 페이지로 네비게이션
+      navigate('/login/information/Welcome04');
     } else {
       alert("성별을 선택해주세요."); 
     }

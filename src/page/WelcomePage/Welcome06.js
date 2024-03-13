@@ -83,11 +83,26 @@ const navigate = useNavigate();
   };
 
   const handleNextClick = () => {
-    if (selectedtype) { // 체형이 선택되었는지 확인
-      navigate('/login/information/Welcome07'); // 선택되었다면 해당 경로로 이동
+    if (value && selectedtype && eyeType) {
+      // 로컬 스토리지에서 기존 userData 객체 불러오기
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 사용자의 키, 체형, 눈의 타입을 userData 객체에 추가
+      const updatedUserData = {
+        ...userData,
+        height: value,
+        body: selectedtype,
+        eyes: eyeType
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 저장
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 네비게이션
+      navigate('/login/information/Welcome07');
     } else {
-      alert('체형을 선택해주세요.'); // 체형이 선택되지 않았다면 알림 표시
-    } 
+      alert('모든 정보를 입력해주세요.');
+    }
   };
 
   
