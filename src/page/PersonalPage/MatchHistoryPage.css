@@ -42,7 +42,7 @@
   padding: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 30px;
-  border: 0.2px solid rgb(213, 213, 213);
+  border: 0px solid rgb(213, 213, 213);
   overflow-y: auto;
 }
 

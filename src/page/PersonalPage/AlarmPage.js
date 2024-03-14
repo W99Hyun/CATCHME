@@ -1,7 +1,8 @@
 import { all } from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import "./AlarmPage.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const styles = {
   notificationsContainer: {
@@ -9,13 +10,13 @@ const styles = {
     gridTemplateRows: "0.5fr 7fr",
     marginTop: "10%",
     padding: "2px 20px 20px 20px",
-    gap: "5px",
+    gap: "15px",
     maxHeight: "75vh",
   },
   notificationsTextContainer: {
     display: "flex",
     justifyContent: "space-between",
-    margin: "0px 30px 0px 15px",
+    margin: "0px 21px 0px 15px",
     textAlign: "center",
   },
   notificationTextNumber: {
@@ -237,6 +238,7 @@ function Alarm() {
 
         // 가져온 데이터를 상태에 설정합니다.
         setNotifications(jsonData.notice);
+        const checkRead = await handleUpdateNotices(jsonData.notice);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -312,7 +314,7 @@ function Alarm() {
           throw new Error("수정 요청이 실패했습니다.");
         }
         console.log("수정 요청이 성공했습니다.");
-        setRender((prevRender) => !prevRender);
+        //setRender((prevRender) => !prevRender);
       })
       .catch((error) => {
         console.error("수정 요청이 실패했습니다:", error);
@@ -333,7 +335,7 @@ function Alarm() {
           <div>
             <button
               onClick={() => {
-                setNotifications([]);
+                deleteAllNotice(notifications);
                 setAllDeleteModal(false);
               }}
               className="alarmpage-modal-buttons"
@@ -368,7 +370,7 @@ function Alarm() {
           </span>
           <span
             style={styles.notificationTextDelete}
-            onClick={() => deleteAllNotice(notifications)} //setAllDeleteModal(true)
+            onClick={() => setAllDeleteModal(true)} //setAllDeleteModal(true)
           >
             전체 삭제
           </span>
