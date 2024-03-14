@@ -60,7 +60,6 @@ const styles = {
     textAlign: "center",
   },
 
-  friendInfo: {},
   friendNickname: {
     marginLeft: "5px",
     fontWeight: "900",
@@ -95,8 +94,8 @@ const styles = {
     display: "block",
     margin: "auto",
     marginTop: "5%",
-    width: "330px",
-    height: "50px",
+    width: "300px",
+    height: "45px",
     color: "#391b1b",
     fontWeight: "bold",
     fontSize: "16px",

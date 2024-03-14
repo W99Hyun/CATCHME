@@ -150,7 +150,7 @@ input:focus {
   justify-content: space-between;
   box-shadow: 3px 15px 15px rgba(0, 0, 0, 0.03),
     -3px -3px 15px rgba(0, 0, 0, 0.03);
-  height: 16%;
+  /* height: 16%; */
 }
 .align-item {
   display: flex;
@@ -164,7 +164,7 @@ input:focus {
 
 .withfriends-myinfo-img {
   width: 100%;
-  height: 80%;
+  height: 100%;
   object-fit: cover;
 }
 .withfriends-myinfo-nickname-container {
@@ -175,9 +175,9 @@ input:focus {
   display: grid;
   grid-template-rows: 7.1fr 0.5fr 1fr;
   gap: 10px;
-
-  min-height: 77vh;
-  max-height: 77vh;
+  margin-top: 10px;
+  min-height: 70vh;
+  max-height: 70vh;
 }
 .btn-location {
   align-items: start;

@@ -1,7 +1,7 @@
 .header-history {
   display: flex;
   align-items: center;
-  padding: 16px 16px 32px 16px;
+  padding: 0px 0px 0px 29px;
 }
 
 .history-text {
@@ -103,6 +103,7 @@
   display: flex;
   justify-content: flex-end;
   margin-right: 9%; /* 필요에 따라 조정 */
+  margin-top: 6%;
 }
 .select-button {
   font-size: 9px;
