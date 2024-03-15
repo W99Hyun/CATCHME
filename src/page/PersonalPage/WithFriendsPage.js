@@ -90,7 +90,7 @@ const styles = {
     border: "0.2px solid rgb(213, 213, 213)",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.12)",
   },
-  kakaoButton1: {
+  inviteBtn: {
     display: "block",
     margin: "auto",
     marginTop: "5%",
@@ -277,13 +277,18 @@ function WithFriends() {
     setSelectedItems([]);
   };
 
+  const [showCopy, setShowCopy] = useState(false);
+  const [copyMessage, setCopyMessage] = useState("");
   const textRef = useRef("copyed text");
   const copyText = () => {
     // "good" 텍스트를 복사
     navigator.clipboard
       .writeText("https://catchme-smoky.vercel.app/")
       .then(() => {
-        console.log("Text copied successfully");
+        setShowCopy(true);
+        setTimeout(() => {
+          setShowCopy(false);
+        }, 1000);
       })
       .catch((err) => {
         console.error("Error copying text: ", err);
@@ -516,8 +521,13 @@ function WithFriends() {
           )}
         </div>
         <div>
+          <div className="middle-sort">
+            {showCopy ? (
+              <div className="copyed-inform-text">링크가 복사되었습니다.</div>
+            ) : null}
+          </div>
           <button
-            style={styles.kakaoButton1}
+            style={styles.inviteBtn}
             className="fontfamily"
             onClick={copyText}
           >
