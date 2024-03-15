@@ -37,8 +37,8 @@ const styles = {
     justifyContent: "center",
     alignItems: "flex-end",
     fontSize: "10px",
-    fontWeight: "",
-    color: "#433C3C",
+    fontWeight: "500",
+    color: "#000000",
   },
   notificationList: {
     padding: "10px",
@@ -51,23 +51,23 @@ const styles = {
   },
   notificationItem: {
     background: "#ffffff",
-    borderRadius: "16px",
-    padding: "8px 8px 8px 8px",
+    borderRadius: "13px",
+    padding: "8px 4px 8px 8px",
     marginBottom: "15px",
     display: "grid",
     minHeight: "60px",
-    gridTemplateColumns: "0.1fr 6fr 1fr",
-    gap: "10px",
+    gridTemplateColumns: "0.1fr 6fr 1.1fr",
+    gap: "8px",
     justifyContent: "space-between",
 
     minHeight: "8.2vh",
     maxHeight: "20vh",
     boxShadow:
-      "3px 15px 15px rgba(0, 0, 0, 0.03), -3px -0px 10px rgba(0, 0, 0, 0.03)", // 그림자 효과 추가
+      "3px 5px 10px rgba(0, 0, 0, 0.04), -3px -5px 10px rgba(0, 0, 0, 0.04)", // 그림자 효과 추가
   },
   alignItem: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
   },
   notificationEmpty: {
@@ -83,18 +83,18 @@ const styles = {
   },
   time: {
     color: "#666666",
-    fontSize: "12px",
+    fontSize: "11px",
     textAlign: "center",
   },
   alarmText: {
     fontSize: "25px",
-    fontWeight: "bold",
+    fontWeight: "bolder",
     textDecoration: "none",
-    color: "rgb(60, 57, 57)",
+    color: "#000000",
     textAlign: "center",
   },
   alarmContent: {
-    margin: "12px 0px",
+    margin: "5px 0px",
   },
 };
 function AlarmItem({ notification, onDelete }) {
@@ -329,8 +329,13 @@ function Alarm() {
         className="alarmpage-modal-detail"
       >
         <div className="alarmpage-modal-container">
-          <div>
-            <p className="alarmpage-modal-text">모든 알람을 삭제할까요?</p>
+          <div className="alarmpage-modal-text">
+            <div>
+              <p className="history-modal-text-big">모든 알람을 삭제할까요?</p>
+              <p className="history-modal-text-small">
+                삭제한 알람은 되돌릴 수 없습니다!
+              </p>
+            </div>
           </div>
           <div>
             <button
