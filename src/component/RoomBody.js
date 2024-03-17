@@ -88,6 +88,7 @@ const RoomBody = ({roomId}) => {
       setFemaleusers(roomdata.womenInfos);
       setIsMale(userdata.ismale);
       setIsReady(userdata.extra_info[0].ready);
+      console.log("0", userdata.extra_info[0].ready)
 
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -96,10 +97,9 @@ const RoomBody = ({roomId}) => {
 
 useEffect(() => {
   fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
-  console.log("0", userdata.extra_info[0].ready)
   console.log("0", user)
   console.log("0", isReady)
-  if(userdata.extra_info[0].ready) {
+  if(isReady) {
     setUser({
       kid: 1001 // kid 값을 임의로 1001로 지정
     });
