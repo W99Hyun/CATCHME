@@ -96,6 +96,8 @@ const RoomBody = ({roomId}) => {
 
 useEffect(() => {
   fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
+  console.log("0", user)
+      console.log("0", isReady)
 }, [roomId]);
 
 const [idealPercentages, setIdealPercentages] = useState([]);
