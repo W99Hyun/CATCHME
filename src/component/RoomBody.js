@@ -88,7 +88,6 @@ const RoomBody = ({roomId}) => {
       setFemaleusers(roomdata.womenInfos);
       setIsMale(userdata.ismale);
       setIsReady(userdata.extra_info[0].ready);
-      console.log("0", userdata.extra_info[0].ready)
 
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -96,15 +95,17 @@ const RoomBody = ({roomId}) => {
 };
 
 useEffect(() => {
-  fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
-  console.log("0", user)
-  console.log("0", isReady)
-  if(isReady) {
-    setUser({
-      kid: 1001 // kid 값을 임의로 1001로 지정
-    });
-  }
-}, [roomId]);
+  const fetchDataAndLog = async () => {
+    await fetchData(); // fetchData를 실행하고 완료될 때까지 기다립니다.
+    if (isReady) { // 다른 곳에 갔다 왔을 때, 유저가 레디 상태이면 user값 할당
+      setUser({
+        kid: 1001 // kid 값을 임의로 1001로 지정
+      });
+    }
+  };
+
+  fetchDataAndLog();
+}, [roomId, isReady]);
 
 const [idealPercentages, setIdealPercentages] = useState([]);
 
@@ -163,15 +164,11 @@ const [totalCondition, setTotalCondition] = useState(null);
         kid: 1001 // kid 값을 임의로 1001로 지정
       });
       setIsReady(!isReady);
-      console.log("1", user)
-      console.log("1", isReady)
     }
     else if (user) {
       setUser(false);
       setIsReady(!isReady);
     }
-    console.log("2", user)
-      console.log("2", isReady)
   };
 
   useEffect(() => {
@@ -179,6 +176,8 @@ const [totalCondition, setTotalCondition] = useState(null);
       // 유저가 방에 들어와서 처음 레디를 눌렀을 때
       // 위에 handleReadyButtonClick 로 유저도 생기고, 레디 상태로 변경됨
       // 그때 웹소켓 연결 안 되어 있으면 연결
+      // 레디된 상태에서 다른 곳에 갔다 와도
+      // user와 isReady이 존재하는데, 웹소켓이 끊겨 있으므로 다시 재연결
       dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
@@ -196,33 +195,16 @@ const [totalCondition, setTotalCondition] = useState(null);
           fetchData();
         }
       };
-      console.log("3",user)
-      console.log("3",isReady)
-
     } else if ((!user || !isReady) && dataSocket.current) {
       // 유저가 새로고침을 안 하고 방에 있을 때
-      // 레디버튼을 눌러, 참여를 취소하면 웹소켓을
+      // 레디버튼을 눌러, 참여를 취소하면 웹소켓을 끊음
       console.log('웹 소켓 연결 끊음!');
       fetchData();
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
-      console.log("4",user)
-      console.log("4",isReady)
     } 
   }, [user, isReady]);
-
-  useEffect(() => {
-    return () => {
-      if (dataSocket.current) {
-        // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
-        dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
-        dataSocket.current.close();
-        console.log("5", user)
-      console.log("5",isReady)
-      }
-    };
-  }, []);
 
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
