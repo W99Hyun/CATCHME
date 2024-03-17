@@ -155,15 +155,15 @@ const [totalCondition, setTotalCondition] = useState(null);
         kid: 1001 // kid 값을 임의로 1001로 지정
       });
       setIsReady(!isReady);
-      console.log(user)
-      console.log(isReady)
+      console.log("1", user)
+      console.log("1", isReady)
     }
     else if (user) {
       setUser(false);
       setIsReady(!isReady);
     }
-    console.log(user)
-      console.log(isReady)
+    console.log("2", user)
+      console.log("2", isReady)
   };
 
   useEffect(() => {
@@ -188,8 +188,8 @@ const [totalCondition, setTotalCondition] = useState(null);
           fetchData();
         }
       };
-      console.log(user)
-      console.log(isReady)
+      console.log("3",user)
+      console.log("3",isReady)
 
     } else if ((!user || !isReady) && dataSocket.current) {
       // 유저가 새로고침을 안 하고 방에 있을 때
@@ -199,8 +199,8 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
-      console.log(user)
-      console.log(isReady)
+      console.log("4",user)
+      console.log("4",isReady)
     } 
   }, [user, isReady]);
 
@@ -210,6 +210,8 @@ const [totalCondition, setTotalCondition] = useState(null);
         // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
         dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
         dataSocket.current.close();
+        console.log("5", user)
+      console.log("5",isReady)
       }
     };
   }, []);
