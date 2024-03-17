@@ -13,6 +13,7 @@ const RoomSearchModal = ({ isOpen, onClose, onSearchComplete }) => {
       .then(response => {
         onSearchComplete(response.data);
         onClose();
+        setRoomTitle("");
       })
       .catch(error => {
         console.error('Error searching rooms:', error);

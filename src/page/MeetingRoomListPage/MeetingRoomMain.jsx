@@ -62,6 +62,7 @@ const MeetingRoomMain = () => {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false); 
+
   const roomsPerPage = 4;
 
 
@@ -131,19 +132,18 @@ const handleSearchModalClose = () => {
 const handleSearchComplete = (results) => {
   const coloredResults = results.map(room => ({
     ...room,
-    bgColor: getRandomColor() // 각 방에 랜덤 색상 추가
+    bgColor: getRandomColor()
   }));
   if (coloredResults.length > 0) {
-    // 검색 결과가 있는 경우
     setSearchResults(coloredResults);
     setNoMatchingRooms(false);
   } else {
-    // 검색 결과가 없는 경우
-    setSearchResults([]); // 검색 결과가 없다면 빈 배열을 설정
+    setSearchResults([]);
     setNoMatchingRooms(true);
   }
   setSearching(false);
   setSearchModalOpen(false);
+  setCurrentAllPageIndex(1); // 항상 첫 페이지로 설정
 };
 //방만들기
 
@@ -317,7 +317,9 @@ const enterRoom = (roomId, gender) => {
 if (isLoading) return <p>Loading...</p>;
 if (error) return <p>{error}</p>;
 
-const totalAllPages = Math.ceil(allRooms.length / roomsPerPage);
+const currentDataLength = searchResults.length > 0 ? searchResults.length : allRooms.length;
+const totalAllPages = Math.ceil(currentDataLength / roomsPerPage);
+
 // Top 5 방 목록에 대한 이전/다음 버튼의 가시성 처리
 const showTop5PrevButton = currentTop5RoomIndex > 0 && top5Rooms.length > 0;
 const showTop5NextButton = (currentTop5RoomIndex < (top5Rooms.length - 1)) && top5Rooms.length > 0;
@@ -498,28 +500,38 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 312px;
-  height: auto; /* 높이 자동 조절 */
+  width: 100%;
+  max-width: 312px;
   margin-top: 12px;
-
 `;
+
 const FireImg = styled.img`
 width: 12px;
 height: 16px;
 margin-left: 7px;
 `;
 
-  const MeetingRoomWrapper=styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  grid-template-rows: repeat(2, 1fr); 
-  gap: 13px; 
-  justify-content: center; 
-  align-content: center; 
+const MeetingRoomWrapper = styled.div`
+display: grid;
+grid-template-columns: repeat(2, 1fr); 
+grid-template-rows: auto; 
+gap: 13px; 
+justify-content: center; 
+align-content: start; 
+
+&::after {
+  content: '';
+  width: 143px; 
+  height: 0;
+  visibility: hidden;
+}
 
 @media (max-width: 1200px) {
-justify-content: space-around;
-}  `;
+  justify-content: space-around;
+}
+`;
+
+
 
   const MeetingRoom=styled.div`
   position: relative;
