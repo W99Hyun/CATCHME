@@ -26,7 +26,7 @@ const BackgroundImage = styled.div `
   const fullMessage2 = "성별도 알려줘!"
   const typingSpeed = 75;
   const currentStep = 2;
-  const totalSteps = 14;
+  const totalSteps = 19;
 
   const [currentText, setCurrentText] = useState('...'); 
   const [typingText, setTypingText] = useState(''); 
@@ -84,8 +84,6 @@ const BackgroundImage = styled.div `
   
       // 생성된 객체를 로컬 스토리지에 'userData'라는 키로 저장합니다.
       localStorage.setItem('userData', JSON.stringify(userData));
-
-      console.log('userData:', userData);
   
       // 다음 페이지로 네비게이션
       navigate('/login/information/Welcome04');
@@ -171,8 +169,8 @@ const BackgroundImage = styled.div `
       </div>
       <div className="gender-container">
         {/* 성별 선택 버튼 */}
-        <button onClick={() => handleGenderSelect('남자')} className="gender-buttons">남자!</button>
-        <button onClick={() => handleGenderSelect('여자')} className="gender-buttons">여자!</button>
+        <button onClick={() => handleGenderSelect('남자')} className={`gender-buttons ${gender === '남자' ? 'selected' : ''}`}>남자!</button>
+        <button onClick={() => handleGenderSelect('여자')} className={`gender-buttons ${gender === '여자' ? 'selected' : ''}`}>여자!</button>
       </div>
       <div className="buttons-container">
         <button onClick={handlePreviousClick} className="previous-button">이전</button>
