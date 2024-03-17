@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./WithFriendsPage.css";
@@ -60,7 +60,6 @@ const styles = {
     textAlign: "center",
   },
 
-  friendInfo: {},
   friendNickname: {
     marginLeft: "5px",
     fontWeight: "900",
@@ -91,12 +90,12 @@ const styles = {
     border: "0.2px solid rgb(213, 213, 213)",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.12)",
   },
-  kakaoButton1: {
+  inviteBtn: {
     display: "block",
     margin: "auto",
     marginTop: "5%",
-    width: "330px",
-    height: "50px",
+    width: "300px",
+    height: "45px",
     color: "#391b1b",
     fontWeight: "bold",
     fontSize: "16px",
@@ -162,7 +161,7 @@ function WithFriends() {
       try {
         // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1003/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/"
         );
 
         // response에서 JSON 데이터를 추출합니다.
@@ -187,7 +186,7 @@ function WithFriends() {
 
   const deleteFriend = (idsToUpdate) => {
     fetch(
-      "https://api.catchmenow.co.kr/main/api/user_info/1003/delete_party/",
+      "https://api.catchmenow.co.kr/main/api/user_info/1001/delete_party/",
       {
         method: "DELETE",
         headers: {
@@ -273,35 +272,59 @@ function WithFriends() {
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경
   //const buttonClass = isActive ? "choice-button-active" : "choice-button";
 
+  const clickCancle = () => {
+    setChoice(false);
+    setSelectedItems([]);
+  };
+
+  const [showCopy, setShowCopy] = useState(false);
+  const [copyMessage, setCopyMessage] = useState("");
+  const textRef = useRef("copyed text");
+  const copyText = () => {
+    // "good" 텍스트를 복사
+    navigator.clipboard
+      .writeText("https://catchme-smoky.vercel.app/")
+      .then(() => {
+        setShowCopy(true);
+        setTimeout(() => {
+          setShowCopy(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error("Error copying text: ", err);
+      });
+  };
   return (
     <div>
       <Modal
         isOpen={allDeleteModal}
         onRequestClose={() => setAllDeleteModal(false)}
-        className="history-modal-detail"
+        className="alarmpage-modal-detail"
       >
-        <div className="history-modal-container">
-          <div>
-            <p className="history-modal-text-big">
-              모든 친구를 삭제하시겠습니까?
-            </p>
-            <p className="history-modal-text-small">
-              친구를 삭제해도 다시 등록할 수 있어요!
-            </p>
+        <div className="alarmpage-modal-container">
+          <div className="alarmpage-modal-text">
+            <div>
+              <p className="history-modal-text-big">
+                모든 친구를 삭제하시겠습니까?
+              </p>
+              <p className="history-modal-text-small">
+                친구를 삭제해도 다시 등록할 수 있어요!
+              </p>
+            </div>
           </div>
-          <div className="history-modal-buttons-container">
+          <div>
             <button
               onClick={() => {
                 deleteAllItems();
                 setAllDeleteModal(false);
               }}
-              className="history-modal-buttons"
+              className="alarmpage-modal-buttons"
             >
               삭제
             </button>
             <button
               onClick={() => setAllDeleteModal(false)}
-              className="history-modal-buttons"
+              className="alarmpage-modal-buttons"
             >
               취소
             </button>
@@ -412,7 +435,7 @@ function WithFriends() {
         {choice ? (
           <button
             className="delete-all-button"
-            onClick={() => setChoice(false)} //setSelectItems([])필요
+            onClick={() => clickCancle()} //setSelectItems([])필요
           >
             취소
           </button>
@@ -480,7 +503,7 @@ function WithFriends() {
         </div>
         <div>
           {choice ? (
-            <div className="delete-button">
+            <div className="delete-button-loc">
               <button className="delete-button" onClick={deleteSelectedItems}>
                 삭제하기
               </button>
@@ -498,7 +521,16 @@ function WithFriends() {
           )}
         </div>
         <div>
-          <button style={styles.kakaoButton1} className="fontfamily">
+          <div className="middle-sort">
+            {showCopy ? (
+              <div className="copyed-inform-text">링크가 복사되었습니다.</div>
+            ) : null}
+          </div>
+          <button
+            style={styles.inviteBtn}
+            className="fontfamily"
+            onClick={copyText}
+          >
             <div>카카오톡으로 초대하기</div>
           </button>
         </div>

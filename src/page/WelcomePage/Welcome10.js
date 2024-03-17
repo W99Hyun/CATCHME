@@ -106,6 +106,22 @@ function Welcome10() {
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
+    // 로컬 스토리지에서 기존의 userData 객체를 가져옵니다.
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+    // 선택된 버튼의 인덱스를 사용하여 해당 버튼의 텍스트 값을 추출하고 배열로 구성합니다.
+    const keywords = Object.keys(selectedButtons).filter(index => selectedButtons[index]).map(index => buttons[index]);
+  
+    // userData 객체에 keyword 키와 추출한 텍스트 배열을 저장합니다.
+    const updatedUserData = {
+      ...userData,
+      keyword: keywords
+    };
+  
+    // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+    // 다음 페이지로 이동합니다.
     navigate('/login/information/Welcome11');
   };
 

@@ -44,42 +44,42 @@ background-color: rgba(255, 255, 255, 0.8); // 흰색 배경에 투명도 80%를
   const { gender } = useGender();
 
   const characters = gender === '여자' ? [
-    { name: 'Mrabbit', message: ' 토끼 캐릭터로 할래!' },
-    { name: 'Mmonkey', message: ' 원숭이 캐릭터로 할래!' },
-    { name: 'Mbear', message: ' 곰 캐릭터로 할래!' },
-    { name: 'Mcat', message: ' 고양이 캐릭터로 할래!' },
-    { name: 'Mdino', message: ' 공룡 캐릭터로 할래!' },
-    { name: 'Mdog', message: ' 강아지 캐릭터로 할래!' },
-    { name: 'Mduck', message: ' 오리 캐릭터로 할래!' },
-    { name: 'Mfox', message: ' 여우 캐릭터로 할래!' },
-    { name: 'Mgiraffe', message: ' 기린 캐릭터로 할래!' },
-    { name: 'Mmouse', message: ' 쥐 캐릭터로 할래!' },
-    { name: 'Motter', message: ' 수달 캐릭터로 할래!' },
-    { name: 'Mpanda', message: ' 팬더 캐릭터로 할래!' },
-    { name: 'Mquokka', message: ' 쿼카 캐릭터로 할래!' },
-    { name: 'Msheep', message: ' 양 캐릭터로 할래!' },
-    { name: 'Msnake', message: ' 뱀 캐릭터로 할래!' },
-    { name: 'Mtiger', message: ' 호랑이 캐릭터로 할래!' },
-    { name: 'Mturtle', message: ' 거북이 캐릭터로 할래!' }
+    { name: 'Mrabbit', message: ' 토끼상이 좋아!' },
+    { name: 'Mmonkey', message: ' 원숭이상이 좋아!' },
+    { name: 'Mbear', message: ' 곰상이 좋아!' },
+    { name: 'Mcat', message: ' 고양이상이 좋아!' },
+    { name: 'Mdino', message: ' 공룡상이 좋아!' },
+    { name: 'Mdog', message: ' 강아지상이 좋아!' },
+    { name: 'Mduck', message: ' 오리상이 좋아!' },
+    { name: 'Mfox', message: ' 여우상이 좋아!' },
+    { name: 'Mgiraffe', message: ' 기린상이 좋아!' },
+    { name: 'Mmouse', message: ' 쥐상이 좋아!' },
+    { name: 'Motter', message: ' 수달상이 좋아!' },
+    { name: 'Mpanda', message: ' 팬더상이 좋아!' },
+    { name: 'Mquokka', message: ' 쿼카상이 좋아!' },
+    { name: 'Msheep', message: ' 양상이 좋아!' },
+    { name: 'Msnake', message: ' 뱀상이 좋아!' },
+    { name: 'Mtiger', message: ' 호랑이상이 좋아!' },
+    { name: 'Mturtle', message: ' 거북이상이 좋아!' }
     // 남자 캐릭터 목록...
   ] : [
-    { name: 'Wrabbit', message: ' 토끼 캐릭터로 할래!' },
-    { name: 'Wmonkey', message: ' 원숭이 캐릭터로 할래!' },
-    { name: 'Wbear', message: ' 곰 캐릭터로 할래!' },
-    { name: 'Wcat', message: ' 고양이 캐릭터로 할래!' },
-    { name: 'Wdino', message: ' 공룡 캐릭터로 할래!' },
-    { name: 'Wdog', message: ' 강아지 캐릭터로 할래!' },
-    { name: 'Wduck', message: ' 오리 캐릭터로 할래!' },
-    { name: 'Wfox', message: ' 여우 캐릭터로 할래!' },
-    { name: 'Wgiraffe', message: ' 기린 캐릭터로 할래!' },
-    { name: 'Wmouse', message: ' 쥐 캐릭터로 할래!' },
-    { name: 'Wotter', message: ' 수달 캐릭터로 할래!' },
-    { name: 'Wpanda', message: ' 팬더 캐릭터로 할래!' },
-    { name: 'Wquokka', message: ' 쿼카 캐릭터로 할래!' },
-    { name: 'Wsheep', message: ' 양 캐릭터로 할래!' },
-    { name: 'Wsnake', message: ' 뱀 캐릭터로 할래!' },
-    { name: 'Wtiger', message: ' 호랑이 캐릭터로 할래!' },
-    { name: 'Wturtle', message: ' 거북이 캐릭터로 할래!' },
+    { name: 'Wrabbit', message: ' 토끼상이 좋아!' },
+    { name: 'Wmonkey', message: ' 원숭이상이 좋아!' },
+    { name: 'Wbear', message: ' 곰상이 좋아!' },
+    { name: 'Wcat', message: ' 고양이상이 좋아!' },
+    { name: 'Wdino', message: ' 공룡상이 좋아!' },
+    { name: 'Wdog', message: ' 강아지상이 좋아!' },
+    { name: 'Wduck', message: ' 오리상이 좋아!' },
+    { name: 'Wfox', message: ' 여우상이 좋아!' },
+    { name: 'Wgiraffe', message: ' 기린상이 좋아!' },
+    { name: 'Wmouse', message: ' 쥐상이 좋아!' },
+    { name: 'Wotter', message: ' 수달상이 좋아!' },
+    { name: 'Wpanda', message: ' 팬더상이 좋아!' },
+    { name: 'Wquokka', message: ' 쿼카상이 좋아!' },
+    { name: 'Wsheep', message: ' 양상이 좋아!' },
+    { name: 'Wsnake', message: ' 뱀상이 좋아!' },
+    { name: 'Wtiger', message: ' 호랑이상이 좋아!' },
+    { name: 'Wturtle', message: ' 거북이상이 좋아!' },
 
     // 여자 캐릭터 목록...
   ];
@@ -179,9 +179,25 @@ useEffect(() => {
   };
 
   const handleNextClick = () => {
-    navigate('/login/information/Welcome10');
-  };
+    // userData 객체 로드
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
 
+    // 선택된 캐릭터의 이름에서 성별 접두사를 제거
+    const selectedAnimal = characters[currentIndex].name.slice(1).toLowerCase();
+
+    // ismale 값에 따라 적절한 키에 저장
+    if (userData.ismale === 1) {
+      userData.w_animal = selectedAnimal;
+    } else {
+      userData.m_animal = selectedAnimal;
+    }
+
+    // 변경된 userData를 로컬 스토리지에 저장
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    // 다음 페이지로 이동
+    navigate('/login/information/Welcome20');
+  };
  
  
 

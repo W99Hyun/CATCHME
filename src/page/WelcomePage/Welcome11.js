@@ -102,6 +102,19 @@ function Welcome11() {
   const handlePreviousClick = () => navigate(-1);
 
   const handleNextClick = () => {
+    // 로컬 스토리지에서 기존의 userData 객체를 가져옵니다.
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+    // 입력된 텍스트를 userData 객체에 추가합니다.
+    const updatedUserData = {
+      ...userData,
+      free: inputValue.trim() // 앞뒤 공백을 제거합니다.
+    };
+  
+    // 변경된 userData 객체를 로컬 스토리지에 저장합니다.
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+    // 다음 페이지로 이동합니다.
     navigate('/login/information/Welcome12');
   };
 

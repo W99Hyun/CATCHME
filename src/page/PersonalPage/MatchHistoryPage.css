@@ -1,7 +1,7 @@
 .header-history {
   display: flex;
   align-items: center;
-  padding: 16px 16px 32px 16px;
+  padding: 0px 0px 0px 29px;
 }
 
 .history-text {
@@ -42,7 +42,7 @@
   padding: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 30px;
-  border: 0.2px solid rgb(213, 213, 213);
+  border: 0px solid rgb(213, 213, 213);
   overflow-y: auto;
 }
 
@@ -103,6 +103,7 @@
   display: flex;
   justify-content: flex-end;
   margin-right: 9%; /* 필요에 따라 조정 */
+  margin-top: 6%;
 }
 .select-button {
   font-size: 9px;
@@ -145,13 +146,17 @@
 }
 
 .delete-button {
-  font-size: 15px;
+  font-size: 16px;
+  padding: 5px;
   background-color: #ffffff;
   font-weight: bold;
   color: #000000;
   text-align: center;
-  border: none;
-
+  border-radius: 8px;
+  border: 0px solid #666666;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+}
+.delete-button-loc {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,17 +170,15 @@
 }
 
 .history-modal-detail {
-  width: 80%;
-  height: 22%;
+  width: 288px;
+  height: 200px;
   border-radius: 15px;
   background-color: white;
   border: 2px solid black;
   padding: 10px;
-  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); */
-
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* 그림자 효과 추가 */
   display: block;
-  margin: auto;
-  margin-top: 80%;
+  margin: 60% auto;
 }
 
 .history-modal-container {
@@ -186,10 +189,9 @@
 }
 
 .history-modal-text-big {
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 700;
   text-align: center;
-
   color: #444444;
 }
 
@@ -207,10 +209,10 @@
   align-items: center;
 }
 .history-modal-buttons {
-  height: 65%;
-  width: 40%;
+  height: 44px;
+  width: 115px;
   border: 1.5px solid black;
-  border-radius: 30px;
+  border-radius: 15px;
   margin-left: 5%;
   margin-right: 5%;
   background-color: white;

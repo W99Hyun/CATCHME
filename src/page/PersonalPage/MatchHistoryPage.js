@@ -149,16 +149,18 @@ function MatchHistory() {
       <Modal
         isOpen={allDeleteModal}
         onRequestClose={() => setAllDeleteModal(false)}
-        className="history-modal-detail"
+        className="alarmpage-modal-detail"
       >
-        <div className="history-modal-container">
-          <div>
-            <p className="history-modal-text-big">
-              모든 기록을 삭제하시겠습니까?
-            </p>
-            <p className="history-modal-text-small">
-              삭제하시면 다시 되돌릴 수 없습니다!
-            </p>
+        <div className="alarmpage-modal-container">
+          <div className="alarmpage-modal-text">
+            <div>
+              <p className="history-modal-text-big">
+                모든 기록을 삭제하시겠습니까?
+              </p>
+              <p className="history-modal-text-small">
+                삭제하시면 다시 되돌릴 수 없습니다!
+              </p>
+            </div>
           </div>
           <div>
             <button
@@ -166,19 +168,20 @@ function MatchHistory() {
                 deleteAllItems();
                 setAllDeleteModal(false);
               }}
-              className="history-modal-buttons"
+              className="alarmpage-modal-buttons"
             >
               삭제
             </button>
             <button
               onClick={() => setAllDeleteModal(false)}
-              className="history-modal-buttons"
+              className="alarmpage-modal-buttons"
             >
               취소
             </button>
           </div>
         </div>
       </Modal>
+
       <div className="header-history">
         <span className="history-text">매칭 목록</span>
       </div>
@@ -246,7 +249,7 @@ function MatchHistory() {
             <div className="history-empty-text">매칭 기록이 없습니다.</div>
           )}
         </div>
-        <div className="delete-button">
+        <div className="delete-button-loc">
           {choice ? (
             <button className="delete-button" onClick={deleteSelectedItems}>
               삭제하기

@@ -145,14 +145,25 @@ function Welcome04() {
   };
 
   const handleNextClick = () => {
-    // '다음' 버튼 클릭 시에 실행될 로직
-    // 학교와 학과가 모두 선택되었는지 확인합니다.
     if (selectedSchool && selectedJob) {
-      // 학교와 학과가 모두 선택되었다면, 다음 페이지로 이동합니다.
-      navigate('/login/information/Welcome05'); // '/welcome05' 경로로 이동
+      // 로컬 스토리지에서 현재 저장된 userData 불러오기
+      const existingUserData = JSON.parse(localStorage.getItem('userData')) || {};
+  
+      // 사용자가 선택한 학교와 전공 정보를 기존 userData 객체에 추가
+      const updatedUserData = {
+        ...existingUserData,
+        school: selectedSchool,
+        major: selectedJob,
+      };
+  
+      // 업데이트된 userData 객체를 로컬 스토리지에 다시 저장
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  
+      // 다음 페이지로 네비게이션
+      navigate('/login/information/Welcome05');
     } else {
-      // 학교나 학과 중 하나라도 선택되지 않았다면, 사용자에게 알림을 표시합니다.
-      alert("학교와 학과를 모두 선택해주세요.");
+      // 학교나 전공이 선택되지 않았다면 경고 메시지를 표시
+      alert("학교와 전공을 모두 선택해주세요.");
     }
   };
  

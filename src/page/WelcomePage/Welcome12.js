@@ -17,7 +17,7 @@ background-size: contain;
     z-index: -1;
 ` 
 
-  function Welcome10() {
+  function Welcome12() {
     const [message, setMessage] = useState('');
     const fullMessage1 = "알려줘서 고마워!";
     const fullMessage2 = "이제 너의 이상형을 알려줘!!"
@@ -135,4 +135,4 @@ background-size: contain;
   );
 }
 
-export default Welcome10 ;
+export default Welcome12 ;

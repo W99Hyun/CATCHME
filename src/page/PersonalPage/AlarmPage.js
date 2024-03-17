@@ -1,7 +1,8 @@
 import { all } from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import "./AlarmPage.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const styles = {
   notificationsContainer: {
@@ -9,13 +10,13 @@ const styles = {
     gridTemplateRows: "0.5fr 7fr",
     marginTop: "10%",
     padding: "2px 20px 20px 20px",
-    gap: "5px",
+    gap: "15px",
     maxHeight: "75vh",
   },
   notificationsTextContainer: {
     display: "flex",
     justifyContent: "space-between",
-    margin: "0px 30px 0px 15px",
+    margin: "0px 21px 0px 15px",
     textAlign: "center",
   },
   notificationTextNumber: {
@@ -36,8 +37,8 @@ const styles = {
     justifyContent: "center",
     alignItems: "flex-end",
     fontSize: "10px",
-    fontWeight: "",
-    color: "#433C3C",
+    fontWeight: "500",
+    color: "#000000",
   },
   notificationList: {
     padding: "10px",
@@ -50,23 +51,23 @@ const styles = {
   },
   notificationItem: {
     background: "#ffffff",
-    borderRadius: "16px",
-    padding: "8px 8px 8px 8px",
+    borderRadius: "13px",
+    padding: "8px 4px 8px 8px",
     marginBottom: "15px",
     display: "grid",
     minHeight: "60px",
-    gridTemplateColumns: "0.1fr 6fr 1fr",
-    gap: "10px",
+    gridTemplateColumns: "0.1fr 6fr 1.1fr",
+    gap: "8px",
     justifyContent: "space-between",
 
     minHeight: "8.2vh",
     maxHeight: "20vh",
     boxShadow:
-      "3px 15px 15px rgba(0, 0, 0, 0.03), -3px -0px 10px rgba(0, 0, 0, 0.03)", // 그림자 효과 추가
+      "3px 5px 10px rgba(0, 0, 0, 0.04), -3px -5px 10px rgba(0, 0, 0, 0.04)", // 그림자 효과 추가
   },
   alignItem: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
   },
   notificationEmpty: {
@@ -82,18 +83,18 @@ const styles = {
   },
   time: {
     color: "#666666",
-    fontSize: "12px",
+    fontSize: "11px",
     textAlign: "center",
   },
   alarmText: {
     fontSize: "25px",
-    fontWeight: "bold",
+    fontWeight: "bolder",
     textDecoration: "none",
-    color: "rgb(60, 57, 57)",
+    color: "#000000",
     textAlign: "center",
   },
   alarmContent: {
-    margin: "12px 0px",
+    margin: "5px 0px",
   },
 };
 function AlarmItem({ notification, onDelete }) {
@@ -229,7 +230,7 @@ function Alarm() {
       try {
         // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1002/notice/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/notice/"
         );
 
         // response에서 JSON 데이터를 추출합니다.
@@ -237,6 +238,7 @@ function Alarm() {
 
         // 가져온 데이터를 상태에 설정합니다.
         setNotifications(jsonData.notice);
+        const checkRead = await handleUpdateNotices(jsonData.notice);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -260,7 +262,7 @@ function Alarm() {
 
   // 알림을 삭제하는 함수
   const deleteNotification = (idsToUpdate) => {
-    fetch("https://api.catchmenow.co.kr/main/api/user_info/1002/notice/", {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -299,7 +301,7 @@ function Alarm() {
   };
 
   const updateNotices = (idsToUpdate) => {
-    fetch("https://api.catchmenow.co.kr/main/api/user_info/1002/notice/", {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/notice/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -312,7 +314,7 @@ function Alarm() {
           throw new Error("수정 요청이 실패했습니다.");
         }
         console.log("수정 요청이 성공했습니다.");
-        setRender((prevRender) => !prevRender);
+        //setRender((prevRender) => !prevRender);
       })
       .catch((error) => {
         console.error("수정 요청이 실패했습니다:", error);
@@ -327,13 +329,18 @@ function Alarm() {
         className="alarmpage-modal-detail"
       >
         <div className="alarmpage-modal-container">
-          <div>
-            <p className="alarmpage-modal-text">모든 알람을 삭제할까요?</p>
+          <div className="alarmpage-modal-text">
+            <div>
+              <p className="history-modal-text-big">모든 알람을 삭제할까요?</p>
+              <p className="history-modal-text-small">
+                삭제한 알람은 되돌릴 수 없습니다!
+              </p>
+            </div>
           </div>
           <div>
             <button
               onClick={() => {
-                setNotifications([]);
+                deleteAllNotice(notifications);
                 setAllDeleteModal(false);
               }}
               className="alarmpage-modal-buttons"
@@ -368,7 +375,7 @@ function Alarm() {
           </span>
           <span
             style={styles.notificationTextDelete}
-            onClick={() => deleteAllNotice(notifications)} //setAllDeleteModal(true)
+            onClick={() => setAllDeleteModal(true)} //setAllDeleteModal(true)
           >
             전체 삭제
           </span>

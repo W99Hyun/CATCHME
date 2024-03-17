@@ -9,7 +9,7 @@ import ProgressBar from './ProgressBar';
 const BackgroundImage = styled.div `
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #83A98B;;
+    background-color:  #92B3BD;
     background-position: center top; /* 수평 중앙, 수직 상단에 위치 */
     width: 100vw;
     height: 100vh;
@@ -17,9 +17,9 @@ const BackgroundImage = styled.div `
     z-index: -2;
 `
 
-function Welcome05() {
+function Welcome20() {
   const [message, setMessage] = useState('');
-  const fullMessage1 = "너는 MBTI가 뭐야?";
+  const fullMessage1 = "너는 어떤 MBTI가 잘맞아?";
   const typingSpeed = 75;
   const currentStep = 4;
     const totalSteps = 14;
@@ -52,7 +52,7 @@ function Welcome05() {
       setSelectedMBTI(type);
       setCurrentText(''); // 이전 타이핑된 텍스트를 지웁니다.
       clearInterval(typingIntervalRef.current); // 이전 타이핑 인터벌을 클리어합니다.
-      setTypingText(` 나는 ${type}야!`); // 새로운 타이핑 텍스트를 설정합니다.
+      setTypingText(` 나는 ${type}랑 잘 맞는 것 같아!`); // 새로운 타이핑 텍스트를 설정합니다.
     }
   };
 
@@ -85,22 +85,23 @@ function Welcome05() {
 
   const handleNextClick = () => {
     if (selectedMBTI) {
-      // 로컬 스토리지에서 기존의 userData 객체를 불러옵니다.
+      // 로컬 스토리지에서 userData 객체를 가져옵니다.
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
   
-      // 새로운 MBTI 정보를 기존 userData 객체에 추가합니다.
-      const updatedUserData = {
-        ...userData,
-        mbti: selectedMBTI
-      };
+      // 사용자의 성별에 따라 MBTI 값을 저장합니다.
+      if (userData.ismale === 1) {
+        userData.w_mbti = selectedMBTI;  // 남성일 경우
+      } else {
+        userData.m_mbti = selectedMBTI;  // 여성일 경우
+      }
   
-      // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
-      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+      // 변경된 userData 객체를 로컬 스토리지에 다시 저장합니다.
+      localStorage.setItem('userData', JSON.stringify(userData));
   
-      // 다음 페이지로 네비게이션
-      navigate('/login/information/Welcome16');
+      // 다음 페이지로 이동
+      navigate('/login/information/Welcome19');
     } else {
-      alert('MBTI 유형을 선택해주세요.');
+      alert('잘 맞는 MBTI 유형을 선택해주세요.');
     }
   };
  
@@ -191,4 +192,4 @@ function Welcome05() {
   );
 }
 
-export default Welcome05;
+export default Welcome20;
