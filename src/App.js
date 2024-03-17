@@ -34,7 +34,6 @@ import Welcome17 from "./page/WelcomePage/Welcome17";
 import Welcome18 from "./page/WelcomePage/Welcome18";
 import Welcome19 from "./page/WelcomePage/Welcome19";
 import Welcome20 from "./page/WelcomePage/Welcome20";
-//import { UserProvider } from "./component/UserContext";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
 import MyProfile2 from "./page/PersonalPage/MyProfile2";
@@ -66,7 +65,6 @@ function App() {
   return (
     <BrowserRouter>
       <AppContainer>
-        {/* <UserProvider> */}
           <FixedHeader>
             <RoomHeader isUserLoggedIn={isUserLoggedIn} />
           </FixedHeader>
@@ -170,7 +168,6 @@ function App() {
               </Routes>
             </ContentContainer>
           </GenderProvider>
-       {/* </UserProvider> */}
       </AppContainer>
     </BrowserRouter>
   );
