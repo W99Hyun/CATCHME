@@ -25,8 +25,8 @@ const BackgroundImage = styled.div `
   const fullMessage1 = "선호하는 이상적인 키가 궁금해!";
   const fullMessage2 = "범위를 알려줘!"
   const typingSpeed = 75;
-  const currentStep = 12;
-  const totalSteps = 14;
+  const currentStep = 15;
+  const totalSteps = 19;
 
   const [currentText, setCurrentText] = useState('...'); 
   const [typingText, setTypingText] = useState(''); 

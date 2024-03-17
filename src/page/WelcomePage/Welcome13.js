@@ -25,8 +25,8 @@ const BackgroundImage = styled.div `
   const fullMessage1 = "상대에게 선호하는 나이가 있으면 알려줘!";
   const fullMessage2 = "두개의 스크롤을 움직여봐!"
   const typingSpeed = 75;
-  const currentStep = 10;
-  const totalSteps = 14;
+  const currentStep = 13;
+  const totalSteps = 19;
 
   const [currentText, setCurrentText] = useState('...'); 
   const [typingText, setTypingText] = useState(''); 

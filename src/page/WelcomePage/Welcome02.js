@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
+
 import SplitMessage from './SplitMessagedouble';
 import styled from "styled-components"
 
@@ -27,7 +28,7 @@ function Welcome02() {
   const buttonMessage = "알겠어!";
   const typingSpeed = 75;
   const currentStep = 1;
-  const totalSteps = 14;
+  const totalSteps = 19;
   const navigate = useNavigate();
 
   useEffect(() => {

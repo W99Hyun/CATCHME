@@ -22,8 +22,8 @@ function Welcome08() {
   const fullMessage1 = "얼굴이 뚜렷한 편이야?";
   const fullMessage2 = "피부톤도 골라줘!"
   const typingSpeed = 75;
-  const currentStep = 7;
-    const totalSteps = 14;
+  const currentStep = 8;
+    const totalSteps = 19;
   
     useEffect(() => {
         if (message.length < fullMessage1.length + fullMessage2.length) {

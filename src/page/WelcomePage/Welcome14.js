@@ -21,8 +21,8 @@ function Welcome14() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
   const typingSpeed = 75;
-  const currentStep = 11;
-  const totalSteps = 14;
+  const currentStep = 14;
+  const totalSteps = 19;
   const navigate = useNavigate();
   const [typingText, setTypingText] = useState('');
   const [displayedText, setDisplayedText] = useState('...'); // 화면에 표시되는 타이핑 텍스트

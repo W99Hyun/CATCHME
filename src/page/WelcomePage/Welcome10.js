@@ -61,8 +61,8 @@ function Welcome10() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너에게 맞는 키워드를 모두 골라줘!";
   const typingSpeed = 75;
-  const currentStep = 11;
-  const totalSteps = 14;
+  const currentStep = 10;
+  const totalSteps = 19;
   const navigate = useNavigate();
   
   
@@ -111,11 +111,14 @@ function Welcome10() {
   
     // 선택된 버튼의 인덱스를 사용하여 해당 버튼의 텍스트 값을 추출하고 배열로 구성합니다.
     const keywords = Object.keys(selectedButtons).filter(index => selectedButtons[index]).map(index => buttons[index]);
+
+    const army = keywords.includes('군필') ? true : null;
   
     // userData 객체에 keyword 키와 추출한 텍스트 배열을 저장합니다.
     const updatedUserData = {
       ...userData,
-      keyword: keywords
+      keyword: keywords,
+      army: army
     };
   
     // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.

@@ -38,8 +38,8 @@ background-color: rgba(255, 255, 255, 0.8); // 흰색 배경에 투명도 80%를
     const [message, setMessage] = useState('');
   const fullMessage1 = "이상형의 얼굴상을 선택해줘!";
   const typingSpeed = 75;
-  const currentStep = 5;
-  const totalSteps = 14;
+  const currentStep = 17;
+  const totalSteps = 19;
 
   const { gender } = useGender();
 

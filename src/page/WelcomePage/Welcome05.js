@@ -22,7 +22,7 @@ function Welcome05() {
   const fullMessage1 = "너는 MBTI가 뭐야?";
   const typingSpeed = 75;
   const currentStep = 4;
-    const totalSteps = 14;
+    const totalSteps = 19;
   
   useEffect(() => {
       if (message.length < fullMessage1.length) {

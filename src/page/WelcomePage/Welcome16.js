@@ -22,8 +22,8 @@ function Welcome16() {
   const fullMessage1 = "너는 어디에 살아?";
   
   const typingSpeed = 75;
-  const currentStep = 3;
-    const totalSteps = 14;
+  const currentStep = 5;
+    const totalSteps = 19;
   
   
     useEffect(() => {
