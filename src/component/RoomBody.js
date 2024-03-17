@@ -155,11 +155,15 @@ const [totalCondition, setTotalCondition] = useState(null);
         kid: 1001 // kid 값을 임의로 1001로 지정
       });
       setIsReady(!isReady);
+      console.log(user)
+      console.log(isReady)
     }
     else if (user) {
-      setUser(null);
+      setUser(false);
       setIsReady(!isReady);
     }
+    console.log(user)
+      console.log(isReady)
   };
 
   useEffect(() => {
@@ -184,6 +188,8 @@ const [totalCondition, setTotalCondition] = useState(null);
           fetchData();
         }
       };
+      console.log(user)
+      console.log(isReady)
 
     } else if ((!user || !isReady) && dataSocket.current) {
       // 유저가 새로고침을 안 하고 방에 있을 때
@@ -193,27 +199,9 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
-    } else if (!user && isReady && !dataSocket.current) {
-      // 레디 상태일 때 웹소켓 연결
-      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
-
-      dataSocket.current.onopen = () => {
-        console.log('웹 소켓 연결 성공!');
-        // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
-        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
-        fetchData();
-      };
-
-      dataSocket.current.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log('서버로부터 메시지 수신:', data);
-        if (data.message === 'api 리랜더링') {
-          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
-          fetchData();
-        }
-      };
-
-    }
+      console.log(user)
+      console.log(isReady)
+    } 
   }, [user, isReady]);
 
   useEffect(() => {
