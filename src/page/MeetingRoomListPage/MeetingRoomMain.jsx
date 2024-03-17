@@ -126,8 +126,22 @@ const handleSearchModalClose = () => {
   setSearching(false);
   setSearchModalOpen(false);
 };
+
+//검색방목록 처리핸들러
 const handleSearchComplete = (results) => {
-  setSearchResults(results);
+  const coloredResults = results.map(room => ({
+    ...room,
+    bgColor: getRandomColor() // 각 방에 랜덤 색상 추가
+  }));
+  if (coloredResults.length > 0) {
+    // 검색 결과가 있는 경우
+    setSearchResults(coloredResults);
+    setNoMatchingRooms(false);
+  } else {
+    // 검색 결과가 없는 경우
+    setSearchResults([]); // 검색 결과가 없다면 빈 배열을 설정
+    setNoMatchingRooms(true);
+  }
   setSearching(false);
   setSearchModalOpen(false);
 };
@@ -212,16 +226,30 @@ const sortRooms = (rooms, option) => {
 
 
 useEffect(() => {
-  const totalPages = Math.ceil(allRooms.length / roomsPerPage);
+  const currentData = searchResults.length > 0 ? searchResults : allRooms;
+  const totalPages = Math.ceil(currentData.length / roomsPerPage);
   setAllTotalPage(totalPages);
-  updateDisplayedRooms(currentAllPageIndex); // 현재 페이지에 맞는 방 목록 업데이트
-}, [allRooms, currentAllPageIndex]);
+  
+  const startIndex = (currentAllPageIndex - 1) * roomsPerPage;
+  const endIndex = startIndex + roomsPerPage;
+  setDisplayedRooms(currentData.slice(startIndex, endIndex));
+}, [searchResults, allRooms, currentAllPageIndex, roomsPerPage]);
 
-const updateDisplayedRooms = (pageIndex) => {
+
+
+
+const updateDisplayedRooms = (pageIndex, data) => {
+  if (!data) {
+    console.error("updateDisplayedRooms was called with undefined data");
+    return;
+  }
+
   const startIndex = (pageIndex - 1) * roomsPerPage;
   const endIndex = startIndex + roomsPerPage;
-  setDisplayedRooms(allRooms.slice(startIndex, endIndex));
+  setDisplayedRooms(data.slice(startIndex, endIndex));
 };
+
+
 
 
 const handleTop5Next = () => {
@@ -390,7 +418,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
         <SearchRoomModal
         isOpen={searchModalOpen}
         onClose={handleSearchModalClose}
-        setSearchResults={handleSearchComplete}
+        onSearchComplete={handleSearchComplete}
       />
           <CreateRoomButton 
            src="./image/MeetingRoomList/+.png"
@@ -423,7 +451,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
            />
       
         {noMatchingRooms ? (
-          <NoMatchingRoomsMessage>우리동네에 일치하는 방이 없어요!</NoMatchingRoomsMessage>
+          <NoMatchingRoomsMessage>일치하는 방이 없어요!</NoMatchingRoomsMessage>
         ) : (     
           <MeetingRoomWrapper>
             
@@ -433,7 +461,6 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
               key={room.rno} 
              bgColor={room.bgColor}
              onClick={() => enterRoom(room.rno)} 
-           //onClick={() => enterRoom(room.rno, userGender)} api에서 성별 정보 알려주면 변수명 바꾸기
              >
                 <RoomName>{room.rname}</RoomName>
                <RoomLocation>{room.location}</RoomLocation>

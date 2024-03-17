@@ -2,9 +2,8 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
-const RoomSearchModal = ({ isOpen, onClose }) => {
+const RoomSearchModal = ({ isOpen, onClose, onSearchComplete }) => {
   const [roomTitle, setRoomTitle] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const modalRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -12,9 +11,7 @@ const RoomSearchModal = ({ isOpen, onClose }) => {
   
     axios.get(`https://api.catchmenow.co.kr/room/api/room_info/?kw=${roomTitle}`)
       .then(response => {
-        console.log('Room search result:', response.data);
-        setSearchResults(response.data);
-        setRoomTitle("");
+        onSearchComplete(response.data);
         onClose();
       })
       .catch(error => {
