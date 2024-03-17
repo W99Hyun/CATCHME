@@ -167,8 +167,6 @@ const [totalCondition, setTotalCondition] = useState(null);
       // 유저가 방에 들어와서 처음 레디를 눌렀을 때
       // 위에 handleReadyButtonClick 로 유저도 생기고, 레디 상태로 변경됨
       // 그때 웹소켓 연결 안 되어 있으면 연결
-      // 레디된 상태에서 다른 곳에 갔다 와도
-      // user와 isReady이 존재하는데, 웹소켓이 끊겨 있으므로 다시 재연결
       dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
@@ -189,12 +187,32 @@ const [totalCondition, setTotalCondition] = useState(null);
 
     } else if ((!user || !isReady) && dataSocket.current) {
       // 유저가 새로고침을 안 하고 방에 있을 때
-      // 레디버튼을 눌러, 참여를 취소하면 웹소켓을 끊음
+      // 레디버튼을 눌러, 참여를 취소하면 웹소켓을
       console.log('웹 소켓 연결 끊음!');
       fetchData();
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
+    } else if (!user && isReady && !dataSocket.current) {
+      // 레디 상태일 때 웹소켓 연결
+      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
+
+      dataSocket.current.onopen = () => {
+        console.log('웹 소켓 연결 성공!');
+        // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
+        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+        fetchData();
+      };
+
+      dataSocket.current.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log('서버로부터 메시지 수신:', data);
+        if (data.message === 'api 리랜더링') {
+          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
+          fetchData();
+        }
+      };
+
     }
   }, [user, isReady]);
 
