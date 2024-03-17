@@ -48,7 +48,6 @@ const RoomBody = ({roomId}) => {
   const [femaleusers, setFemaleusers] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const [isMale, setIsMale] = useState(true);
-  const dataSocket = useRef(null);
 
   const fetchData = async () => {
     try {
@@ -170,6 +169,8 @@ const [totalCondition, setTotalCondition] = useState(null);
       setIsReady(!isReady);
     }
   };
+
+  const dataSocket = useRef(null);
 
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
@@ -319,8 +320,8 @@ const [totalCondition, setTotalCondition] = useState(null);
       <UserBox
         users={
           isMale
-          ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female", roomId: "roomId" }))
-          : filteredMaleUsers.map((user) => ({ ...user, gender: "Male", roomId: "roomId" }))
+          ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female"}))
+          : filteredMaleUsers.map((user) => ({ ...user, gender: "Male"}))
         }
         dataSocket={dataSocket}
       />
@@ -339,9 +340,7 @@ const [totalCondition, setTotalCondition] = useState(null);
         onGenderChange={handleGenderChange} 
         isMale={isMale} 
         onReadyButtonClick={handleReadyButtonClick} 
-        roomId={roomId}
         isReady={isReady}
-        setIsReady={setIsReady}
       />
       <UserCardBox
         users={
