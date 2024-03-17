@@ -34,7 +34,7 @@ const ChatBox = ({ users }) => {
   return (
     <ChatBoxContainer>
       {users.map((user, index) => (
-        <ChatItem  key={index}>
+        <ChatItem key={index}>
           <img 
           src={getImagePath(user.chat)} 
           alt={`${user.chat} 이미지`} 

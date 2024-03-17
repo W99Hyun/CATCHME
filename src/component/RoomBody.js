@@ -26,11 +26,10 @@ const RectangleTable = styled.div`
   position: absolute;
   width: 90%;
   height: 10%;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 35%;
+  left: 5%;
   border-radius: 42px;
-  border: 2px solid #000; /* 테두리 설정 */
+  border: 2px solid #000;
   background: #deaf69;
   box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.15);
   z-index: -1;
@@ -38,9 +37,7 @@ const RectangleTable = styled.div`
 
 const RoomBody = ({roomId}) => {
 
-  //이렇게 kid 가져와짐
   const kid = localStorage.getItem("kid");
-  console.log(kid)
 
   const [user, setUser] = useState(null);
   const [roomName, setRoomName] = useState("");
@@ -51,7 +48,6 @@ const RoomBody = ({roomId}) => {
   const [femaleusers, setFemaleusers] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const [isMale, setIsMale] = useState(true);
-  const dataSocket = useRef(null);
 
   const fetchData = async () => {
     try {
@@ -68,7 +64,7 @@ const RoomBody = ({roomId}) => {
           throw error; 
         }),
         fetch(
-          `https://api.catchmenow.co.kr/main/api/user_info/${1001}`, { //여기에 유저 kid 넣기
+          `https://api.catchmenow.co.kr/main/api/user_info/${1001}`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -98,8 +94,17 @@ const RoomBody = ({roomId}) => {
 };
 
 useEffect(() => {
-  fetchData(); // 초기 로딩 시에도 데이터를 불러오도록 함
-}, [roomId]);
+  const fetchDataAndLog = async () => {
+    await fetchData(); // fetchData를 실행하고 완료될 때까지 기다립니다.
+    if (isReady) { // 다른 곳에 갔다 왔을 때, 유저가 레디 상태이면 user값 할당
+      setUser({
+        kid: 1001 // kid 값을 임의로 1001로 지정
+      });
+    }
+  };
+
+  fetchDataAndLog();
+}, [roomId, isReady]);
 
 const [idealPercentages, setIdealPercentages] = useState([]);
 
@@ -157,13 +162,23 @@ const [totalCondition, setTotalCondition] = useState(null);
       setUser({
         kid: 1001 // kid 값을 임의로 1001로 지정
       });
+      setIsReady(!isReady);
     }
-    setIsReady(!isReady);
+    else if (user) {
+      setUser(false);
+      setIsReady(!isReady);
+    }
   };
-/*
+
+  const dataSocket = useRef(null);
+
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
-      // 레디 상태일 때 웹소켓 연결
+      // 유저가 방에 들어와서 처음 레디를 눌렀을 때
+      // 위에 handleReadyButtonClick 로 유저도 생기고, 레디 상태로 변경됨
+      // 그때 웹소켓 연결 안 되어 있으면 연결
+      // 레디된 상태에서 다른 곳에 갔다 와도
+      // user와 isReady이 존재하는데, 웹소켓이 끊겨 있으므로 다시 재연결
       dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
@@ -181,47 +196,17 @@ const [totalCondition, setTotalCondition] = useState(null);
           fetchData();
         }
       };
-
     } else if ((!user || !isReady) && dataSocket.current) {
-      // 레디 상태가 아니면서 웹소켓이 연결되어 있을 때, 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
+      // 유저가 새로고침을 안 하고 방에 있을 때
+      // 레디버튼을 눌러, 참여를 취소하면 웹소켓을 끊음
       console.log('웹 소켓 연결 끊음!');
       fetchData();
       dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
       dataSocket.current.close();
       dataSocket.current = null;
-    } else if (!user && isReady && !dataSocket.current) {
-      // 레디 상태일 때 웹소켓 연결
-      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
-
-      dataSocket.current.onopen = () => {
-        console.log('웹 소켓 연결 성공!');
-        // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
-        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
-        fetchData();
-      };
-
-      dataSocket.current.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log('서버로부터 메시지 수신:', data);
-        if (data.message === 'api 리랜더링') {
-          // 웹 소켓으로부터 'api 리랜더링' 메시지를 받으면 API 다시 호출
-          fetchData();
-        }
-      };
-
-    }
+    } 
   }, [user, isReady]);
 
-  useEffect(() => {
-    return () => {
-      if (dataSocket.current) {
-        // 컴포넌트가 언마운트 될 때 레디 상태를 해제하는 메시지를 보낸 뒤 웹소켓 연결을 종료
-        dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
-        dataSocket.current.close();
-      }
-    };
-  }, []);
-*/
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -335,8 +320,8 @@ const [totalCondition, setTotalCondition] = useState(null);
       <UserBox
         users={
           isMale
-          ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female", roomId: "roomId" }))
-          : filteredMaleUsers.map((user) => ({ ...user, gender: "Male", roomId: "roomId" }))
+          ? filteredFemaleUsers.map((user) => ({ ...user, gender: "Female"}))
+          : filteredMaleUsers.map((user) => ({ ...user, gender: "Male"}))
         }
         dataSocket={dataSocket}
       />
@@ -355,9 +340,7 @@ const [totalCondition, setTotalCondition] = useState(null);
         onGenderChange={handleGenderChange} 
         isMale={isMale} 
         onReadyButtonClick={handleReadyButtonClick} 
-        roomId={roomId}
         isReady={isReady}
-        setIsReady={setIsReady}
       />
       <UserCardBox
         users={
