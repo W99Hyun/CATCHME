@@ -21,8 +21,8 @@ function Welcome20() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너는 어떤 MBTI가 잘맞아?";
   const typingSpeed = 75;
-  const currentStep = 4;
-    const totalSteps = 14;
+  const currentStep = 18;
+    const totalSteps = 19;
   
   useEffect(() => {
       if (message.length < fullMessage1.length) {

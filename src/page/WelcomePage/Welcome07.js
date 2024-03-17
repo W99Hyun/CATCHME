@@ -25,8 +25,8 @@ const BackgroundImage = styled.div `
 const fullMessage1 = "너는 어떤 것들에 관심이 많아?";
 const fullMessage2 = "3개의 취미를 골라줘!"
 const typingSpeed = 75;
-const currentStep = 6;
-  const totalSteps = 14;
+const currentStep = 7;
+  const totalSteps = 19;
 
   const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
   const typingIntervalRef = useRef(null);

@@ -23,8 +23,8 @@ const BackgroundImage = styled.div `
   const [message, setMessage] = useState('');
   const fullMessage1 = "선호하는 이상적인 체형을 골라봐!";
   const typingSpeed = 75;
-  const currentStep = 5;
-  const totalSteps = 14;
+  const currentStep = 16;
+  const totalSteps = 19;
   
 
   const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트

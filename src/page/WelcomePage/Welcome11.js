@@ -64,7 +64,7 @@ function Welcome11() {
   const fullMessage1 = "이제 너에 대하여 자유롭게 소개해줘!";
   const typingSpeed = 75;
   const currentStep = 11;
-  const totalSteps = 14;
+  const totalSteps = 19;
   const navigate = useNavigate();
   
   
