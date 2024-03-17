@@ -10,7 +10,6 @@ const InfoBoxContainer = styled.div`
 `;
 
 const InfoButton = styled.button`
-font-family: 'Noto Sans KR', sans-serif;
   grid-column: 5;
   background: url(${process.env.PUBLIC_URL}/image/info.png) no-repeat;
   background-size: contain;
@@ -112,7 +111,7 @@ const InfoBox = ({ roomName, location, time, meetingnum }) => {
         <br />
         <ModalText> 인원수 : {meetingnum}대{meetingnum}</ModalText>
         <br />
-        <ModalText> 회원님의 이상형이 2명 있는 방이에요.</ModalText>
+        <ModalText> 회원님의 이상형이 2명 있는 방이에요.</ModalText> {/* 추후, 이상형 퍼센트가 80% 이상인 사람만 카운트 하도록*/}
       </Modal>
     </InfoBoxContainer>
   );

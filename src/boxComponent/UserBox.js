@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 
@@ -91,7 +91,7 @@ const UserBox = ({ users, dataSocket, isMale }) => {
     };
 
     fetchHighestIdealPercentageUser();
-  }, [isMale]);
+  }, []);
 
   const getImagePath = (animal, gender, isHighestIdealPercentageUser) => {
     if (isHighestIdealPercentageUser) {
