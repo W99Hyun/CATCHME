@@ -196,12 +196,46 @@ const handleDeleteRoom = async(roomId) => {
 };
 */
 }
+
 // 전체 방 목록 정렬하는 로직
-// 정렬 옵션 변경 핸들러
-const handleSortOptionChange = (option) => {
+
+const handleSortOptionChange = async (option) => {
   setSortOption(option);
   setCurrentAllPageIndex(1); 
-   setFilteredRooms(sortRooms(allRooms, option));
+  setIsLoading(true); 
+
+  try {
+    let params = {}; 
+
+    switch (option) {
+      case 'whole':
+        break;
+      case 'downtown':
+        params = { location: '홍대' }; //수정해야합니다
+        break;
+      case 'participants':
+        params = { order: '인원많은순' };
+        break;
+      default:
+        break;
+    }
+
+    const response = await axios.get('https://api.catchmenow.co.kr/room/api/room_info/', { params });
+
+    // 방에 랜덤 색상 추가
+    const roomsWithColors = response.data.map(room => ({
+      ...room,
+      bgColor: getRandomColor()
+    }));
+
+    setAllRooms(roomsWithColors); 
+
+  } catch (error) {
+    console.error(`Failed to fetch rooms:`, error);
+    setError('방 목록을 불러오는 데 실패했습니다.');
+  } finally {
+    setIsLoading(false); 
+  }
 };
 
 
@@ -753,7 +787,7 @@ color: #444444;
    align-items: center;
  `;
  const NoMatchingRoomsMessage = styled.div`
-  color: #FF0000;
+  color: #FF7CCB;
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
@@ -813,7 +847,7 @@ const DeleteButton = styled.img`
 `;*/
 
 const NoneMessage = styled.div`
-  color: #414141;
+  color: #FF7CCB;
   font-size: 1.125rem;
   font-weight: 700;
   position: relative;

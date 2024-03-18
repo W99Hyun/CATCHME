@@ -43,7 +43,7 @@ const RoomSearchModal = ({ isOpen, onClose, onSearchComplete }) => {
             onChange={(e) => setRoomTitle(e.target.value)}
             required
             maxLength={15}
-            placeholder="방 제목을 입력하세요"
+            placeholder="방 제목 혹은 위치를 입력하세요"
             hasValue={roomTitle.length > 0}
             onKeyDown={handleKeyDown} // 엔터 키 입력 감지
           />
