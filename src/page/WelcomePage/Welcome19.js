@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
+import axios from 'axios';
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
@@ -134,11 +135,16 @@ function Welcome19() {
       
       // 서버로 userData 전송
       try {
+
+        const csrfResponse = await axios.get('https://api.catchmenow.co.kr/main/csrf');
+        const csrfToken = csrfResponse.data.csrfToken;
+
         const response = await fetch(url, {
           method: 'POST',
           mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
             'Authorization': `Bearer ${accessToken}`, 
             // 필요하다면 여기에 추가 헤더를 삽입하세요 (예: 인증 토큰)
           },

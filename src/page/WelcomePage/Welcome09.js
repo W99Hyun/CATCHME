@@ -197,7 +197,11 @@ useEffect(() => {
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
   
     // 다음 페이지로 이동합니다.
-    navigate('/login/information/Welcome10');
+    if (gender === '남자') {
+      navigate('/login/information/Welcome10M');
+    } else if (gender === '여자') {
+      navigate('/login/information/Welcome10W');
+    }
   };
  
  
