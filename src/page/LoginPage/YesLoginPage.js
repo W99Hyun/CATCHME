@@ -107,7 +107,12 @@ function YesLogin() {
       );
 
       const userdata = await userResponse.json();
-      setWMbti(userdata.extra_info[0].w_mbti);
+      if (userdata.extra_info && userdata.extra_info.length > 0 && userdata.extra_info[0].w_mbti !== undefined) {
+        setWMbti(userdata.extra_info[0].w_mbti);
+      } else {
+        // 적절한 대체 값 설정 또는 오류 처리
+        console.log("No w_mbti found or extra_info is empty");
+      }
     } catch (error) {
       console.error("Error fetching ideal percentages:", error);
     }
