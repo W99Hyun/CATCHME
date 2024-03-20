@@ -69,7 +69,7 @@ const Text = styled.div`
     border-radius: 8px;
     border: 2px solid transparent;
     ${(props) =>
-      props.isSelected &&
+      props.selected &&
       css`
         animation: ${blinkAnimation} 1s infinite;
       `}    `;
@@ -143,12 +143,14 @@ font-family: 'Noto Sans KR', sans-serif;
 const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
 
   const [selectedUser, setSelectedUser] = useState(null);
-  const [timer, setTimer] = useState(1800);
 
   const getImagePath = (user) => {
     return `/image/profile/${user.animal.toLowerCase()}Female.png`;
   };
 
+  const [timer, setTimer] = useState(1800);
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => prevTimer - 1);
@@ -159,9 +161,9 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
 
   useEffect(() => {
     if (timer === 0) {
-      onClose(); // Close the modal when the timer reaches 0
+      onClose();
     }
-  }, [timer, onClose]);
+  }, [timer]);
 
   const handleButtonClick = async (user) => {
     if (selectedUser === user) {
@@ -205,12 +207,12 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
-        <TimeText>{`00:${timer < 10 ? `0${timer}` : timer}`}</TimeText>
+        <TimeText>{`${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</TimeText>
         <Text>
             <span> 마음에 드는 상대를 선택하세요 ! </span>
         </Text>
       {femaleusers.map((user, index) => (
-        <GridItem key={index} isSelected={selectedUser === user}>
+        <GridItem key={index} selected={selectedUser === user}>
           <SubGridItem1>
           <img 
             src={getImagePath(user)} 
@@ -225,7 +227,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
             {user.height} {user.body} {user.mbti}
           </SubGridItem3>
           <SubGridItem4>
-            회원님의 <span>이상형</span>과 <span>78%</span> 부합해요!
+            회원님의 <span>이상형</span>과 <span>{user.total_conditions}%</span> 부합해요!
           </SubGridItem4>
           <SubGridItem5>
             <StyledButton

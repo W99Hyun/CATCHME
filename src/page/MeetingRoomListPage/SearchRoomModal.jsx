@@ -2,9 +2,8 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
-const RoomSearchModal = ({ isOpen, onClose }) => {
+const RoomSearchModal = ({ isOpen, onClose, onSearchComplete }) => {
   const [roomTitle, setRoomTitle] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const modalRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -12,10 +11,9 @@ const RoomSearchModal = ({ isOpen, onClose }) => {
   
     axios.get(`https://api.catchmenow.co.kr/room/api/room_info/?kw=${roomTitle}`)
       .then(response => {
-        console.log('Room search result:', response.data);
-        setSearchResults(response.data);
-        setRoomTitle("");
+        onSearchComplete(response.data);
         onClose();
+        setRoomTitle("");
       })
       .catch(error => {
         console.error('Error searching rooms:', error);
@@ -45,7 +43,7 @@ const RoomSearchModal = ({ isOpen, onClose }) => {
             onChange={(e) => setRoomTitle(e.target.value)}
             required
             maxLength={15}
-            placeholder="방 제목을 입력하세요"
+            placeholder="방 제목 혹은 위치를 입력하세요"
             hasValue={roomTitle.length > 0}
             onKeyDown={handleKeyDown} // 엔터 키 입력 감지
           />

@@ -227,9 +227,9 @@ const [totalCondition, setTotalCondition] = useState(null);
 
     const checkAllUsersReady = async () => {
       if (!anyNotReady && isMaleFemaleEqual && isMaleFemaleOver2) {
-        if(/*day1*/ false)
+        if(/*day1*/ true)
           setShowReadyConfirmModal(true);
-        if(/*day2*/ true) {
+        if(/*day2*/ false) {
           try {
             const response = await fetch(
               `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,

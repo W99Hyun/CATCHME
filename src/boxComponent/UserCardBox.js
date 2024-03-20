@@ -26,12 +26,6 @@ const CustomModalContent = styled.div`
   margin: 15px;
 `;
 
-const FirstGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: center;
-`;
-
 const Profile = styled.img`
   width: 120px;
   height: 120px;
@@ -64,16 +58,6 @@ const Text3 = styled.div`
   font-size: 18px;
   font-weight: 700;
   line-height: 2;
-`;
-
-const Text4 = styled.div`
-color: #242424;
-text-align: center;
-font-size: 17px;
-font-weight: 700;
-span {
-  color: #E296B6;
-}
 `;
 
 const UserCardBoxContainer = styled.div`
@@ -172,7 +156,8 @@ const UserCardBox = ({ users, gender }) => {
         bgColor={colors[index % colors.length]} // 나중에 유저 고유 ID값(정수) 이용하여 색상 선택
         onClick={() => openModal(user, gender)}
         >
-          {user ? (
+          {user ? 
+          (
               <>
           <UserCardInfo>
             {user.school} {user.major}
@@ -182,7 +167,8 @@ const UserCardBox = ({ users, gender }) => {
            style={{ width: "65px", height: "65px", margin: "0 auto", display: "block",}}
           />
           </>
-          ) : (
+          ) : 
+          (
             <>
             <div></div>
             <img
@@ -191,7 +177,8 @@ const UserCardBox = ({ users, gender }) => {
                 style={{ width: "70px", height: "110px" }}
               />
             </>
-            )}
+            )
+          }
         </UserCardItem>
         );
           })}

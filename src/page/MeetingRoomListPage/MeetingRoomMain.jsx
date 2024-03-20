@@ -62,6 +62,7 @@ const MeetingRoomMain = () => {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false); 
+
   const roomsPerPage = 4;
 
 
@@ -126,10 +127,23 @@ const handleSearchModalClose = () => {
   setSearching(false);
   setSearchModalOpen(false);
 };
+
+//검색방목록 처리핸들러
 const handleSearchComplete = (results) => {
-  setSearchResults(results);
+  const coloredResults = results.map(room => ({
+    ...room,
+    bgColor: getRandomColor()
+  }));
+  if (coloredResults.length > 0) {
+    setSearchResults(coloredResults);
+    setNoMatchingRooms(false);
+  } else {
+    setSearchResults([]);
+    setNoMatchingRooms(true);
+  }
   setSearching(false);
   setSearchModalOpen(false);
+  setCurrentAllPageIndex(1); // 항상 첫 페이지로 설정
 };
 //방만들기
 
@@ -182,12 +196,46 @@ const handleDeleteRoom = async(roomId) => {
 };
 */
 }
+
 // 전체 방 목록 정렬하는 로직
-// 정렬 옵션 변경 핸들러
-const handleSortOptionChange = (option) => {
+
+const handleSortOptionChange = async (option) => {
   setSortOption(option);
   setCurrentAllPageIndex(1); 
-   setFilteredRooms(sortRooms(allRooms, option));
+  setIsLoading(true); 
+
+  try {
+    let params = {}; 
+
+    switch (option) {
+      case 'whole':
+        break;
+      case 'downtown':
+        params = { location: '홍대' }; //수정해야합니다
+        break;
+      case 'participants':
+        params = { order: '인원많은순' };
+        break;
+      default:
+        break;
+    }
+
+    const response = await axios.get('https://api.catchmenow.co.kr/room/api/room_info/', { params });
+
+    // 방에 랜덤 색상 추가
+    const roomsWithColors = response.data.map(room => ({
+      ...room,
+      bgColor: getRandomColor()
+    }));
+
+    setAllRooms(roomsWithColors); 
+
+  } catch (error) {
+    console.error(`Failed to fetch rooms:`, error);
+    setError('방 목록을 불러오는 데 실패했습니다.');
+  } finally {
+    setIsLoading(false); 
+  }
 };
 
 
@@ -212,16 +260,30 @@ const sortRooms = (rooms, option) => {
 
 
 useEffect(() => {
-  const totalPages = Math.ceil(allRooms.length / roomsPerPage);
+  const currentData = searchResults.length > 0 ? searchResults : allRooms;
+  const totalPages = Math.ceil(currentData.length / roomsPerPage);
   setAllTotalPage(totalPages);
-  updateDisplayedRooms(currentAllPageIndex); // 현재 페이지에 맞는 방 목록 업데이트
-}, [allRooms, currentAllPageIndex]);
+  
+  const startIndex = (currentAllPageIndex - 1) * roomsPerPage;
+  const endIndex = startIndex + roomsPerPage;
+  setDisplayedRooms(currentData.slice(startIndex, endIndex));
+}, [searchResults, allRooms, currentAllPageIndex, roomsPerPage]);
 
-const updateDisplayedRooms = (pageIndex) => {
+
+
+
+const updateDisplayedRooms = (pageIndex, data) => {
+  if (!data) {
+    console.error("updateDisplayedRooms was called with undefined data");
+    return;
+  }
+
   const startIndex = (pageIndex - 1) * roomsPerPage;
   const endIndex = startIndex + roomsPerPage;
-  setDisplayedRooms(allRooms.slice(startIndex, endIndex));
+  setDisplayedRooms(data.slice(startIndex, endIndex));
 };
+
+
 
 
 const handleTop5Next = () => {
@@ -289,7 +351,9 @@ const enterRoom = (roomId, gender) => {
 if (isLoading) return <p>Loading...</p>;
 if (error) return <p>{error}</p>;
 
-const totalAllPages = Math.ceil(allRooms.length / roomsPerPage);
+const currentDataLength = searchResults.length > 0 ? searchResults.length : allRooms.length;
+const totalAllPages = Math.ceil(currentDataLength / roomsPerPage);
+
 // Top 5 방 목록에 대한 이전/다음 버튼의 가시성 처리
 const showTop5PrevButton = currentTop5RoomIndex > 0 && top5Rooms.length > 0;
 const showTop5NextButton = (currentTop5RoomIndex < (top5Rooms.length - 1)) && top5Rooms.length > 0;
@@ -390,7 +454,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
         <SearchRoomModal
         isOpen={searchModalOpen}
         onClose={handleSearchModalClose}
-        setSearchResults={handleSearchComplete}
+        onSearchComplete={handleSearchComplete}
       />
           <CreateRoomButton 
            src="./image/MeetingRoomList/+.png"
@@ -423,7 +487,7 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
            />
       
         {noMatchingRooms ? (
-          <NoMatchingRoomsMessage>우리동네에 일치하는 방이 없어요!</NoMatchingRoomsMessage>
+          <NoMatchingRoomsMessage>일치하는 방이 없어요!</NoMatchingRoomsMessage>
         ) : (     
           <MeetingRoomWrapper>
             
@@ -433,7 +497,6 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
               key={room.rno} 
              bgColor={room.bgColor}
              onClick={() => enterRoom(room.rno)} 
-           //onClick={() => enterRoom(room.rno, userGender)} api에서 성별 정보 알려주면 변수명 바꾸기
              >
                 <RoomName>{room.rname}</RoomName>
                <RoomLocation>{room.location}</RoomLocation>
@@ -471,28 +534,38 @@ const showAllNextButton = currentAllPageIndex < totalAllPages;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 312px;
-  height: auto; /* 높이 자동 조절 */
+  width: 100%;
+  max-width: 312px;
   margin-top: 12px;
-
 `;
+
 const FireImg = styled.img`
 width: 12px;
 height: 16px;
 margin-left: 7px;
 `;
 
-  const MeetingRoomWrapper=styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  grid-template-rows: repeat(2, 1fr); 
-  gap: 13px; 
-  justify-content: center; 
-  align-content: center; 
+const MeetingRoomWrapper = styled.div`
+display: grid;
+grid-template-columns: repeat(2, 1fr); 
+grid-template-rows: auto; 
+gap: 13px; 
+justify-content: center; 
+align-content: start; 
+
+&::after {
+  content: '';
+  width: 143px; 
+  height: 0;
+  visibility: hidden;
+}
 
 @media (max-width: 1200px) {
-justify-content: space-around;
-}  `;
+  justify-content: space-around;
+}
+`;
+
+
 
   const MeetingRoom=styled.div`
   position: relative;
@@ -714,7 +787,7 @@ color: #444444;
    align-items: center;
  `;
  const NoMatchingRoomsMessage = styled.div`
-  color: #FF0000;
+  color: #FF7CCB;
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
@@ -774,7 +847,7 @@ const DeleteButton = styled.img`
 `;*/
 
 const NoneMessage = styled.div`
-  color: #414141;
+  color: #FF7CCB;
   font-size: 1.125rem;
   font-weight: 700;
   position: relative;

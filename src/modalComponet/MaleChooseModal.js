@@ -157,7 +157,7 @@ const MaleChooseModal = ({ isOpen, onClose, maleusers }) => {
     if (timer === 0) {
       onClose(); // Close the modal when the timer reaches 0
     }
-  }, [timer, onClose]);
+  }, [timer]);
 
   const handleButtonClick = async (user) => {
     if (selectedUser === user) {
