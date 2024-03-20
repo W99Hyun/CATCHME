@@ -140,18 +140,6 @@ const SubGridItem5 = styled.div`
     margin: auto;
 `;
 
-const StyledButton = styled.button`
-font-family: 'Noto Sans KR', sans-serif;
-  width: 100%;
-  height: 70%;
-  font-size: 12px;
-  border-radius: 9px;
-  background: ${(props) => (props.selected ? "#E296B6" : "#515151")};  
-  color: white;
-  border: none;
-  cursor: pointer;
-`;
-
 const StyledButton2 = styled.button`
 font-family: 'Noto Sans KR', sans-serif;
   width: 40%;
@@ -190,15 +178,7 @@ const SecondModal = ({ isOpen, onClose, recommendation, gender, totalConditions 
     if (timer === 0) {
       onClose(); // Close the modal when the timer reaches 0
     }
-  }, [timer, onClose]);
-
-  const handleButtonClick = async (user) => {
-    if (selectedUser === user) {
-      setSelectedUser(null);
-    } else {
-      setSelectedUser(user);
-    }
-  };
+  }, [timer]);
 
   const handleChooseClick = async () => {
       await sendSelectedUserToServer(recommendationData.kid);
