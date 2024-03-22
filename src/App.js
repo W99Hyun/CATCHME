@@ -23,7 +23,8 @@ import Welcome06 from "./page/WelcomePage/Welcome06";
 import Welcome07 from "./page/WelcomePage/Welcome07";
 import Welcome08 from "./page/WelcomePage/Welcome08";
 import Welcome09 from "./page/WelcomePage/Welcome09";
-import Welcome10 from "./page/WelcomePage/Welcome10";
+import Welcome10M from "./page/WelcomePage/Welcome10M";
+import Welcome10W from "./page/WelcomePage/Welcome10W";
 import Welcome11 from "./page/WelcomePage/Welcome11";
 import Welcome12 from "./page/WelcomePage/Welcome12";
 import Welcome13 from "./page/WelcomePage/Welcome13";
@@ -105,8 +106,12 @@ function App() {
                   element={<Welcome09 />}
                 />
                 <Route
-                  path="/login/information/Welcome10"
-                  element={<Welcome10 />}
+                  path="/login/information/Welcome10M"
+                  element={<Welcome10M />}
+                />
+                <Route
+                  path="/login/information/Welcome10W"
+                  element={<Welcome10W />}
                 />
                 <Route
                   path="/login/information/Welcome11"

@@ -57,7 +57,7 @@ const StyledButton = styled.button`
   }
 `;
 
-function Welcome10() {
+function Welcome10W() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너에게 맞는 키워드를 모두 골라줘!";
   const typingSpeed = 75;
@@ -67,7 +67,7 @@ function Welcome10() {
   
   
 
-  const buttons = ['군필', '미필', '섹시함', '귀여움', '호기심많은', '열정적', '리드하는 편', '따라가는 편', '긍정적', '우울', '진중한', '차분함', '감성적', '이성적'];
+  const buttons = ['재학생', '휴학생', '섹시함', '귀여움', '호기심많은', '열정적', '리드하는 편', '따라가는 편', '긍정적', '우울', '진중한', '차분함', '감성적', '이성적'];
 
   const [buttonMargins] = useState(
     buttons.map(() => ({
@@ -112,13 +112,11 @@ function Welcome10() {
     // 선택된 버튼의 인덱스를 사용하여 해당 버튼의 텍스트 값을 추출하고 배열로 구성합니다.
     const keywords = Object.keys(selectedButtons).filter(index => selectedButtons[index]).map(index => buttons[index]);
 
-    const army = keywords.includes('군필') ? true : null;
   
     // userData 객체에 keyword 키와 추출한 텍스트 배열을 저장합니다.
     const updatedUserData = {
       ...userData,
-      keyword: keywords,
-      army: army
+      keyword: keywords
     };
   
     // 업데이트된 userData 객체를 로컬 스토리지에 저장합니다.
@@ -172,4 +170,4 @@ function Welcome10() {
   );
 }
 
-export default Welcome10;
+export default Welcome10W;

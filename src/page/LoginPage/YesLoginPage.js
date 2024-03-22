@@ -84,7 +84,7 @@ function YesLogin() {
   const fetchData = async () => {
     try {
       const userResponse = await fetch(
-        `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
+        `https://api.catchmenow.co.kr/main/api/user_info/${kid}`,
         {
           method: "GET",
           mode: "cors",
