@@ -97,6 +97,7 @@ function YesLogin() {
 
       const userdata = await userResponse.json();
       setWMbti(userdata.extra_info[0].w_mbti);
+      console.log(userdata.extra_info[0].w_mbti)
     } catch (error) {
       console.error("Error fetching ideal percentages:", error);
     }
