@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const BackgroundImage = styled.div`
-
   background-image: url(${process.env.PUBLIC_URL}/image/background.png);
   background-size: cover;
   background-repeat: no-repeat;
@@ -19,7 +18,6 @@ const BackgroundImage = styled.div`
   @media screen and (min-width: 320px) and (max-width: 1439px) {
     background-size: cover;
   }
-
 `;
 
 function Room() {

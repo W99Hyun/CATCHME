@@ -37,9 +37,6 @@ import Welcome20 from "./page/WelcomePage/Welcome20";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
 import MyProfile2 from "./page/PersonalPage/MyProfile2";
-const AppContainer = styled.div`
-  overflow: hidden; /* 스크롤을 숨기고 */
-`;
 
 const ContentContainer = styled.div`
   overflow-y: auto; /* 스크롤을 허용하는 영역 */
@@ -64,7 +61,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AppContainer>
           <FixedHeader>
             <RoomHeader isUserLoggedIn={isUserLoggedIn} />
           </FixedHeader>
@@ -168,7 +164,6 @@ function App() {
               </Routes>
             </ContentContainer>
           </GenderProvider>
-      </AppContainer>
     </BrowserRouter>
   );
 }
