@@ -80,6 +80,7 @@ function YesLogin() {
   const navigate = useNavigate();
 
   const kid = localStorage.getItem("kid"); // 로컬스토리지에 있는 kid 빼오기
+  console.log(kid);
 
   const fetchData = async () => {
     try {
@@ -97,6 +98,7 @@ function YesLogin() {
 
       const userdata = await userResponse.json();
       setWMbti(userdata.extra_info[0].w_mbti);
+      console.log(userdata.extra_info[0].w_mbti);
     } catch (error) {
       console.error("Error fetching ideal percentages:", error);
     }
