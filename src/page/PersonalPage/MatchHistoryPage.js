@@ -221,18 +221,19 @@ function MatchHistory() {
                         KAKAO ID: {history.extra_info[0].nickname}
                       </p>
                       <p className="history-details">
-                        {history.ismale ? "남자" : "여자"}/
-                        {history.extra_info[0].age}/
+                        {history.ismale ? "남자" : "여자"} /{" "}
+                        {history.extra_info[0].age} /{" "}
                         {history.extra_info[0].school}{" "}
                         {history.extra_info[0].major}
-                        {/* {history[0].ismale}/{history[0].extra_info[0].age}/
-                        {history[0].extra_info[0].major} */}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="middle-sort">
-                  <button className="report-button">신고하기</button>
+                  <div>
+                    <button className="report-button">정보보기</button>
+                    <button className="report-button">신고하기</button>
+                  </div>
                 </div>
               </div>
             ))

@@ -19,10 +19,14 @@
 }
 
 .path-container {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 0.6fr;
-  gap: 1px;
-  padding: 5% 29px 5% 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0px 29px 0px 29px;
+}
+.paths {
+  width: 100%;
 }
 
 .path-box {
@@ -32,7 +36,9 @@
   margin: 5px 0px 5px 0px;
   border: 2px solid black;
   border-radius: 33px;
-  height: 80%;
+  height: 60px;
+  margin-top: 12px;
+  width: 100%;
 }
 .path-text {
   display: flex;
@@ -67,7 +73,7 @@
 }
 .help-helpfriends-loc {
   position: absolute;
-  top: 190px;
+  top: 170px;
   left: 150px;
 }
 .help-helpfriends {
@@ -99,6 +105,7 @@
 }
 
 .path-icon {
-  display: block;
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
