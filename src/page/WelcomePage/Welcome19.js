@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
-import axios from 'axios';
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
