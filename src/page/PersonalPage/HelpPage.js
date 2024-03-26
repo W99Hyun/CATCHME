@@ -27,43 +27,51 @@ function Help() {
           </div>
         </div>
         <div className="path-container">
-          <div className="path-box">
-            <div className="path-text">
-              <p>캐치미 인스타그램</p>
+          <div className="paths">
+            <div className="path-box">
+              <div className="path-text">
+                <p>캐치미 인스타그램</p>
+              </div>
+              <div className="path-icon">
+                <Link to="https://www.instagram.com/">
+                  <div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/gobutton/GoPink.png`}
+                      className="path-icon"
+                    />
+                  </div>
+                </Link>
+              </div>
             </div>
-            <div className="path-icon">
-              <Link to="https://www.instagram.com/">
-                <img
-                  src={`${process.env.PUBLIC_URL}/image/gobutton/GoPink.png`}
-                  className="back-icon"
-                />
-              </Link>
+            <div className="path-box">
+              <div className="path-text">
+                <p>캐치미 카카오톡 채널</p>
+              </div>
+              <div className="path-icon">
+                <Link to="https://www.instagram.com/">
+                  <div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/gobutton/GoYellow.png`}
+                      className="path-icon"
+                    />
+                  </div>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="path-box">
-            <div className="path-text">
-              <p>캐치미 카카오톡 채널</p>
-            </div>
-            <div className="path-icon">
-              <Link to="https://www.instagram.com/">
-                <img
-                  src={`${process.env.PUBLIC_URL}/image/gobutton/GoYellow.png`}
-                  className="back-icon"
-                />
-              </Link>
-            </div>
-          </div>
-          <div className="path-box">
-            <div className="path-text">
-              <p>캐치미 이메일 주소 복사</p>
-            </div>
-            <div className="path-icon">
-              <Link to="https://www.instagram.com/">
-                <img
-                  src={`${process.env.PUBLIC_URL}/image/gobutton/GoGreen.png`}
-                  className="back-icon"
-                />
-              </Link>
+            <div className="path-box">
+              <div className="path-text">
+                <p>캐치미 이메일 주소 복사</p>
+              </div>
+              <div className="path-icon">
+                <Link to="https://www.instagram.com/">
+                  <div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/image/gobutton/GoGreen.png`}
+                      className="path-icon"
+                    />
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
