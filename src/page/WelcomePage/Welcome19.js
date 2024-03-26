@@ -135,7 +135,6 @@ function Welcome19() {
         const csrfTokenResponse = await fetch('https://api.catchmenow.co.kr/main/csrf', {
           method: 'GET', // GET 메소드 명시적으로 설정
           mode: 'cors', // CORS 요청을 위한 모드 설정
-          credentials: 'include', // 쿠키를 포함시키기 위한 설정
         });
 
         if (!csrfTokenResponse.ok) {
@@ -153,7 +152,7 @@ function Welcome19() {
             'Authorization': `Bearer ${accessToken}`,
           },
           body: JSON.stringify(userData),
-          credentials: 'include',
+          
         });
   
         if (!response.ok) {
