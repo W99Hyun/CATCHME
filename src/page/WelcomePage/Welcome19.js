@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
+
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
@@ -98,57 +99,85 @@ function Welcome19() {
   };
 
   const handleNextClick = async () => {
+
     const accessToken = localStorage.getItem('accessToken');
 
     if (!accessToken) {
         alert('로그인 정보가 유효하지 않습니다.');
         return;
-    }
+      }
+
+    const refreshToken = localStorage.getItem('refreshToken');
+    const kid = localStorage.getItem('kid');
+    
 
     if (selectedfaceType && selectedtoneType) {
-        const userData = JSON.parse(localStorage.getItem('userData')) || {};
-        // 얼굴상과 피부톤 정보 업데이트 로직...
+      // 기존의 userData 객체를 로컬 스토리지에서 불러옵니다.
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+      
+      // 새로운 얼굴상과 피부톤 정보를 userData 객체에 추가합니다.
+      if (userData.ismale === 1) {
+          userData.w_face = {
+              type: selectedfaceType,
+              tone: selectedtoneType
+          };
+      } else {
+          userData.m_face = {
+              type: selectedfaceType,
+              tone: selectedtoneType
+          };
+      }
 
-        const kid = localStorage.getItem('kid');
-        const url = `https://api.catchmenow.co.kr/main/api/user_info/${kid}/introduction/`;
+      userData.user = kid ;
 
-        try {
-            // CSRF 토큰을 가져옵니다.
-            const csrfResponse = await fetch('https://api.catchmenow.co.kr/main/csrf', {
-                credentials: 'include', // 쿠키를 포함시키기 위해 credentials 설정
-            });
-            const csrfData = await csrfResponse.json();
-            const csrfToken = csrfData.csrfToken;
+      const url = `https://api.catchmenow.co.kr/main/api/user_info/${kid}/introduction/`;
+    console.log('Request URL:', url); // 최종 URL 확인
+      
+      // 서버로 userData 전송
+      try {
+        const csrfTokenResponse = await fetch('https://api.catchmenow.co.kr/main/csrf', {
+          method: 'GET', // GET 메소드 명시적으로 설정
+          mode: 'cors', // CORS 요청을 위한 모드 설정
+          credentials: 'include', // 쿠키를 포함시키기 위한 설정
+        });
 
-            // 서버에 POST 요청을 보냅니다.
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify(userData),
-                credentials: 'include', // CSRF 토큰과 세션 쿠키를 사용하기 위해 필요
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            // 응답 처리
-            const responseData = await response.json();
-            console.log('Server response:', responseData);
-            navigate('/login');
-
-        } catch (error) {
-            console.error('There was a problem with your fetch operation:', error);
-            // 에러 처리 로직
+        if (!csrfTokenResponse.ok) {
+          throw new Error('CSRF 토큰을 가져오는 데 실패했습니다.');
         }
+
+        const { csrfToken } = await csrfTokenResponse.json();
+
+        const response = await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+            'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(userData),
+          credentials: 'include',
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        // 응답 처리
+        const responseData = await response.json();
+        console.log('Server response:', responseData);
+  
+        // 여기서 다음 페이지로 리디렉션하거나 다른 작업을 수행하세요.
+        navigate('/login');
+  
+      } catch (error) {
+        console.error('There was a problem with your fetch operation:', error);
+        // 에러 처리 로직
+      }
     } else {
-        alert('얼굴상과 피부톤을 선택해주세요!');
+      alert('얼굴상과 피부톤을 선택해주세요!');
     }
-};
+  };
 
   return (
     <div className="home">
