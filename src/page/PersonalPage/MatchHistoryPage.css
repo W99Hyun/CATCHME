@@ -48,17 +48,18 @@
 
 .history-item {
   background: #ffffff; /* 배경색 변경 */
-  border-radius: 20px; /* 더 커진 둥근 모서리 */
-  padding: 10px 10px 10px 3px; /* 패딩 조정 */
-  margin-bottom: 16px; /* 마진 조정 */
+  border-radius: 16px; /* 더 커진 둥근 모서리 */
+  padding: 6px 6px 6px 0px; /* 패딩 조정 */
+  margin-bottom: 14px; /* 마진 조정 */
   /* display: flex;
   align-items: center;  */
   display: grid;
-  grid-template-columns: 0.2fr 1fr 4fr 1fr;
+  grid-template-columns: 0.1fr 1fr 4fr 1fr;
   gap: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  box-shadow: 3px 15px 15px rgba(0, 0, 0, 0.03),
+    -3px -3px 15px rgba(0, 0, 0, 0.03);
+  height: 62px;
 }
-
 .history-item p {
   margin: 0;
   color: #333333;

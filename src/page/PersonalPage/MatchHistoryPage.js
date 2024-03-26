@@ -3,33 +3,6 @@ import "./MatchHistoryPage.css"; // CSS 파일을 임포트합니다.
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 
-// let historys = [
-//   {
-//     id: 1,
-//     date: "2024-01-22 19:36분",
-//     meeter: "w99_hyun_",
-//     gender: "남",
-//     age: 26,
-//     location: "서울특별시 마포구",
-//   },
-//   {
-//     id: 2,
-//     date: "2024-01-16 13:36분",
-//     meeter: "JIPDANJISUNG",
-//     gender: "남",
-//     age: 20,
-//     location: "서울특별시 서초구",
-//   },
-//   {
-//     id: 3,
-//     date: "2024-01-10 19:11분",
-//     meeter: "Woo_Wu_Uk",
-//     gender: "남",
-//     age: 23,
-//     location: "서울특별시 구로구",
-//   },
-// ];
-
 function MatchHistory() {
   const navigate = useNavigate();
   const [choice, setChoice] = useState(false);
@@ -37,6 +10,7 @@ function MatchHistory() {
   const [allDeleteModal, setAllDeleteModal] = useState(false);
 
   const [historys, setHistorys] = useState([]);
+  const [matchedUsers, setMatchedUsers] = useState([]);
 
   const [csrfToken, setCsrfToken] = useState("");
   useEffect(() => {
@@ -62,36 +36,46 @@ function MatchHistory() {
 
   const [render, setRender] = useState(false);
   useEffect(() => {
-    // 데이터를 가져오는 함수를 정의합니다.
     const fetchData = async () => {
       try {
-        // fetch를 사용하여 데이터를 가져옵니다.
         const response = await fetch(
-          "https://api.catchmenow.co.kr/main/api/user_info/1003/matching_history/"
+          "https://api.catchmenow.co.kr/main/api/user_info/1001/matching_history/"
         );
-
-        // response에서 JSON 데이터를 추출합니다.
         const jsonData = await response.json();
-
-        // 가져온 데이터를 상태에 설정합니다.
         setHistorys(jsonData.matching_history);
-        console.log(jsonData.matching_history);
+
+        // 매칭된 사용자 정보를 모아놓을 배열
+        const usersData = [];
+
+        // 매칭된 사용자 정보를 가져오기 위한 Promise 배열
+        const fetchPromises = jsonData.matching_history.map(async (history) => {
+          try {
+            const userResponse = await fetch(
+              `https://api.catchmenow.co.kr/main/api/user_info/${history.matched_user}/`
+            );
+            const userData = await userResponse.json();
+            userData.id = history.id;
+            usersData.push(userData);
+          } catch (error) {
+            console.error("Error fetching user info:", error);
+          }
+        });
+
+        // 모든 Promise가 완료될 때까지 기다린 후, matchedUsers 상태를 업데이트합니다.
+        await Promise.all(fetchPromises);
+        usersData.sort((a, b) => b.id - a.id);
+        setMatchedUsers(usersData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    // 컴포넌트가 마운트되었을 때 데이터를 가져옵니다.
     fetchData();
-    // clean-up 함수를 반환하여 컴포넌트가 언마운트될 때 이전에 설정한 데이터 요청을 취소합니다.
-    return () => {
-      // clean-up 작업을 수행합니다.
-    };
   }, [render]);
 
   const deleteHistory = (idsToDelete) => {
     fetch(
-      "https://api.catchmenow.co.kr/main/api/user_info/1003/matching_history/",
+      "https://api.catchmenow.co.kr/main/api/user_info/1001/matching_history/",
       {
         method: "DELETE",
         headers: {
@@ -208,7 +192,7 @@ function MatchHistory() {
       <div className="history-container">
         <div className="history-list">
           {!isZero ? (
-            historys.map((history) => (
+            matchedUsers.map((history) => (
               <div key={history.id} className="history-item">
                 <div className="choice-button-locate">
                   {choice ? (
@@ -229,13 +213,20 @@ function MatchHistory() {
                     style={{ width: "50px", height: "50px" }}
                   />
                 </div>
-                <div>
-                  <div className="history-info">
+                <div className="history-info">
+                  <div>
                     <div>
-                      <p className="history-date">{history.date} 매칭</p>
-                      <p className="history-meeter">{history.meeter}</p>
+                      <p className="history-date">{null} 어제 매칭</p>
+                      <p className="history-meeter">
+                        KAKAO ID: {history.extra_info[0].nickname}
+                      </p>
                       <p className="history-details">
-                        {history.gender}/{history.age}/{history.location}
+                        {history.ismale ? "남자" : "여자"}/
+                        {history.extra_info[0].age}/
+                        {history.extra_info[0].school}{" "}
+                        {history.extra_info[0].major}
+                        {/* {history[0].ismale}/{history[0].extra_info[0].age}/
+                        {history[0].extra_info[0].major} */}
                       </p>
                     </div>
                   </div>
