@@ -9,7 +9,6 @@ const CloudModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: transparent;
   border-radius: 20px;
   padding: 20px;
   z-index: 2;

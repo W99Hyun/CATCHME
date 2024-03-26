@@ -68,7 +68,7 @@ const StartText = styled.span`
 
 function YesLogin() {
   const [code, setCode] = useState(null);
-  const [wmbti, setWMbti] = useState(true);
+  const [wmbti, setWMbti] = useState(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -79,23 +79,13 @@ function YesLogin() {
   const userName = "r___eve";
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
-    if (wmbti) {
-      // w_mbti가 존재하면 모달을 열기
-      setShowModal(!showModal);
-    } else {
-      // w_mbti가 존재하지 않으면 "/login/information"으로 라우팅
-      navigate("/login/information");
-    }
-  };
-
   const kid = localStorage.getItem("kid"); // 로컬스토리지에 있는 kid 빼오기
+  console.log(kid);
 
   const fetchData = async () => {
     try {
       const userResponse = await fetch(
-        `https://api.catchmenow.co.kr/main/api/user_info/${1001}`,
+        `https://api.catchmenow.co.kr/main/api/user_info/${kid}`,
         {
           method: "GET",
           mode: "cors",
@@ -108,6 +98,7 @@ function YesLogin() {
 
       const userdata = await userResponse.json();
       setWMbti(userdata.extra_info[0].w_mbti);
+      console.log(userdata.extra_info[0].w_mbti);
     } catch (error) {
       console.error("Error fetching ideal percentages:", error);
     }
@@ -116,6 +107,18 @@ function YesLogin() {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    if (wmbti) {
+      // w_mbti가 존재하면 모달을 열기
+      setShowModal(!showModal);
+    } else {
+      // w_mbti가 존재하지 않으면 "/login/information"으로 라우팅
+      navigate("/login/information");
+    }
+  };
 
   return (
     <>
