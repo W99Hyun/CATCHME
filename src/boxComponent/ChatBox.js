@@ -28,6 +28,9 @@ const ChatItem = styled.div`
 
 const ChatBox = ({ users }) => {
   const getImagePath = (text) => {
+    if (text === null) {
+      return null;
+    }
     return `/image/chatBubble/chat_${text.toLowerCase()}.png`;
   };
 
@@ -37,7 +40,6 @@ const ChatBox = ({ users }) => {
         <ChatItem key={index}>
           <img 
           src={getImagePath(user.chat)} 
-          alt={`${user.chat} 이미지`} 
           style={{ width: "52px", height: "52px" }}
           />
         </ChatItem >
