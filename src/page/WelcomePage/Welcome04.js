@@ -23,7 +23,7 @@ function Welcome04() {
   const fullMessage2 = "간단한 전공도 알려줘!"
   const typingSpeed = 75;
   const currentStep = 3;
-    const totalSteps = 19;
+    const totalSteps = 20;
   
   
     useEffect(() => {

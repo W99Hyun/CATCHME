@@ -21,8 +21,8 @@ function Welcome14() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너랑 잘 맞을 것 같은 학과생이 있어?";
   const typingSpeed = 75;
-  const currentStep = 14;
-  const totalSteps = 19;
+  const currentStep = 15;
+  const totalSteps = 20;
   const navigate = useNavigate();
   const [typingText, setTypingText] = useState('');
   const [displayedText, setDisplayedText] = useState('...'); // 화면에 표시되는 타이핑 텍스트
@@ -80,9 +80,9 @@ function Welcome14() {
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
   
       // 성별에 따라 해당하는 키에 학과 정보를 저장합니다.
-      if (userData.ismale === 1) {
+      if (userData.ismale === true) {
         userData.w_major = selectedJob; // 남자일 경우 m_major 키에 저장
-      } else if (userData.ismale === 0) {
+      } else if (userData.ismale === false) {
         userData.m_major = selectedJob; // 여자일 경우 w_major 키에 저장
       }
   

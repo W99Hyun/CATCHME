@@ -25,8 +25,8 @@ const BackgroundImage = styled.div `
   const fullMessage1 = "상대에게 선호하는 나이가 있으면 알려줘!";
   const fullMessage2 = "두개의 스크롤을 움직여봐!"
   const typingSpeed = 75;
-  const currentStep = 13;
-  const totalSteps = 19;
+  const currentStep = 14;
+  const totalSteps = 20;
 
   const [currentText, setCurrentText] = useState('...'); 
   const [typingText, setTypingText] = useState(''); 
@@ -82,9 +82,9 @@ const BackgroundImage = styled.div `
     const ageRange = `${sliderValueMin}-${sliderValueMax}`;
   
     // 성별에 따라 적절한 키를 사용하여 userData 객체를 업데이트합니다.
-    if (userData.ismale === 1) {
+    if (userData.ismale === true) {
       userData.w_age = ageRange;  // 남성 사용자의 경우
-    } else if (userData.ismale === 0) {
+    } else if (userData.ismale === false) {
       userData.m_age = ageRange;  // 여성 사용자의 경우
     }
   

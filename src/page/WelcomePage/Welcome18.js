@@ -38,8 +38,8 @@ background-color: rgba(255, 255, 255, 0.8); // 흰색 배경에 투명도 80%를
     const [message, setMessage] = useState('');
   const fullMessage1 = "이상형의 얼굴상을 선택해줘!";
   const typingSpeed = 75;
-  const currentStep = 17;
-  const totalSteps = 19;
+  const currentStep = 18;
+  const totalSteps = 20;
 
   const { gender } = useGender();
 
@@ -186,7 +186,7 @@ useEffect(() => {
     const selectedAnimal = characters[currentIndex].name.slice(1).toLowerCase();
 
     // ismale 값에 따라 적절한 키에 저장
-    if (userData.ismale === 1) {
+    if (userData.ismale === true) {
       userData.w_animal = selectedAnimal;
     } else {
       userData.m_animal = selectedAnimal;

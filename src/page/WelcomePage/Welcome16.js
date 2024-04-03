@@ -23,7 +23,7 @@ function Welcome16() {
   
   const typingSpeed = 75;
   const currentStep = 5;
-    const totalSteps = 19;
+    const totalSteps = 20;
   
   
     useEffect(() => {

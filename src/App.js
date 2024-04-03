@@ -35,6 +35,7 @@ import Welcome17 from "./page/WelcomePage/Welcome17";
 import Welcome18 from "./page/WelcomePage/Welcome18";
 import Welcome19 from "./page/WelcomePage/Welcome19";
 import Welcome20 from "./page/WelcomePage/Welcome20";
+import Welcome21 from "./page/WelcomePage/Welcome21";
 import styled from "styled-components";
 import MyProfile from "./page/PersonalPage/MyProfile";
 import MyProfile2 from "./page/PersonalPage/MyProfile2";
@@ -152,6 +153,10 @@ function App() {
                  <Route
                   path="/login/information/Welcome20"
                   element={<Welcome20 />}
+                />
+                 <Route
+                  path="/login/information/Welcome21"
+                  element={<Welcome21 />}
                 />
                 <Route path="/login/mypage" element={<MyPage />} />
                 <Route path="/login/help" element={<Help />} />

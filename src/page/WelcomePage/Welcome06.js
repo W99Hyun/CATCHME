@@ -24,7 +24,7 @@ const BackgroundImage = styled.div `
   const fullMessage1 = "너는 어떤 모습인지 궁금해!";
   const typingSpeed = 75;
   const currentStep = 6;
-  const totalSteps = 19;
+  const totalSteps = 20;
   
 
   const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트

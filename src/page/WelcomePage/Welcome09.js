@@ -40,7 +40,7 @@ const fullMessage1 = "종아! 이제 너가 사용할 캐릭터를 골라봐!";
 const fullMessage2 = "너와 닮은 동물이면 더 좋겠지?"
 const typingSpeed = 75;
 const currentStep = 9;
-  const totalSteps = 19;
+  const totalSteps = 20;
 
   const { gender } = useGender();
 
@@ -197,11 +197,9 @@ useEffect(() => {
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
   
     // 다음 페이지로 이동합니다.
-    if (gender === '남자') {
-      navigate('/login/information/Welcome10M');
-    } else if (gender === '여자') {
-      navigate('/login/information/Welcome10W');
-    }
+    
+      navigate('/login/information/Welcome21');
+   
   };
  
  

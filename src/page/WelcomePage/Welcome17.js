@@ -23,8 +23,8 @@ const BackgroundImage = styled.div `
   const [message, setMessage] = useState('');
   const fullMessage1 = "선호하는 이상적인 체형을 골라봐!";
   const typingSpeed = 75;
-  const currentStep = 16;
-  const totalSteps = 19;
+  const currentStep = 17;
+  const totalSteps = 20;
   
 
   const [currentText, setCurrentText] = useState('...'); // 현재 화면에 보여지는 텍스트
@@ -81,7 +81,7 @@ const navigate = useNavigate();
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
   
       // userData.ismale 값을 바로 사용하여 조건부 로직 실행
-      if (userData.ismale === 1) {
+      if (userData.ismale === true) {
         userData.w_body = selectedtype;
         userData.w_eyes = eyeType;
       } else {

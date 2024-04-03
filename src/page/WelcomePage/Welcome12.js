@@ -22,8 +22,8 @@ background-size: contain;
     const fullMessage1 = "알려줘서 고마워!";
     const fullMessage2 = "이제 너의 이상형을 알려줘!!"
     const typingSpeed = 75;
-    const currentStep = 12;
-      const totalSteps = 19;
+    const currentStep = 13;
+      const totalSteps = 20;
 
       useEffect(() => {
         if (message.length < fullMessage1.length + fullMessage2.length) {

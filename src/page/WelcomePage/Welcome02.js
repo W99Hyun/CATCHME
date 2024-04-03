@@ -28,7 +28,7 @@ function Welcome02() {
   const buttonMessage = "알겠어!";
   const typingSpeed = 75;
   const currentStep = 1;
-  const totalSteps = 19;
+  const totalSteps = 20;
   const navigate = useNavigate();
 
   useEffect(() => {

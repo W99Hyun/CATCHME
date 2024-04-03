@@ -21,8 +21,8 @@ function Welcome20() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너는 어떤 MBTI가 잘맞아?";
   const typingSpeed = 75;
-  const currentStep = 18;
-    const totalSteps = 19;
+  const currentStep = 19;
+    const totalSteps = 20;
   
   useEffect(() => {
       if (message.length < fullMessage1.length) {
@@ -89,7 +89,7 @@ function Welcome20() {
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
   
       // 사용자의 성별에 따라 MBTI 값을 저장합니다.
-      if (userData.ismale === 1) {
+      if (userData.ismale === true) {
         userData.w_mbti = selectedMBTI;  // 남성일 경우
       } else {
         userData.m_mbti = selectedMBTI;  // 여성일 경우

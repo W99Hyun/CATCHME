@@ -63,8 +63,8 @@ function Welcome11() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "이제 너에 대하여 자유롭게 소개해줘!";
   const typingSpeed = 75;
-  const currentStep = 11;
-  const totalSteps = 19;
+  const currentStep = 12;
+  const totalSteps = 20;
   const navigate = useNavigate();
   
   

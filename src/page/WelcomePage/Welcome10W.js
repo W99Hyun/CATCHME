@@ -61,8 +61,8 @@ function Welcome10W() {
   const [message, setMessage] = useState('');
   const fullMessage1 = "너에게 맞는 키워드를 모두 골라줘!";
   const typingSpeed = 75;
-  const currentStep = 10;
-  const totalSteps = 19;
+  const currentStep = 11;
+  const totalSteps = 20;
   const navigate = useNavigate();
   
   

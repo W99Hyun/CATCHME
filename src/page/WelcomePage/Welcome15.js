@@ -25,8 +25,8 @@ const BackgroundImage = styled.div `
   const fullMessage1 = "선호하는 이상적인 키가 궁금해!";
   const fullMessage2 = "범위를 알려줘!"
   const typingSpeed = 75;
-  const currentStep = 15;
-  const totalSteps = 19;
+  const currentStep = 16;
+  const totalSteps = 20;
 
   const [currentText, setCurrentText] = useState('...'); 
   const [typingText, setTypingText] = useState(''); 
@@ -82,9 +82,9 @@ const BackgroundImage = styled.div `
     const ageRange = `${sliderValueMin}-${sliderValueMax}`;
   
     // 성별에 따라 적절한 키를 사용하여 userData 객체를 업데이트합니다.
-    if (userData.ismale === 1) {
+    if (userData.ismale === true) {
       userData.w_height = ageRange;  // 남성 사용자의 경우
-    } else if (userData.ismale === 0) {
+    } else if (userData.ismale === false) {
       userData.m_height = ageRange;  // 여성 사용자의 경우
     }
   

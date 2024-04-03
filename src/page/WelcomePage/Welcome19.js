@@ -23,8 +23,8 @@ function Welcome19() {
   const fullMessage1 = "뚜렷한 얼굴이 이상형이야?";
   const fullMessage2 = "피부톤도 골라줘!"
   const typingSpeed = 75;
-  const currentStep = 19;
-    const totalSteps = 19;
+  const currentStep = 20;
+    const totalSteps = 20;
   
     useEffect(() => {
         if (message.length < fullMessage1.length + fullMessage2.length) {
@@ -116,7 +116,7 @@ function Welcome19() {
       const userData = JSON.parse(localStorage.getItem('userData')) || {};
       
       // 새로운 얼굴상과 피부톤 정보를 userData 객체에 추가합니다.
-      if (userData.ismale === 1) {
+      if (userData.ismale === true) {
           userData.w_face = {
               type: selectedfaceType,
               tone: selectedtoneType
