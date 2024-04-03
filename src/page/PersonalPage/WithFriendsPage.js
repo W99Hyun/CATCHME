@@ -531,7 +531,7 @@ function WithFriends() {
             className="fontfamily"
             onClick={copyText}
           >
-            <div>카카오톡으로 초대하기</div>
+            <div>친구 초대 링크 복사하기</div>
           </button>
         </div>
       </div>

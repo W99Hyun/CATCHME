@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // 
 import './Welcome.css';
 import './Welcome02.css';
-import axios from 'axios';
+
 import styled from "styled-components"
 import SplitMessage from './SplitMessagedouble';
 import ProgressBar from './ProgressBar';
@@ -135,20 +135,27 @@ function Welcome19() {
       
       // 서버로 userData 전송
       try {
+        const csrfTokenResponse = await fetch('https://api.catchmenow.co.kr/main/csrf', {
+          method: 'GET', // GET 메소드 명시적으로 설정
+          mode: 'cors', // CORS 요청을 위한 모드 설정
+        });
 
-        const csrfResponse = await axios.get('https://api.catchmenow.co.kr/main/csrf');
-        const csrfToken = csrfResponse.data.csrfToken;
+        if (!csrfTokenResponse.ok) {
+          throw new Error('CSRF 토큰을 가져오는 데 실패했습니다.');
+        }
 
-        const response = await fetch(url, {
+        const { csrfToken } = await csrfTokenResponse.json();
+
+        const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${kid}/introduction/`, {
           method: 'POST',
           mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,
-            'Authorization': `Bearer ${accessToken}`, 
-            // 필요하다면 여기에 추가 헤더를 삽입하세요 (예: 인증 토큰)
+            'Authorization': `Bearer ${accessToken}`,
           },
           body: JSON.stringify(userData),
+          
         });
   
         if (!response.ok) {
