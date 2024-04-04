@@ -171,7 +171,7 @@ const [totalCondition, setTotalCondition] = useState(null);
   };
 
   const dataSocket = useRef(null);
-
+/*
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 유저가 방에 들어와서 처음 레디를 눌렀을 때
@@ -206,7 +206,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current = null;
     } 
   }, [user, isReady]);
-
+*/
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
