@@ -128,6 +128,9 @@ function MatchHistory() {
   // 버튼의 클래스 설정을 isActive 상태에 따라 변경
   //const buttonClass = isActive ? "choice-button-active" : "choice-button";
 
+  const ClickReport = () => {
+    navigate("/login/help");
+  };
   return (
     <div>
       <Modal
@@ -232,7 +235,9 @@ function MatchHistory() {
                 <div className="middle-sort">
                   <div>
                     <button className="report-button">정보보기</button>
-                    <button className="report-button">신고하기</button>
+                    <button className="report-button" onClick={ClickReport}>
+                      신고하기
+                    </button>
                   </div>
                 </div>
               </div>

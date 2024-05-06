@@ -16,7 +16,7 @@
 .sfp-container {
   display: grid;
   grid-template-rows: 0.5fr 5.7fr 2.3fr;
-  gap: 40px;
+  gap: 20px;
   min-height: 93%;
   max-height: 93%;
   padding: 20px 10px;
@@ -31,7 +31,7 @@
 .sfp-info-container {
   display: grid;
   grid-template-rows: repeat(5, 1fr);
-  gap: 25px;
+  gap: 15px;
 }
 
 .sfp-info-age-locate-container {
@@ -44,64 +44,89 @@
 
 .sfp-info-holder {
   padding: 2%;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   color: #9d9d9d;
   margin: auto;
-  width: 90%;
-  height: 70%;
+  width: 250px;
+  height: 30px;
   font-size: 12px;
+  display: grid;
+  grid-template-columns: 1.5fr 7fr;
+  overflow: hidden;
 }
-
+.sfp-category-text {
+  justify-content: baseline;
+  align-items: center;
+  display: flex;
+}
 .sfp-name-input {
   border: none;
-  width: 85%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 .sfp-age-input {
   border: none;
-  width: 55%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 .sfp-locate-input {
   border: none;
-  width: 55%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 .sfp-animal-input {
   border: none;
-  width: 67%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 .sfp-univ-input {
   border: none;
-  width: 73%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 .sfp-body-input {
   border: none;
-  width: 80%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   color: #9d9d9d;
   font-size: 12px;
+  background-color: aqua;
+  object-fit: contain;
+  border-radius: 10px;
 }
 input:focus {
   outline: none;
 }
 
 .sfp-regist-button {
-  width: 40%;
-  height: 35%;
+  width: 109px;
+  height: 36px;
   border-radius: 20px;
   border: 2px solid #666666;
   font-size: 13px;
@@ -115,8 +140,8 @@ input:focus {
 }
 
 .sfp-cancel-button {
-  width: 25%;
-  height: 35%;
+  width: 70px;
+  height: 36px;
   border-radius: 20px;
   border: 2px solid #666666;
   font-size: 13px;
@@ -198,3 +223,8 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
+
+/* .holder {
+  display: grid;
+  grid-template-columns: 2fr 7fr;
+} */

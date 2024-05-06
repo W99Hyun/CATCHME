@@ -342,18 +342,24 @@ function WithFriends() {
           <div className="sfp-sfp">간편 친구 추가</div>
           <div className="sfp-info-container">
             <div className="sfp-info-holder">
-              <span>이름:</span>
-              <input
-                id="name"
-                type="text"
-                placeholder=" ex) 홍길동"
-                className="sfp-name-input"
-                onChange={(e) => setName(e.target.value)}
-              />
+              <div className="sfp-category-text">
+                <span>이름:</span>
+              </div>
+              <div>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder=" ex) 홍길동"
+                  className="sfp-name-input"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="sfp-info-age-locate-container">
-              <div className="sfp-info-holder">
-                <span>나이:</span>
+
+            {/* <div className="sfp-info-age-locate-container"> */}
+            <div className="sfp-info-holder">
+              <div className="sfp-category-text">나이:</div>
+              <div>
                 <input
                   id="age"
                   type="number"
@@ -362,8 +368,11 @@ function WithFriends() {
                   onChange={(e) => setAge(e.target.value)}
                 />
               </div>
-              <div className="sfp-info-holder">
-                <span>거주지:</span>
+            </div>
+
+            <div className="sfp-info-holder">
+              <div className="sfp-category-text">거주지:</div>
+              <div>
                 <input
                   id="locate"
                   type="text"
@@ -373,35 +382,42 @@ function WithFriends() {
                 />
               </div>
             </div>
+            {/* </div> */}
             <div className="sfp-info-holder">
-              <span>닮은 동물 상:</span>
-              <input
-                id="animal"
-                type="text"
-                placeholder=" ex) 펭귄상"
-                className="sfp-animal-input"
-                onChange={(e) => setAnimal(e.target.value)}
-              />
+              <div className="sfp-category-text">닮은 동물 상:</div>
+              <div>
+                <input
+                  id="animal"
+                  type="text"
+                  placeholder=" ex) 펭귄상"
+                  className="sfp-animal-input"
+                  onChange={(e) => setAnimal(e.target.value)}
+                />
+              </div>
             </div>
             <div className="sfp-info-holder">
-              <span>대학/학과:</span>
-              <input
-                id="univ"
-                type="text"
-                placeholder=" ex) 홍익대 / 컴퓨터공학과"
-                className="sfp-univ-input"
-                onChange={(e) => setUniv(e.target.value)}
-              />
+              <div className="sfp-category-text">대학/학과:</div>
+              <div>
+                <input
+                  id="univ"
+                  type="text"
+                  placeholder=" ex) 홍익대 / 컴퓨터공학과"
+                  className="sfp-univ-input"
+                  onChange={(e) => setUniv(e.target.value)}
+                />
+              </div>
             </div>
             <div className="sfp-info-holder">
-              <span>키/체형:</span>
-              <input
-                id="body"
-                type="text"
-                placeholder=" ex) 150 / 통통"
-                className="sfp-body-input"
-                onChange={(e) => setBody(e.target.value)}
-              />
+              <div className="sfp-category-text">키/체형:</div>
+              <div>
+                <input
+                  id="body"
+                  type="text"
+                  placeholder=" ex) 150 / 통통"
+                  className="sfp-body-input"
+                  onChange={(e) => setBody(e.target.value)}
+                />
+              </div>
             </div>
           </div>
           <div>

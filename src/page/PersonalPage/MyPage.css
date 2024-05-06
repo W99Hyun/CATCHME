@@ -1,7 +1,7 @@
 .mypage-header {
   display: flex;
-  padding: 16px;
   align-items: center;
+  padding: 0px 0px 0px 29px;
 }
 
 .mypage-text {
@@ -14,160 +14,79 @@
 
 .mypage-container {
   display: grid;
-  grid-template-rows: 4fr 2.5fr 1.5fr;
-  gap: 10px;
-  margin: 5px;
-  padding: 0px;
-  min-height: 80vh;
-}
-
-.mypage-myinfo-block {
-  display: grid;
-  grid-template-rows: 1.3fr 0.2fr 0.4fr 0.1fr;
-}
-.mypage-myinfo-detail {
-  gap: 10px;
-  border-radius: 15px;
-  padding: 10px;
-  margin: 10px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.04),
-    /* 오른쪽, 아래쪽 그림자 */ -10px -10px 15px rgba(0, 0, 0, 0.04); /* 위쪽, 왼쪽 그림자 */
-}
-.mypage-myinfo-first {
-  display: grid;
-  grid-template-rows: 3fr 1fr;
-}
-.mypage-myinfo-first-detail {
-  display: grid;
-  grid-template-columns: 1.5fr 2fr 0.5fr;
-  gap: 3px;
+  grid-template-rows: 1fr 3fr 3fr;
   height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0px solid black;
+  gap: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.04),
+    -5px -5px 10px rgba(0, 0, 0, 0.03);
 }
-.mypage-myinfo-img-container {
+
+.mypage-nick-level {
+  padding: 20px 30px;
+}
+.mypage-nickname {
+  font-size: 24px;
+  font-weight: bold;
+}
+.mypage-level {
+  font-size: 17px;
+}
+.myprofile {
+  height: 70vh;
+  padding: 29px;
+}
+.mypage-img-container {
+  overflow: hidden;
+}
+.mypage-img {
+  max-width: 400px; /* 이미지의 최대 너비를 부모 요소에 맞게 조정 */
+  max-height: 400px; /* 이미지의 최대 높이를 부모 요소에 맞게 조정 */
+  object-fit: contain; /* 이미지를 비율을 유지하며 컨테이너에 맞게 조정 */
+  position: absolute;
+  top: 15%;
+  left: -5%;
+}
+.mypage-btns {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 10%;
-}
-.mypage-myinfo-img {
-  width: 100%;
-  height: 80%;
-  object-fit: cover;
-}
-.mypage-myinfo-nickname-container {
-  margin-top: 26%;
-  margin-left: 15%;
-}
-.mypage-myinfo-nickname {
-  font-size: 22px;
-  font-weight: bold;
-  text-align: center;
-  /* margin-top: 21%;
-  margin-left: -25%; */
-}
-.mypage-myinfo-modify-button {
-  display: flex; /* 이미지를 중앙에 배치하기 위해 flex를 사용 */
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-}
-.mypage-myinfo-logout {
-  color: #ca8ca6;
-  font-size: 13px;
-  font-weight: lighter;
-  text-align: center;
-  margin-top: 4%;
-}
-.mypage-myinfo-second {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 30px;
-  text-align: center;
-}
-.mypage-myinfo-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  font-size: 20px;
-}
-.mypage-myinfo-univ {
-  font-size: 20px;
-  font-weight: bold;
-}
-.mypage-certify {
-  font-size: 10px;
-}
-.mypage-myinfo-home {
-  font-size: 20px;
-  font-weight: bold;
-}
-.mypage-block {
-  background-color: #f6f6f6;
-  padding: 10px 0px 10px 0px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  margin-left: -10%;
-  margin-right: -10%;
-}
-.mypage-container-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* margin-top: 20px; */
 }
 
-.coin-container {
-  display: grid;
-  grid-template-columns: 1.3fr 1.7fr 1fr;
-  justify-items: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  padding: 0px 15px 15px 15px;
-  height: 40%;
-  margin: 0px 10px 0px 10px;
-  border-radius: 10px;
-  background-color: #fff279;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  font-size: 18px;
-  font-weight: bold;
-}
-.emoji-container {
-  width: 150px;
-  height: 150px;
-  margin: 15px 10px 0px 15px;
-  background-color: blanchedalmond;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-.emoji-grid-container {
-  display: grid;
-  grid-template-rows: 1fr 2fr 1fr;
-  gap: 10px;
-}
-.emojies {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
-}
-.mypage-charge-button {
-  font-size: 11px;
-  background-color: rgb(42, 40, 40);
+.mypage-btn1 {
+  margin-top: 15px;
   color: white;
-  border-radius: 13px;
-  width: 70px;
-  height: 25px;
-}
-.mypage-friends-manage {
-  width: 110%;
-  height: 110%;
-  object-fit: cover;
-}
-.mypage-image-container {
-  width: 100%; /* 혹은 필요한 특정 크기 */
-  height: auto; /* 높이를 자동으로 설정하여 비율을 유지 */
-  display: flex; /* 이미지를 중앙에 배치하기 위해 flex를 사용 */
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  overflow: hidden; /* 컨테이너 바깥으로 넘어가는 이미지 숨기기 */
+  font-size: 22px;
+  font-weight: 900;
+  background-color: #c56fb2;
+  border-radius: 21px;
+  width: 253px;
+  height: 43px;
+  border: none;
 }
 
-.mypage-modify-arrow {
-  margin-top: 10%;
-  margin-left: 5%;
+.mypage-btn2 {
+  margin-top: 15px;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  background-color: #f2d123;
+  border-radius: 21px;
+  width: 253px;
+  height: 43px;
+  border: none;
+}
+.mypage-btn3 {
+  margin-top: 15px;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  background-color: #68d966;
+  border-radius: 21px;
+  width: 253px;
+  height: 43px;
+  border: none;
 }
