@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./WithFriendsPage.css";
-
+import UserCardBox from "../../boxComponent/UserCardBox";
 let friends = [
   {
     id: 1,
@@ -22,7 +22,7 @@ let friends = [
     id: 3,
     nickname: "w99_hyun_",
     gender: "남",
-    age: "26",
+    age: "2y6",
     locate: "강남구 ",
   },
   {
@@ -235,7 +235,7 @@ function WithFriends() {
     const addFriend = {
       id: ++index,
       nickname: name,
-      gender: "남",
+      gender: 1,
       age: age,
       locate: locate,
     };
@@ -312,6 +312,12 @@ function WithFriends() {
         console.error("Error copying text: ", err);
       });
   };
+  /////////////////////////////////////
+  const viewInfo = (friend, gender) => {
+    console.log(friend, gender);
+    return <UserCardBox users={friend} gender={gender} />;
+  };
+  /////////////////////////////////////
   return (
     <div>
       <Modal
@@ -515,12 +521,15 @@ function WithFriends() {
                     </span>
 
                     <span style={styles.friendDetails}>
-                      {gender ? "남" : "여"} / {friend.age} / {friend.school}{" "}
-                      {friend.major}
+                      {friend.gender ? "남" : "여"} / {friend.age} /{" "}
+                      {friend.school} {friend.major}
                     </span>
                   </span>
                 </div>
-                <div className="withfriends-myinfo-modify-button">
+                <div
+                  className="withfriends-myinfo-modify-button"
+                  onClick={() => viewInfo(friend, friend.gender)} //////////
+                >
                   <img
                     src={`${process.env.PUBLIC_URL}/image/personalpage/personalarrow.png`}
                     alt="arrow-btn"
