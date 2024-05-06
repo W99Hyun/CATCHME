@@ -208,6 +208,27 @@ function WithFriends() {
       });
   };
 
+  const plusFriend = (friendInformation) => {
+    fetch("https://api.catchmenow.co.kr/main/api/user_info/1001/join_party", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ friendInformation }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("수정 요청이 실패했습니다.");
+        }
+        console.log("추가 요청이 성공했습니다.");
+        setRender((prevRender) => !prevRender);
+      })
+      .catch((error) => {
+        console.error("수정 요청이 실패했습니다:", error);
+      });
+  };
+
   let index = friends.length;
   const handleRegister = () => {
     // 콘솔에 값들을 출력
@@ -226,7 +247,8 @@ function WithFriends() {
     console.log("키/체형:", body);
     setModalIsOpen(false);
 
-    friends.push(addFriend);
+    //plusFriend(addFriend)
+    friends.push(addFriend); //post 요청 보내야함
     setName(null);
     setAge(null);
     setAnimal(null);
@@ -258,7 +280,6 @@ function WithFriends() {
       .map((friend) => friend.id);
     // 선택된 아이템들을 제외한 히스토리 목록을 새로운 목록으로 업데이트
     deleteFriend(remainingFriends);
-    console.log(remainingFriends);
     setSelectedItems([]); // 선택된 아이템 초기화
     setChoice(false);
   };
@@ -269,9 +290,6 @@ function WithFriends() {
 
     setSelectedItems([]); // 선택된 아이템 초기화
   };
-  // 버튼의 클래스 설정을 isActive 상태에 따라 변경
-  //const buttonClass = isActive ? "choice-button-active" : "choice-button";
-
   const clickCancle = () => {
     setChoice(false);
     setSelectedItems([]);

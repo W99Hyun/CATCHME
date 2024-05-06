@@ -15,7 +15,7 @@
 
 .sfp-container {
   display: grid;
-  grid-template-rows: 0.5fr 5.7fr 2.3fr;
+  grid-template-rows: 0.5fr 6.7fr 1.3fr;
   gap: 20px;
   min-height: 93%;
   max-height: 93%;
@@ -134,7 +134,6 @@ input:focus {
   font-weight: bold;
   text-align: center;
   background-color: #ffffff;
-  margin-top: 15%;
   margin-left: 14%;
   margin-right: 5%;
 }
