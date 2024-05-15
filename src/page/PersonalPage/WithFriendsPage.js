@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import styled from "styled-components";
 import "./WithFriendsPage.css";
-import UserCardBox from "../../boxComponent/UserCardBox";
 let friends = [
   {
     id: 1,
@@ -115,6 +115,57 @@ const modalStyles = {
     backgroundColor: "transparent", //주변 음영 지우기
   },
 };
+
+const customModalStyle = {
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+  },
+  content: {
+    backgroundColor: "rgba(246, 244, 241, 0.8)",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "70%",
+    height: "60%",
+    borderRadius: "7%",
+    padding: "5px",
+    boxShadow: "4px 4px 11px 0px rgba(0, 0, 0, 0.22)",
+    border: "2px solid",
+  },
+};
+
+const CustomModalContent = styled.div`
+  display: grid;
+  gap: 20px;
+  margin: 15px;
+`;
+
+const Text1 = styled.div`
+  color: #000;
+  font-size: 28px;
+  font-weight: 900;
+  span {
+    font-size: 17px;
+  }
+`;
+
+const Text2 = styled.div`
+  color: #999;
+  font-size: 8px;
+  span {
+    color: #000;
+    font-weight: 900;
+    font-size: 17px;
+  }
+`;
+
+const Text3 = styled.div`
+  color: #444;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 2;
+`;
 
 function WithFriends() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -238,6 +289,9 @@ function WithFriends() {
       gender: 1,
       age: age,
       locate: locate,
+      userAnimal: animal,
+      userUniv: univ,
+      userBody: body,
     };
     console.log("이름:", name);
     console.log("나이:", age);
@@ -313,13 +367,55 @@ function WithFriends() {
       });
   };
   /////////////////////////////////////
-  const viewInfo = (friend, gender) => {
-    console.log(friend, gender);
-    return <UserCardBox users={friend} gender={gender} />;
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const openModal = (user, gender) => {
+    console.log(user, gender);
+    setSelectedUser(user, gender);
+    setCurrentPage(1);
   };
+
+  const closeModal = () => {
+    setSelectedUser(null);
+    setCurrentPage(1);
+  };
+
   /////////////////////////////////////
   return (
     <div>
+      <Modal
+  isOpen={selectedUser !== null}
+  onRequestClose={closeModal}
+  style={customModalStyle}
+>
+  {selectedUser !== null && (
+    <CustomModalContent>
+      <Text1> 
+              친구 정보
+              <Text2> 
+              <br />
+              김연욱 팬다
+              </Text2>
+            </Text1>
+    <div>
+      {currentPage === 1 && (
+        <>
+          <Text3>
+            이름: {selectedUser.nickname} <br />
+            나이: {selectedUser.age}살 <br />
+            거주지: {selectedUser.locate} <br />
+            닮은 동물 상: {selectedUser.userAnimal} <br />
+            대학/학과: {selectedUser.userUniv} <br />
+            키/체형: {selectedUser.userBody}
+          </Text3>
+        </>
+        )}
+      </div>
+    </CustomModalContent>
+  )}
+</Modal>
+
       <Modal
         isOpen={allDeleteModal}
         onRequestClose={() => setAllDeleteModal(false)}
@@ -461,6 +557,7 @@ function WithFriends() {
           </div>
         </div>
       </Modal>
+
       <div style={styles.withfriendsHeader}>
         <div>
           <span style={styles.withfriendsText}>친구목록</span>
@@ -528,7 +625,7 @@ function WithFriends() {
                 </div>
                 <div
                   className="withfriends-myinfo-modify-button"
-                  onClick={() => viewInfo(friend, friend.gender)} //////////
+                  onClick={() => openModal(friend, friend.gender)} //////////
                 >
                   <img
                     src={`${process.env.PUBLIC_URL}/image/personalpage/personalarrow.png`}
@@ -579,6 +676,8 @@ function WithFriends() {
         </div>
       </div>
     </div>
+
+    
   );
 }
 
