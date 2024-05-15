@@ -48,6 +48,7 @@ const RoomBody = ({roomId}) => {
   const [femaleusers, setFemaleusers] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const [isMale, setIsMale] = useState(true);
+  const [pickMe, setPickMe] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -64,7 +65,7 @@ const RoomBody = ({roomId}) => {
           throw error; 
         }),
         fetch(
-          `https://api.catchmenow.co.kr/main/api/user_info/${1001}`, {
+          `https://api.catchmenow.co.kr/main/api/user_info/${2001}`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -154,6 +155,14 @@ useEffect(() => {
 
 }, [idealPercentages]);
 
+useEffect(() => {
+  // kid가 2001인 여자를 선택한 남자들을 필터링
+  const selectedMales = maleusers.filter((user) => {
+    return user.w_crush_kid == 2001;
+  });
+  setPickMe(selectedMales);
+}, [maleusers]);
+
 const [totalCondition, setTotalCondition] = useState(null);
 
   const handleReadyButtonClick = () => {
@@ -184,7 +193,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
         // 웹소켓 연결이 성공하면 서버로 'ready' 메시지
-        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001 }));
+        dataSocket.current.send(JSON.stringify({ type: 'ready', kid: 1001, participateRoom: roomId }));
         fetchData();
       };
 
@@ -201,7 +210,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       // 레디버튼을 눌러, 참여를 취소하면 웹소켓을 끊음
       console.log('웹 소켓 연결 끊음!');
       fetchData();
-      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001 }));
+      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001, , participateRoom: null }));
       dataSocket.current.close();
       dataSocket.current = null;
     } 
@@ -370,7 +379,7 @@ const [totalCondition, setTotalCondition] = useState(null);
           <MaleChooseModal
             isOpen={true}
             onClose={() => setShowModal(false)}
-            maleusers={maleusers}
+            maleusers={pickMe}
           />
         ))}
       {showSecondModal && (

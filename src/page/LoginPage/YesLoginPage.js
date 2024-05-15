@@ -69,6 +69,7 @@ const StartText = styled.span`
 function YesLogin() {
   const [code, setCode] = useState(null);
   const [wmbti, setWMbti] = useState(null);
+  const [participateRoom, setParticipateRoom] = useState(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -98,6 +99,7 @@ function YesLogin() {
 
       const userdata = await userResponse.json();
       setWMbti(userdata.extra_info[0].w_mbti);
+      setParticipateRoom(userdata.extra_info[0].participate_room);
       console.log(userdata.extra_info[0].w_mbti);
     } catch (error) {
       console.error("Error fetching ideal percentages:", error);
@@ -113,7 +115,11 @@ function YesLogin() {
   const toggleModal = () => {
     if (wmbti) {
       // w_mbti가 존재하면 모달을 열기
-      setShowModal(!showModal);
+      if (participateRoom) {
+        navigate(`/room/${participateRoom}`);
+      }
+      else
+        setShowModal(!showModal);
     } else {
       // w_mbti가 존재하지 않으면 "/login/information"으로 라우팅
       navigate("/login/information");

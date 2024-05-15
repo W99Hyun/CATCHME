@@ -1,13 +1,78 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import YesLoginModal from "../modalComponet/MenubarModal";
+import WarningModal from "../modalComponet/WarningModal";
 
 const RoomHeader = ({ isUserLoggedIn }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [userData, setUserData] = useState(null);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+
+  const openWarningModal = () => {
+    setShowWarningModal(true);
+  };
+  
+  const closeWarningModal = () => {
+    setShowWarningModal(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const userResponse = await fetch(
+        `https://api.catchmenow.co.kr/main/api/user_info/${2001}`, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+        }
+      );
+      const userData = await userResponse.json();
+      setUserData(userData);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
+  const updateUserReadyStatus = async (userkid) => {
+    try {
+      const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${userkid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ready: null, participateRoom: null }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update user ready status');
+      }
+
+    } catch (error) {
+      console.error('Error updating user ready status:', error);
+      throw error;
+    }
+  };
 
   const handlePageBack = () => {
-    navigate(-1);
+    if (location.pathname.startsWith("/room/")) {
+      setShowWarningModal(true);
+    } else {
+      navigate(-1);
+    }
+  };
+
+  const handleLeaveRoom = () => {
+    updateUserReadyStatus(1001);
+    setShowWarningModal(false)
+    navigate("/meetingroommain");
   };
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -41,6 +106,13 @@ const RoomHeader = ({ isUserLoggedIn }) => {
         <YesLoginModal
           isOpen={modalIsOpen}
           onClose={() => setModalIsOpen(false)}
+        />
+      )}
+      {showWarningModal && (
+        <WarningModal
+          message="방을 나가시겠습니까?"
+          onConfirm={handleLeaveRoom}
+          onCancel={() => setShowWarningModal(false)}
         />
       )}
     </HeaderContainer>
