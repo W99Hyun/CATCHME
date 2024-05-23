@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 const KakaoLoginComponent = ({ code }) => {
 
+  console.log(code);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,8 +12,7 @@ const KakaoLoginComponent = ({ code }) => {
       try {
         const response = await axios({
           method: "POST",
-          url: `https://api.catchmenow.co.kr/main/kakaoLogin/
-          `,
+          url: `https://api.catchmenow.co.kr/main/kakaoLogin/`,
           data: { code: code }
         });
 

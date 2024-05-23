@@ -174,7 +174,7 @@ const UserCardBox = ({ users, gender }) => {
             <img
                 src="/image/profileCard/luaCard.png"
                 alt="기본 프로필 이미지"
-                style={{ width: "70px", height: "110px" }}
+                style={{ width: "70px", height: "100px" }}
               />
             </>
             )
