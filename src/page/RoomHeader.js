@@ -5,6 +5,7 @@ import YesLoginModal from "../modalComponet/MenubarModal";
 import WarningModal from "../modalComponet/WarningModal";
 
 const RoomHeader = ({ isUserLoggedIn }) => {
+  const kid = localStorage.getItem("kid");
   const navigate = useNavigate();
   const location = useLocation();
   const [userData, setUserData] = useState(null);
@@ -25,7 +26,7 @@ const RoomHeader = ({ isUserLoggedIn }) => {
   const fetchData = async () => {
     try {
       const userResponse = await fetch(
-        `https://api.catchmenow.co.kr/main/api/user_info/${2001}`, {
+        `https://api.catchmenow.co.kr/main/api/user_info/${kid}`, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -43,7 +44,7 @@ const RoomHeader = ({ isUserLoggedIn }) => {
 
   const updateUserReadyStatus = async (userkid) => {
     try {
-      const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/leaving_room`, {
+      const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${kid}/leaving_room`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ const RoomHeader = ({ isUserLoggedIn }) => {
   };
 
   const handleLeaveRoom = () => {
-    updateUserReadyStatus(1001);
+    updateUserReadyStatus(kid);
     setShowWarningModal(false)
     navigate("/meetingroommain");
   };

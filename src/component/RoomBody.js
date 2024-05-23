@@ -65,7 +65,7 @@ const RoomBody = ({roomId}) => {
           throw error; 
         }),
         fetch(
-          `https://api.catchmenow.co.kr/main/api/user_info/${2001}`, {
+          `https://api.catchmenow.co.kr/main/api/user_info/${kid}`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -99,7 +99,7 @@ useEffect(() => {
     await fetchData(); // fetchData를 실행하고 완료될 때까지 기다립니다.
     if (isReady) { // 다른 곳에 갔다 왔을 때, 유저가 레디 상태이면 user값 할당
       setUser({
-        kid: 1001 // kid 값을 임의로 1001로 지정
+        kid: kid // kid 값을 임의로 1001로 지정
       });
     }
   };
@@ -158,7 +158,7 @@ useEffect(() => {
 useEffect(() => {
   // kid가 2001인 여자를 선택한 남자들을 필터링
   const selectedMales = maleusers.filter((user) => {
-    return user.w_crush_kid == 2001;
+    return user.w_crush_kid == kid;
   });
   setPickMe(selectedMales);
 }, [maleusers]);
@@ -169,7 +169,7 @@ const [totalCondition, setTotalCondition] = useState(null);
     // 사용자 정보 상태에 저장
     if (!user) {
       setUser({
-        kid: 1001 // kid 값을 임의로 1001로 지정
+        kid: kid // kid 값을 임의로 1001로 지정
       });
       setIsReady(!isReady);
     }
