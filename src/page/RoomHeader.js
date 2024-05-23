@@ -43,12 +43,11 @@ const RoomHeader = ({ isUserLoggedIn }) => {
 
   const updateUserReadyStatus = async (userkid) => {
     try {
-      const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${userkid}`, {
+      const response = await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/leaving_room`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ready: null, participateRoom: null }),
       });
   
       if (!response.ok) {

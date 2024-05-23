@@ -182,7 +182,7 @@ const MaleChooseModal = ({ isOpen, onClose, maleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch(`https://api.catchmenow.co.kr/room/api/room_info/${2001}/`, {
+      await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${2001}/update_m_match/`, {
         method: "PUT",
         mode: 'cors',
         headers: {

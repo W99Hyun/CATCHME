@@ -184,7 +184,7 @@ const FemaleChooseModal = ({ isOpen, onClose, femaleusers }) => {
   const sendSelectedUserToServer = async (selectedUser) => {
     try {
       const response = 
-      await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/`, {
+      await fetch(`https://api.catchmenow.co.kr/main/api/user_info/${1001}/update_w_crush/`, {
         method: "PUT",
         mode: 'cors',
         headers: {
