@@ -80,7 +80,7 @@ const RoomHeader = ({ isUserLoggedIn }) => {
     setModalIsOpen(true);
   };
 
-  if (!isUserLoggedIn) {
+  if (!isUserLoggedIn || location.pathname === "/") {
     return null; // 로그인되지 않은 경우 헤더를 렌더링하지 않음
   }
 

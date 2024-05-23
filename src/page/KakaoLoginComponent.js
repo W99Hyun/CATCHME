@@ -1,9 +1,8 @@
-import {React, useEffect} from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
 const KakaoLoginComponent = ({ code }) => {
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,7 +11,7 @@ const KakaoLoginComponent = ({ code }) => {
         const response = await axios({
           method: "POST",
           url: `https://api.catchmenow.co.kr/main/kakaoLogin/`,
-          data: { code: code }
+          data: { code: code },
         });
 
         const token = response.data.tokens;
@@ -22,13 +21,16 @@ const KakaoLoginComponent = ({ code }) => {
         localStorage.setItem("refreshToken", token.refresh);
         localStorage.setItem("kid", token.kid);
 
+        console.log(token.kid);
+
+        // 로그인 성공 후 main으로 이동
+        navigate("/meetingroommain");
       } catch (error) {
-        console.log("소셜로그인 에러", error);
+        console.log("로그인 에러", error);
       }
     };
-    console.log(kid);
 
-    KakaoClick();  // 함수를 직접 호출하도록 함
+    KakaoClick(); 
   }, [code, navigate]);
 
   return null;
