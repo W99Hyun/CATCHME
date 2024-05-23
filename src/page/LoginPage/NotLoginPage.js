@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const kakaoParams = new URLSearchParams({
   client_id: "273e3f916e59df62a965cb94d235f29e",
-  redirect_uri: "https://www.catchmenow.co.kr",
+  redirect_uri: "https://www.catchmenow.co.kr/login",
   response_type: "code",
 });
 const kParams = new URLSearchParams(kakaoParams).toString();
