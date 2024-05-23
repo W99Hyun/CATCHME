@@ -75,7 +75,6 @@ function YesLogin() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     setCode(code);
-    console.log(code);
   }, []);
 
   const userName = "r___eve";

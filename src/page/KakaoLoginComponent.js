@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 
 const KakaoLoginComponent = ({ code }) => {
 
-  console.log(code);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +26,7 @@ const KakaoLoginComponent = ({ code }) => {
         console.log("소셜로그인 에러", error);
       }
     };
+    console.log(kid);
 
     KakaoClick();  // 함수를 직접 호출하도록 함
   }, [code, navigate]);
