@@ -180,7 +180,7 @@ const [totalCondition, setTotalCondition] = useState(null);
   };
 
   const dataSocket = useRef(null);
-/*
+
   useEffect(() => {
     if (user && isReady && !dataSocket.current) {
       // 유저가 방에 들어와서 처음 레디를 눌렀을 때
@@ -188,7 +188,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       // 그때 웹소켓 연결 안 되어 있으면 연결
       // 레디된 상태에서 다른 곳에 갔다 와도
       // user와 isReady이 존재하는데, 웹소켓이 끊겨 있으므로 다시 재연결
-      dataSocket.current = new WebSocket(`wss://fso1lf46l2.execute-api.ap-northeast-2.amazonaws.com/production/`);
+      dataSocket.current = new WebSocket(`wss://plnpzzyd2g.execute-api.ap-northeast-2.amazonaws.com/production/`);
 
       dataSocket.current.onopen = () => {
         console.log('웹 소켓 연결 성공!');
@@ -215,7 +215,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       dataSocket.current = null;
     } 
   }, [user, isReady]);
-*/
+
   const [showReadyConfirmModal, setShowReadyConfirmModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
