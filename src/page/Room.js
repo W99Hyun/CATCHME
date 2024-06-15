@@ -31,7 +31,7 @@ function Room() {
       'Authorization': `Bearer ${accessToken}`, 
       //'Refresh-Token': refreshToken,
     };
-/*
+
     // 서버로 정보 전송
     axios.get(`https://api.catchmenow.co.kr/main/api/jwttokentest/`, { headers })
       .then(response => {
@@ -39,7 +39,7 @@ function Room() {
       })
       .catch(error => {
         console.error(error);
-      });*/
+      });
   }, [roomId]);
 
   return (
