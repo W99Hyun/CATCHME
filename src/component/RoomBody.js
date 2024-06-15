@@ -210,7 +210,7 @@ const [totalCondition, setTotalCondition] = useState(null);
       // 레디버튼을 눌러, 참여를 취소하면 웹소켓을 끊음
       console.log('웹 소켓 연결 끊음!');
       fetchData();
-      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001, , participateRoom: null }));
+      dataSocket.current.send(JSON.stringify({ type: 'not_ready', kid: 1001, participateRoom: null }));
       dataSocket.current.close();
       dataSocket.current = null;
     } 
